@@ -17,9 +17,11 @@ project "Game"
     filter { "configurations:Debug" }
         defines { "DEBUG" }
         symbols "On"
+        buildoptions "-O0"
 
     filter { "configurations:Release" }
         defines { "NDEBUG" }
-        optimize "On"
+        -- `optimize "On"` sets -O2 instead of -O3, so prefer manual options
+        buildoptions "-O3"
     
     filter {}
