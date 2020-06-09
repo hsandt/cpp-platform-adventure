@@ -12,7 +12,7 @@ project "Game"
     buildoptions "-std=c++20"
 
     -- add all files recursively to project
-    files { "**.h", "**.cpp" }
+    files { "src/**.h", "src/**.cpp" }
 
     filter { "configurations:Debug" }
         defines { "DEBUG" }
