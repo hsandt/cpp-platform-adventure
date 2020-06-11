@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "~/Developer/C++/SFML-2.5.1/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
