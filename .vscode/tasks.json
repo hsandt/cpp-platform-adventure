@@ -4,11 +4,19 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "build dependencies",
+            "type": "shell",
+            "command": "engine/third-party/build_sfml.py",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
             "label": "premake5 gmake",
             "type": "shell",
             "command": "premake5 gmake",
             "problemMatcher": [],
-            "group": "build"
+            "group": "build",
+            "dependsOn": "build dependencies"
         },
         {
             "label": "make",
@@ -23,6 +31,16 @@
                 "isDefault": true
             },
             "dependsOn": "premake5 gmake"
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "./clean.sh",
+            "windows": {
+                "command": ".\\clean.cmd",
+            },
+            "problemMatcher": [],
+            "group": "build"
         }
     ]
 }

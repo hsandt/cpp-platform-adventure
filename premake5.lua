@@ -11,9 +11,9 @@ project "Game"
     -- so use std option directly
     buildoptions "-std=c++20"
 
-    includedirs { "$(HOME)/Developer/C++/SFML-2.5.1/include" }
-    libdirs {"$(HOME)/Developer/C++/SFML-2.5.1/lib"}
-    links {"sfml-graphics", "sfml-window", "sfml-system"}
+    includedirs { "engine/third-party/SFML/include" }
+    libdirs {"engine/third-party/build/SFML/lib"}
+    links {"sfml-graphics", "sfml-window", "sfml-system", "sfml-audio"}
 
     -- add all files recursively to project
     files { "src/**.h", "src/**.cpp" }
