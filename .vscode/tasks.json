@@ -11,6 +11,32 @@
             "group": "build"
         },
         {
+            "label": "clean dependencies",
+            "type": "shell",
+            "command": "engine/third-party/clean_sfml.py",
+            "problemMatcher": [
+                {
+                    "owner": "dotnet-format",
+                    "pattern": [
+                        {
+                            "regexp": "File \"(.*)\", line (\\d+), in (.*)$",
+                            "file": 1,
+                            "line": 2,
+                            "message": 3
+                        }
+                    ]
+                }
+            ],
+            "group": "build"
+        },
+        {
+            "label": "clean engine",
+            "type": "shell",
+            "command": "engine/clean_engine.py",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
             "label": "premake5 gmake",
             "type": "shell",
             "command": "premake5 gmake",
