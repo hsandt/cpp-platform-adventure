@@ -19,11 +19,27 @@
             "dependsOn": "build dependencies"
         },
         {
-            "label": "make",
+            "label": "make (g++)",
             "type": "shell",
             "command": "make",
             "options": {
-                "cwd": "build"
+                "cwd": "build",
+                "env": {"CXX": "g++-10"}
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "premake5 gmake"
+        },
+        {
+            "label": "make (clang++)",
+            "type": "shell",
+            "command": "make",
+            "options": {
+                "cwd": "build",
+                "env": {"CXX": "clang++-10"}
             },
             "problemMatcher": [],
             "group": {

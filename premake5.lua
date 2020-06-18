@@ -4,8 +4,6 @@ workspace "C++_Platform_Adventure"
 
 project "Game"
     kind "ConsoleApp"
-    -- clang++-10 must be installed
-    toolset "clang"
     language "C++"
     -- premake doesn't support cppdialect "C++20" yet,
     -- so use std option directly
