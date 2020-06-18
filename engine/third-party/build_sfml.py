@@ -14,7 +14,7 @@ if sys.version_info.minor < 6:
     sys.exit(1)
 
 
-def build_sfml(sfml_path: str, sfml_build_path: str):
+def build_sfml(sfml_path: Path, sfml_build_path: Path):
     """Build SFML from source path into build path"""
     # create directory with any intermediate parents, if needed
     # similar to Unix: mkdir -p
