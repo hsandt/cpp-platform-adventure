@@ -26,10 +26,9 @@
         {
             "label": "clean dependencies",
             "type": "shell",
-            "command": "engine/third-party/clean_sfml.py",
+            "command": "engine/scripts/try_delete_dir.py engine/third-party/build",
             "problemMatcher": [
                 {
-                    "owner": "dotnet-format",
                     "pattern": [
                         {
                             "regexp": "File \"(.*)\", line (\\d+), in (.*)$",
@@ -45,8 +44,19 @@
         {
             "label": "clean engine",
             "type": "shell",
-            "command": "engine/clean_engine.py",
-            "problemMatcher": [],
+            "command": "engine/scripts/try_delete_dir.py engine/build",
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": "File \"(.*)\", line (\\d+), in (.*)$",
+                            "file": 1,
+                            "line": 2,
+                            "message": 3
+                        }
+                    ]
+                }
+            ],
             "group": "build"
         },
         {
@@ -89,8 +99,19 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "./clean.py",
-            "problemMatcher": [],
+            "command": "engine/scripts/try_delete_dir.py build",
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": "File \"(.*)\", line (\\d+), in (.*)$",
+                            "file": 1,
+                            "line": 2,
+                            "message": 3
+                        }
+                    ]
+                }
+            ],
             "group": "build"
         },
         {
