@@ -4,9 +4,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build dependencies",
+            "label": "build dependencies (g++)",
             "type": "shell",
             "command": "engine/third-party/build_sfml.py",
+            "options": {
+                "env": {"CXX": "g++-10"}
+            },
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "build dependencies (clang++)",
+            "type": "shell",
+            "command": "engine/third-party/build_sfml.py",
+            "options": {
+                "env": {"CXX": "clang++-10"}
+            },
             "problemMatcher": [],
             "group": "build"
         },
@@ -42,7 +55,6 @@
             "command": "premake5 gmake",
             "problemMatcher": [],
             "group": "build",
-            "dependsOn": "build dependencies"
         },
         {
             "label": "make (g++)",
@@ -57,7 +69,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "premake5 gmake"
+            "dependsOn": ["premake5 gmake", "build dependencies (g++)"]
         },
         {
             "label": "make (clang++)",
@@ -72,7 +84,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "premake5 gmake"
+            "dependsOn": ["premake5 gmake", "build dependencies (clang++)"]
         },
         {
             "label": "clean",
@@ -80,6 +92,14 @@
             "command": "./clean.py",
             "problemMatcher": [],
             "group": "build"
+        },
+        {
+            "label": "clean all",
+            "type": "shell",
+            "command": "./clean.py",
+            "problemMatcher": [],
+            "group": "build",
+            "dependsOn": ["clean", "clean engine", "clean dependencies"]
         }
     ]
 }
