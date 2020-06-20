@@ -77,10 +77,7 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "./clean.sh",
-            "windows": {
-                "command": ".\\clean.cmd",
-            },
+            "command": "./clean.py",
             "problemMatcher": [],
             "group": "build"
         }

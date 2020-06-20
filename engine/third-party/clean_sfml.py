@@ -31,7 +31,7 @@ if __name__ == '__main__':
     third_party_path = Path(__file__).parent.absolute()
     sfml_build_path = third_party_path.joinpath("build/SFML")
     
-    # clean SFML in target path
+    # clean SFML build folder
     logging.info(f"Cleaning engine build directory {sfml_build_path}...")
     clean_sfml(sfml_build_path)
     logging.info("Done.")
