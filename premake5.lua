@@ -11,7 +11,24 @@ project "Game"
 
     includedirs { "engine/third-party/SFML/include" }
     libdirs {"engine/third-party/build/SFML/lib"}
-    links {"sfml-graphics", "sfml-window", "sfml-system", "sfml-audio"}
+    -- TODO WINDOWS & OSX: adapt libs below which are for Linux
+    links {
+        "sfml-graphics-s", "sfml-window-s", "sfml-audio-s", "sfml-system-s",
+        -- static linking of SFML requires linking to their own dependencies
+        -- it's basically the list on https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+        -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
+        "X11",
+        "Xrandr",
+        "udev",
+        "GL",
+        "FLAC",
+        "ogg",
+        "vorbis",
+        "vorbisenc",
+        "vorbisfile",
+        "openal",
+        "pthread"
+    }
 
     -- add all files recursively to project
     files { "src/**.h", "src/**.cpp" }
