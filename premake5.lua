@@ -7,7 +7,8 @@ project "Game"
     language "C++"
     -- premake doesn't support cppdialect "C++20" yet,
     -- so use std option directly
-    buildoptions "-std=c++20"
+    -- g++-10 and clang++-10 support "c++20" on Linux, but clang++ 11 on OSX only uses "c++2a"
+    buildoptions "-std=c++2a"
 
     includedirs { "engine/third-party/SFML/include" }
     libdirs {"engine/third-party/build/SFML/lib"}
