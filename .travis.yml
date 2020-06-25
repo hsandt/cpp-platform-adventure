@@ -110,7 +110,11 @@ install:
 script:
   # Fail on first error
   - set -e
+  # Build dependencies
+  - engine/third-party/build_sfml.py
+  # Premake
   - premake5 gmake
+  # Make
   - pushd build
   - config=release make -j${JOBS}
   - popd
