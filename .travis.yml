@@ -3,6 +3,9 @@
 
 language: cpp
 
+# For Linux, use Ubuntu 18.04 to make sure the Ubuntu Toolchain PPA has gcc/g++-10
+dist: bionic
+
 env:
   global:
     - PREMAKE_VERSION="5.0.0-alpha15"
