@@ -96,28 +96,30 @@ install:
   - mkdir -p "$HOME/bin"
   - cp "premake-${PREMAKE_VERSION}/premake5" "$HOME/bin/premake5"
 
+  # Commenting out block below in case it's actually causing "/usr/bin/ld: cannot find -lc++" instead of fixing it
+
   ############################################################################
   # [linux]: Install the right version of libc++ (required for e.g. C++20, when using clang only)
   ############################################################################
   # always use (cd ... && ...) to avoid changing directory in the main prompt
-  - |
-    LLVM_INSTALL=${DEPS_DIR}/llvm/install
-    if [[ "${TRAVIS_OS_NAME}" == "linux" && "${CXX%%+*}" == "clang" && ( ! -d "${LLVM_INSTALL}" || -z "$(ls -A ${LLVM_INSTALL})" ) ]]; then
-      LLVM_VERSION="10.0.0"
-      LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
-      LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
-      LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
-      mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
-      travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
-      travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx
-      travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi
-      (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL})
-      (cd llvm/build/projects/libcxx && make install -j2)
-      (cd llvm/build/projects/libcxxabi && make install -j2)
-      export CXXFLAGS="-isystem ${LLVM_INSTALL}/include/c++/v1"
-      export LDFLAGS="-L ${LLVM_INSTALL}/lib -l c++ -l c++abi"
-      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_INSTALL}/lib"
-    fi
+  # - |
+  #   LLVM_INSTALL=${DEPS_DIR}/llvm/install
+  #   if [[ "${TRAVIS_OS_NAME}" == "linux" && "${CXX%%+*}" == "clang" && ( ! -d "${LLVM_INSTALL}" || -z "$(ls -A ${LLVM_INSTALL})" ) ]]; then
+  #     LLVM_VERSION="10.0.0"
+  #     LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
+  #     LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
+  #     LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
+  #     mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
+  #     travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
+  #     travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx
+  #     travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi
+  #     (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL})
+  #     (cd llvm/build/projects/libcxx && make install -j2)
+  #     (cd llvm/build/projects/libcxxabi && make install -j2)
+  #     export CXXFLAGS="-isystem ${LLVM_INSTALL}/include/c++/v1"
+  #     export LDFLAGS="-L ${LLVM_INSTALL}/lib -l c++ -l c++abi"
+  #     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_INSTALL}/lib"
+  #   fi
 
   # leave DEPS_DIR
   - popd
