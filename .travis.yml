@@ -19,16 +19,16 @@ env:
 
 addons:
   apt:
-    packages:
-        libxrandr-dev
-        libudev-dev
-        libgl-dev
-        libflac-dev
-        libogg-dev
-        libvorbis-dev
-        libvorbisenc2
-        libvorbisfile
-        libopenal-dev
+    packages: &linux_packages
+      libxrandr-dev
+      libudev-dev
+      libgl-dev
+      libflac-dev
+      libogg-dev
+      libvorbis-dev
+      libvorbisenc2
+      libvorbisfile
+      libopenal-dev
 
 jobs:
   include:
@@ -40,7 +40,7 @@ jobs:
       addons:
         apt:
           packages:
-            # - xorg-dev  # uncomment if you need X11
+            - *linux_packages
             - g++-10
             - lcov
           sources:
@@ -50,7 +50,7 @@ jobs:
       addons:
         apt:
           packages:
-            # - xorg-dev  # uncomment if you need X11
+            - *linux_packages
             - clang-10
             - lcov
           sources:
