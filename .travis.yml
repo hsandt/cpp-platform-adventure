@@ -14,6 +14,19 @@ env:
   osx:
     - JOBS="$(sysctl -n hw.ncpu)"  # should be 2
 
+addons:
+  apt:
+    packages:
+        libxrandr-dev
+        libudev-dev
+        libgl-dev
+        libflac-dev
+        libogg-dev
+        libvorbis-dev
+        libvorbisenc2
+        libvorbisfile
+        libopenal-dev
+
 jobs:
   include:
     - os: osx
