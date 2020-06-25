@@ -24,7 +24,7 @@ addons:
       libogg-dev
       libvorbis-dev
       libvorbisenc2
-      libvorbisfile
+      libvorbisfile3
       libopenal-dev
 
 jobs:
@@ -129,7 +129,7 @@ script:
   - engine/third-party/build_sfml.py
   # Premake
   - premake5 gmake
-  # Make
+  # Make (build dir must have been created by premake5)
   - pushd build
   - config=release make -j${JOBS}
   - popd
