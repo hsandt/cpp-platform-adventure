@@ -122,15 +122,14 @@ install:
   # leave DEPS_DIR
   - popd
 
-script:
-  # Fail on first error
-  - set -e
+before_script:
   # Build dependencies
   - engine/third-party/build_sfml.py
   # Premake
   - premake5 gmake
+
+script:
   # Make (build dir must have been created by premake5)
   - pushd build
   - config=release make -j${JOBS}
   - popd
-  - set +e
