@@ -3,7 +3,10 @@
 
 language: cpp
 
-# For Linux, use Ubuntu 18.04 to make sure the Ubuntu Toolchain PPA has gcc/g++-10
+# For OSX, use 10.15.4 with Xcode 11.6 to have clang++-10 and premake5 for correct architecture
+osx_image: xcode11.6
+
+# For Linux, use Ubuntu 18.04 to have g++-10 in Ubuntu Toolchain PPA
 dist: bionic
 
 env:
