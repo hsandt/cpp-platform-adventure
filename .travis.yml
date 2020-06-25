@@ -60,9 +60,9 @@ install:
   - mkdir -p "${DEPS_DIR}"
   - pushd "${DEPS_DIR}"
 
-  # Install premake if not already downloaded, built and up-to-date
+  # Download premake binary for current platform if not already done via cache (also check version just in case)
   - |
-    if [[ -z "$(ls -A premake-${PREMAKE_VERSION})" || ! -x "$HOME/bin/premake5" || "$(premake5 --version)" == *"${PREMAKE_VERSION}" ]]; then
+    if [[ ! -d premake-${PREMAKE_VERSION} || ! -x "premake-${PREMAKE_VERSION}/premake5" || "$(premake5 --version)" != *"${PREMAKE_VERSION}" ]]; then
       mkdir -p "premake-${PREMAKE_VERSION}"
       pushd "premake-${PREMAKE_VERSION}"
 
@@ -77,6 +77,7 @@ install:
 
       popd
     fi
+  # Install premake in ~/bin
   - mkdir -p "$HOME/bin"
   - cp "premake-${PREMAKE_VERSION}/premake5" "$HOME/bin/premake5"
 
