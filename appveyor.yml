@@ -28,13 +28,13 @@ install:
   # so add premake location to PATH
   - set PATH="premake-%PREMAKE_VERSION%;%PATH%"
 
-build_script:
+before_build:
   # Build dependencies
   - engine\third-party\build_sfml.py
   # Premake
   - premake5 gmake
 
-script:
+build_script:
   # Make (build dir must have been created by premake5)
   - pushd build
   # I don't know how to write `config=release make` in Batch, so just make
