@@ -17,31 +17,35 @@ project "Game"
     links {"sfml-graphics-s", "sfml-window-s", "sfml-audio-s", "sfml-system-s"}
 
     -- static linking of SFML requires linking to their own dependencies
-    -- it's basically the list on https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
-    -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
+
     filter { "system:macosx" }
+        -- on OSX, SFML deps are pre-installed in the repository, so just use them
+        frameworkdirs {"engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
         links {
-            "FLAC",
-            "ogg",
-            "vorbis",
-            "vorbisenc",
-            "vorbisfile",
-            "openal"
+            "FLAC.framework",
+            "ogg.framework",
+            "OpenAL.framework",
+            "vorbis.framework",
+            "vorbisenc.framework",
+            "vorbisfile.framework"
         }
 
     filter { "system:linux" }
+        -- on Linux, we basically use the list on https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+        -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
+        -- they must be installed locally on the machine
         links {
             "X11",
             "Xrandr",
             "udev",
             "GL",
+            "pthread",
             "FLAC",
             "ogg",
+            "openal",
             "vorbis",
             "vorbisenc",
-            "vorbisfile",
-            "openal",
-            "pthread"
+            "vorbisfile"
         }        
 
     filter {}
