@@ -21,16 +21,12 @@ project "Game"
     -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
     filter { "system:macosx" }
         links {
-            "Xrandr",
-            "udev",
-            "GL",
             "FLAC",
             "ogg",
             "vorbis",
             "vorbisenc",
             "vorbisfile",
-            "openal",
-            "pthread"
+            "openal"
         }
 
     filter { "system:linux" }
