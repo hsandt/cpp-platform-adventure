@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gdb - Build and debug active file",
+            "name": "gdb - Build and debug project",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/bin/Debug/Game",
@@ -27,7 +27,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "make",
+            "preLaunchTask": "make (g++)",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
