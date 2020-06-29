@@ -7,7 +7,7 @@ project "Game"
     language "C++"
     -- premake doesn't support cppdialect "C++20" yet,
     -- so use std option directly
-    -- g++-10 and clang++-10 support "c++20" on Linux, but clang++ 11 on OSX only uses "c++2a"
+    -- g++-10 and clang-10 support "c++20" on Linux, but clang 11 on OSX only uses "c++2a"
     buildoptions "-std=c++2a"
 
     includedirs { "engine/third-party/SFML/include" }
@@ -26,7 +26,9 @@ project "Game"
         frameworkdirs {"engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
 
     filter { "system:macosx", "action:gmake*"}
-        linkoptions {"-F engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
+        -- unlike ...dirs {}, linkoptions does not interpret paths
+        -- so we must enter them relatively to location "build", hence "../"
+        linkoptions {"-F ../engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
         
     filter { "system:macosx" }
         links {
