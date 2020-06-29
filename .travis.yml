@@ -77,7 +77,7 @@ install:
 
   # Download premake binary for current platform if not already done via cache (also check version just in case)
   - |
-    if [[ ! -d premake-${PREMAKE_VERSION} || ! -x "premake-${PREMAKE_VERSION}/premake5" || "$(premake5 --version)" != *"${PREMAKE_VERSION}" ]]; then
+    if [[ ! -d "premake-${PREMAKE_VERSION}" || ! -x "premake-${PREMAKE_VERSION}/premake5" || "$(premake5 --version)" != *"${PREMAKE_VERSION}" ]]; then
       mkdir -p "premake-${PREMAKE_VERSION}"
       pushd "premake-${PREMAKE_VERSION}"
 
@@ -133,5 +133,8 @@ before_script:
 script:
   # Make (build dir must have been created by premake5)
   - pushd build
+  # Manual debug to understand how each platform generates Makefile for premake
+  - echo "build/Game.make content:"
+  - cat build/Game.make
   - config=release make -j${JOBS}
   - popd
