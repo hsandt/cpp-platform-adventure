@@ -3,7 +3,7 @@ workspace "C++_Platform_Adventure"
     location "build"
 
 project "Game"
-    kind "ConsoleApp"
+    kind "WindowedApp"
     language "C++"
     -- premake doesn't support cppdialect "C++20" yet,
     -- so use std option directly
