@@ -19,7 +19,7 @@ install:
     pushd "premake-%PREMAKE_VERSION%"
 
     set PREMAKE_BINARY_OS_NAME="windows"
-    wget "https://github.com/premake/premake-core/releases/download/v%PREMAKE_VERSION%/premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
+    curl "https://github.com/premake/premake-core/releases/download/v%PREMAKE_VERSION%/premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
     rmdir /s /q -rf "premake-%PREMAKE_VERSION%"
     tar -xvf "premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
 
