@@ -22,7 +22,8 @@ install:
   - pushd "premake-%PREMAKE_VERSION%"
 
   - set PREMAKE_BINARY_OS_NAME="windows"
-  - ps: wget "https://github.com/premake/premake-core/releases/download/v%PREMAKE_VERSION%/premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip" -OutFile "premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
+  # https://superuser.com/questions/362152/native-alternative-to-wget-in-windows-powershell
+  - ps: Invoke-WebRequest "https://github.com/premake/premake-core/releases/download/v%PREMAKE_VERSION%/premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip" -OutFile "premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
   - tar -xvf "premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
 
   - popd
