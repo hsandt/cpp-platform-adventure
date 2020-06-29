@@ -12,18 +12,18 @@ install:
   - pushd "%DEPS_DIR%"
 
   # Download premake binary for current platform if not already done via cache (also check version just in case)
+  # We simplified checks compared to .travis.yml to make it easier to write in batch
+  # but eventually we can re-add them in PowerShell which is much more powerful 
   - |
-    if not exist "premake-%PREMAKE_VERSION%" or not exist "premake-%PREMAKE_VERSION%\premake5" (
-      if not exist "premake-%PREMAKE_VERSION%" mkdir "premake-%PREMAKE_VERSION%"
-      pushd "premake-%PREMAKE_VERSION%"
+    if not exist "premake-%PREMAKE_VERSION%" mkdir "premake-%PREMAKE_VERSION%"
+    pushd "premake-%PREMAKE_VERSION%"
 
-      set PREMAKE_BINARY_OS_NAME="windows"
-      wget "https://github.com/premake/premake-core/releases/download/v%PREMAKE_VERSION%/premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
-      rmdir /s /q -rf "premake-%PREMAKE_VERSION%"
-      tar -xvf "premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
+    set PREMAKE_BINARY_OS_NAME="windows"
+    wget "https://github.com/premake/premake-core/releases/download/v%PREMAKE_VERSION%/premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
+    rmdir /s /q -rf "premake-%PREMAKE_VERSION%"
+    tar -xvf "premake-%PREMAKE_VERSION%-%PREMAKE_BINARY_OS_NAME%.zip"
 
-      popd
-    )
+    popd
   # No canonical path on AppVeyor Windows to copy premake to,
   # so add premake location to PATH
   - set PATH="premake-%PREMAKE_VERSION%;%PATH%"
