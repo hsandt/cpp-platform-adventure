@@ -80,6 +80,7 @@ install:
   # Download premake binary for current platform if not already done via cache (also check version just in case)
   - |
     if [[ ! -d "premake-${PREMAKE_VERSION}" || ! -x "premake-${PREMAKE_VERSION}/premake5" || "$(premake5 --version)" != *"${PREMAKE_VERSION}" ]]; then
+      rm -rf "premake-${PREMAKE_VERSION}"
       mkdir -p "premake-${PREMAKE_VERSION}"
       pushd "premake-${PREMAKE_VERSION}"
 
@@ -89,7 +90,6 @@ install:
         PREMAKE_BINARY_OS_NAME="linux"
       fi
       wget "https://github.com/premake/premake-core/releases/download/v${PREMAKE_VERSION}/premake-${PREMAKE_VERSION}-${PREMAKE_BINARY_OS_NAME}.tar.gz"
-      rm -rf "premake-${PREMAKE_VERSION}"
       tar -xvzf "premake-${PREMAKE_VERSION}-${PREMAKE_BINARY_OS_NAME}.tar.gz"
 
       popd
