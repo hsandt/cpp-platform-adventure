@@ -3,7 +3,7 @@ version: '0.1.{build}'
 image: Visual Studio 2019
 
 environment:
-  PREMAKE_VERSION "5.0.0-alpha15"
+  PREMAKE_VERSION: "5.0.0-alpha15"
 
 install:
   # Dependencies required by the CI are installed in ${clone_folder}/deps/
