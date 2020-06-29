@@ -21,7 +21,7 @@ addons:
     packages: &linux_packages
       libxrandr-dev
       libudev-dev
-      libgl-dev
+      libgl1-mesa-dev
       libflac-dev
       libogg-dev
       libvorbis-dev
@@ -32,7 +32,7 @@ addons:
 jobs:
   include:
     - os: osx
-    # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-10 and premake5 for correct architecture
+      # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-11 and premake5 for correct architecture
       osx_image: xcode11.6
       env: COMPILER=clang++  # osx simply names "clang" the latest clang installed with Xcode toolchain
       compiler: clang++
@@ -47,6 +47,7 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
     - os: linux
+      # On Linux we stick to 10 which is LLVM's latest stable
       env: COMPILER=clang++-10
       addons:
         apt:
