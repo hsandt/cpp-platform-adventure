@@ -18,9 +18,17 @@ project "Game"
 
     -- static linking of SFML requires linking to their own dependencies
 
-    filter { "system:macosx" }
-        -- on OSX, SFML deps are pre-installed in the repository, so just use them
+    -- on OSX, SFML deps are pre-installed in the repository, so just use them
+    -- frameworkdirs will work with Xcode only, so for gmake pass -F manually
+    -- https://github.com/premake/premake-core/issues/196
+    
+    filter { "system:macosx", "action:xcode*"}
         frameworkdirs {"engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
+
+    filter { "system:macosx", "action:gmake*"}
+        linkoptions {"-F engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
+        
+    filter { "system:macosx" }
         links {
             "FLAC.framework",
             "ogg.framework",
