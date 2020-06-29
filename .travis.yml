@@ -136,7 +136,7 @@ script:
   # Make (build dir must have been created by premake5)
   - pushd build
   # Manual debug to understand how each platform generates Makefile for premake
-  - echo "build/Game.make content:"
-  - cat build/Game.make
+  - echo "Game.make content:"
+  - cat Game.make
   - config=release make -j${JOBS}
   - popd
