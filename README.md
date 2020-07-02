@@ -8,9 +8,15 @@ Only Linux is currently supported. Build is tested on Ubuntu and Mint, and proba
 
 However, premake will make it easier to support Windows and OSX in a later version.
 
-## Compiler toolchain
+## Required compiler toolchain
 
-This project will use C++20 (in particular concepts) and therefore requires either GCC 10 (`g++-10`), LLVM 10/11 (`clang-10` or just `clang` on OSX) or Visual Studio 2019 (16.3+) depending on your platform.
+This project will use C++20 (in particular concepts), so to build it you will need either GCC 10 (`g++-10`), LLVM 10/11 (`clang-10` or just `clang` on OSX) or Visual Studio 2019 (16.3+) depending on your platform.
+
+In addition, you need `premake` to build the game project itself, and `cmake` to build the SFML submodule.
+
+Premake binaries are available on the [official download page](https://premake.github.io/download.html).
+
+You can either install `cmake` via a package manager (including chocolatey and scoop for Windows) or from the [official download page](https://cmake.org/download/).
 
 Currently, only the current configurations are tested in CI:
 
