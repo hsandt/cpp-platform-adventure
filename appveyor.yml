@@ -14,7 +14,7 @@ install:
   - set DEPS_DIR="%clone_folder%\deps"
   - if not exist "%DEPS_DIR%" mkdir "%DEPS_DIR%"
   # verify that batch vars are accessible from PS too
-  - ps: echo "DEPS_DIR: " ~ "${env:DEPS_DIR}"
+  - ps: echo "${env:DEPS_DIR}"
   - ps: pushd "${env:DEPS_DIR}"
 
   # Download premake binary for current platform if not already done via cache (also check version just in case)
