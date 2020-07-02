@@ -36,6 +36,7 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
     # - no OpenGL ES (default)
     # - use deps in SFML/extlibs to reduce dependency on system libs (default) (for Windows and OSX)
     options = [
+        "-G", "Unix Makefiles",
         "-DBUILD_SHARED_LIBS=FALSE",
         "-DSFML_BUILD_NETWORK=FALSE",
         f"-DCMAKE_INSTALL_PREFIX={sfml_install_path}",

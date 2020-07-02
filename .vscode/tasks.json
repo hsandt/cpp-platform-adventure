@@ -6,7 +6,7 @@
         {
             "label": "build dependencies (g++)",
             "type": "shell",
-            "command": "engine/third-party/build_sfml.py",
+            "command": "python3 engine/third-party/build_sfml.py",
             "options": {
                 "env": {"CXX": "g++-10"}
             },
@@ -16,7 +16,7 @@
         {
             "label": "build dependencies (clang)",
             "type": "shell",
-            "command": "engine/third-party/build_sfml.py",
+            "command": "python3 engine/third-party/build_sfml.py",
             "options": {
                 "env": {"CXX": "clang-10"}
             },
@@ -26,7 +26,7 @@
         {
             "label": "clean dependencies",
             "type": "shell",
-            "command": "engine/scripts/try_delete_dir.py engine/third-party/build",
+            "command": "python3 engine/scripts/try_delete_dir.py engine/third-party/build",
             "problemMatcher": [
                 {
                     "pattern": [
@@ -44,7 +44,7 @@
         {
             "label": "clean engine",
             "type": "shell",
-            "command": "engine/scripts/try_delete_dir.py engine/build",
+            "command": "python3 engine/scripts/try_delete_dir.py engine/build",
             "problemMatcher": [
                 {
                     "pattern": [
@@ -99,7 +99,7 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "engine/scripts/try_delete_dir.py build",
+            "command": "python3 engine/scripts/try_delete_dir.py build",
             "problemMatcher": [
                 {
                     "pattern": [
@@ -117,7 +117,7 @@
         {
             "label": "clean all",
             "type": "shell",
-            "command": "./clean.py",
+            "command": "python3 ./clean.py",
             "problemMatcher": [],
             "group": "build",
             "dependsOn": ["clean", "clean engine", "clean dependencies"]
