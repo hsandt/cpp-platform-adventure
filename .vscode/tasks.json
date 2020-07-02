@@ -14,11 +14,21 @@
             "group": "build"
         },
         {
-            "label": "build dependencies (clang)",
+            "label": "build dependencies (clang++)",
             "type": "shell",
             "command": "python3 engine/third-party/build_sfml.py",
             "options": {
-                "env": {"CXX": "clang-10"}
+                "env": {"CXX": "clang++-10", "CC": "clang-10"}
+            },
+            "osx": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang"}
+                }
+            },
+            "windows": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang"}
+                }
             },
             "problemMatcher": [],
             "group": "build"
@@ -82,19 +92,29 @@
             "dependsOn": ["premake5 gmake", "build dependencies (g++)"]
         },
         {
-            "label": "make (clang)",
+            "label": "make (clang++)",
             "type": "shell",
             "command": "make",
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang-10"}
+                "env": {"CXX": "clang++-10", "CC": "clang-10"}
+            },
+            "osx": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang"}
+                }
+            },
+            "windows": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang"}
+                }
             },
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": ["premake5 gmake", "build dependencies (clang)"]
+            "dependsOn": ["premake5 gmake", "build dependencies (clang++)"]
         },
         {
             "label": "clean",
