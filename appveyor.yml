@@ -13,29 +13,33 @@ install:
   # Dependencies required by the CI are installed in ${clone_folder}/deps/
   - set DEPS_DIR="%clone_folder%\deps"
   - if not exist "%DEPS_DIR%" mkdir "%DEPS_DIR%"
-  - pushd "%DEPS_DIR%"
+  # verify that batch vars are accessible from PS too
+  - ps: echo "DEPS_DIR: ${env:DEPS_DIR}"
+  - ps: pushd "${env:DEPS_DIR}"
 
   # Download premake binary for current platform if not already done via cache (also check version just in case)
   # We simplified checks compared to .travis.yml to make it easier to write in batch
   # but eventually we can re-add them in PowerShell which is much more powerful 
   - if not exist "premake-%PREMAKE_VERSION%" mkdir "premake-%PREMAKE_VERSION%"
-  - pushd "premake-%PREMAKE_VERSION%"
+  - ps: pushd "premake-${env:PREMAKE_VERSION}"
 
   # https://superuser.com/questions/362152/native-alternative-to-wget-in-windows-powershell
+  # make sure to expand the archive in current directory, not a subdirectory
   - ps: Invoke-WebRequest "https://github.com/premake/premake-core/releases/download/v${env:PREMAKE_VERSION}/premake-${env:PREMAKE_VERSION}-windows.zip" -OutFile "premake-${env:PREMAKE_VERSION}-windows.zip"
-  - ps: Expand-Archive "premake-${env:PREMAKE_VERSION}-windows.zip"
+  - ps: Expand-Archive "premake-${env:PREMAKE_VERSION}-windows.zip" -DestinationPath .
 
-  - popd
+  - ps: popd
 
   # No canonical path on AppVeyor Windows to copy premake to,
   # so add premake location to PATH
-  - set PATH="premake-%PREMAKE_VERSION%;%PATH%"
+  - set PATH="${env:clone_folder}\premake-%PREMAKE_VERSION%;%PATH%"
+  - echo %PATH%
 
 before_build:
   # Build dependencies
   - engine\third-party\build_sfml.py
   # Premake
-  - premake5 gmake
+  - premake5.exe gmake
 
 build_script:
   # Make (build dir must have been created by premake5)
