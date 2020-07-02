@@ -10,8 +10,8 @@ project "Game"
     -- g++-10 and clang-10 support "c++20" on Linux, but clang 11 on OSX only uses "c++2a"
     buildoptions "-std=c++2a"
 
-    includedirs { "engine/third-party/SFML/include" }
-    libdirs {"engine/third-party/build/SFML/lib"}
+    includedirs { "engine/third-party/install/SFML/include" }
+    libdirs {"engine/third-party/install/SFML/lib"}
 
     -- link to static SFML libs (for GCC compatibility, make sure to put dependent libs
     -- before dependees)
