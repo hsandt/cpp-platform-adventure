@@ -31,13 +31,23 @@ addons:
 
 jobs:
   include:
+    # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-11 and premake5 for correct architecture
     - os: osx
-      # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-11 and premake5 for correct architecture
       osx_image: xcode11.6
-      env: COMPILER=clang++  # osx simply names "clang" the latest clang installed with Xcode toolchain
+      env:
+        - COMPILER=clang++  # osx simply names "clang++" the latest clang installed with Xcode toolchain
+        - PREMAKE_GENERATOR=gmake
+      compiler: clang++
+    - os: osx
+      osx_image: xcode11.6
+      env:
+        - COMPILER=clang++
+        - PREMAKE_GENERATOR=xcode4
       compiler: clang++
     - os: linux
-      env: COMPILER=g++-10
+      env:
+        - COMPILER=g++-10
+        - PREMAKE_GENERATOR=gmake
       addons:
         apt:
           packages:
@@ -48,7 +58,9 @@ jobs:
             - ubuntu-toolchain-r-test
     - os: linux
       # On Linux we stick to 10 which is LLVM's latest stable
-      env: COMPILER=clang++-10
+      env:
+        - COMPILER=clang++-10
+        - PREMAKE_GENERATOR=gmake
       addons:
         apt:
           packages:
@@ -131,13 +143,15 @@ before_script:
   # Build dependencies
   - engine/third-party/build_sfml.py
   # Premake
-  - premake5 gmake
+  - premake5 "${PREMAKE_GENERATOR}"
 
 script:
   # Make (build dir must have been created by premake5)
   - pushd build
-  # Manual debug to understand how each platform generates Makefile for premake
-  - echo "Game.make content:"
-  - cat Game.make
-  - config=release make -j${JOBS}
+  - |
+    if [[ "${PREMAKE_GENERATOR}" == "gmake"* ]]; then
+      config=release make -j${JOBS}
+    elif [[ "${PREMAKE_GENERATOR}" == "xcode"* ]]; then
+      xcodebuild -project Game.xcodeproj -target Game -configuration Release
+    fi
   - popd
