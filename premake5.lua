@@ -45,9 +45,9 @@ project "Game"
         -- I assume Xcode includes CoreFoundation, etc. by default, so I only add them for gmake
         links {
             -- "Carbon.framework",
-            "Cocoa.framework",
+            -- "Cocoa.framework",
             -- "CoreFoundation.framework",
-            -- "CoreGraphics.framework",
+            "CoreGraphics.framework",
             -- "CoreServices.framework",
             "IOKit.framework"
         }
