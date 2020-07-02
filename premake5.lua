@@ -13,7 +13,8 @@ project "Game"
     includedirs { "engine/third-party/SFML/include" }
     libdirs {"engine/third-party/build/SFML/lib"}
 
-    -- link to static SFML libs
+    -- link to static SFML libs (for GCC compatibility, make sure to put dependent libs
+    -- before dependees)
     links {"sfml-graphics-s", "sfml-window-s", "sfml-audio-s", "sfml-system-s"}
 
     -- static linking of SFML requires linking to their own dependencies
@@ -31,11 +32,11 @@ project "Game"
         linkoptions {"-F ../engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
         -- I assume Xcode includes CoreFoundation, etc. by default, so I only add them for gmake
         links {
-            "Carbon.framework",
+            -- "Carbon.framework",
             "Cocoa.framework",
             -- "CoreFoundation.framework",
             -- "CoreGraphics.framework",
-            "CoreServices.framework",
+            -- "CoreServices.framework",
             "IOKit.framework"
         }
 
