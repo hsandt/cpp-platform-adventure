@@ -15,9 +15,21 @@ project "Game"
 
     -- link to static SFML libs (for GCC compatibility, make sure to put dependent libs
     -- before dependees)
+    defines { "SFML_STATIC" }
     links {"sfml-graphics-s", "sfml-window-s", "sfml-audio-s", "sfml-system-s"}
 
     -- static linking of SFML requires linking to their own dependencies
+
+    filter { "system:windows" }
+        libdirs {"engine/third-party/SFML/extlibs/libs-msvc/x64"}
+        links {
+            "flac",
+            "ogg",
+            "openal32",
+            "vorbis",
+            "vorbisenc",
+            "vorbisfile"
+        }
 
     -- on OSX, SFML deps are pre-installed in the repository, so just use them
     -- frameworkdirs will work with Xcode only, so for gmake pass -F manually
