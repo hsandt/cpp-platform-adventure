@@ -6,7 +6,7 @@ import sys
 import logging
 from pathlib import Path
 from subprocess import run, CalledProcessError
-
+import multiprocessing
 
 # Version check
 if sys.version_info.minor < 6:
@@ -50,8 +50,14 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
         logging.error(f"cmake command failed")
         sys.exit(e.returncode)
         
+    cpu_count = 1
     try:
-        run(["make"], cwd=sfml_build_path, check=True)
+        cpu_count = multiprocessing.cpu_count()
+    except NotImplementedError as e:
+        logging.error(f"multiprocessing.cpu_count() not implemented, defaulting to -j1")
+
+    try:
+        run(["make", f"-j{cpu_count}"], cwd=sfml_build_path, check=True)
     except CalledProcessError as e:
         logging.error(f"make command failed")
         sys.exit(e.returncode)
