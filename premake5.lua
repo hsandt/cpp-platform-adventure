@@ -32,6 +32,7 @@ project "Game"
         
     filter { "system:macosx" }
         links {
+            "OpenGL.framework",
             "FLAC.framework",
             "ogg.framework",
             "OpenAL.framework",
