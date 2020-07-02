@@ -29,7 +29,16 @@ project "Game"
         -- unlike ...dirs {}, linkoptions does not interpret paths
         -- so we must enter them relatively to location "build", hence "../"
         linkoptions {"-F ../engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
-        
+        -- I assume Xcode includes CoreFoundation, etc. by default, so I only add them for gmake
+        links {
+            "Carbon.framework",
+            "Cocoa.framework",
+            -- "CoreFoundation.framework",
+            -- "CoreGraphics.framework",
+            "CoreServices.framework",
+            "IOKit.framework"
+        }
+
     filter { "system:macosx" }
         links {
             "OpenGL.framework",
