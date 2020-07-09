@@ -1,6 +1,11 @@
+-- ex: build/Linux_debug
+output_dir = "build/%{cfg.system}_%{cfg.buildcfg}"
+
 workspace "C++_Platform_Adventure"
     configurations { "Debug", "Release" }
     location "build"
+    targetdir(output_dir .. "/bin")
+    objdir(output_dir .. "/obj")
 
 project "Game"
     kind "WindowedApp"
