@@ -2,6 +2,10 @@
 
 A personal game dev project to train making a game in C++20 with low-level libraries, and gradually extracting components to make a more generic engine.
 
+## Changelog
+
+See [CHANGELOG.md].
+
 ## Supported platforms
 
 Only Linux is currently supported. Build is tested on Ubuntu and Mint, and probably works with other Debian-based distributions.
