@@ -46,7 +46,7 @@ jobs:
         # Xcode build will represent OSX to deploy release
         - DEPLOY=true
         # unlike gmake, the Xcode build generates an .app, which needs to be zipped for deployment
-        - DEPLOY_FILE=build/macosx_Release/bin/Game.zip
+        - DEPLOY_FILE=build/macosx_Release/bin/Game_OSX.zip
       compiler: clang++
     - os: linux
       env:
@@ -169,7 +169,7 @@ before_deploy:
       chmod +x ${DEPLOY_FILE}
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
       pushd build/macosx_Release/bin
-      zip -r Game.zip Game.app
+      zip -r Game_OSX.zip Game.app
       popd
     fi
 
