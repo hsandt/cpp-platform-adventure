@@ -1,10 +1,13 @@
+[![Build Status: master](https://travis-ci.org/hsandt/cpp-platform-adventure.svg?branch=master)](https://travis-ci.org/hsandt/cpp-platform-adventure)
+[![Build Status: develop](https://travis-ci.org/hsandt/cpp-platform-adventure.svg?branch=develop)](https://travis-ci.org/hsandt/cpp-platform-adventure)
+
 # C++ Platform Adventure Game
 
 A personal game dev project to train making a game in C++20 with low-level libraries, and gradually extracting components to make a more generic engine.
 
 ## Changelog
 
-See [CHANGELOG.md].
+See [CHANGELOG](CHANGELOG.md).
 
 ## Supported platforms
 
