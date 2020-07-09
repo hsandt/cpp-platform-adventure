@@ -137,7 +137,6 @@
         {
             "label": "clean all",
             "type": "shell",
-            "command": "python3 ./clean.py",
             "problemMatcher": [],
             "group": "build",
             "dependsOn": ["clean", "clean engine", "clean dependencies"]
