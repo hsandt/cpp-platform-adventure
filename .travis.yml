@@ -13,11 +13,7 @@ dist: bionic
 
 env:
   global:
-    - PREMAKE_VERSION="5.0.0-alpha15"
-  linux:
-    - JOBS="$(nproc)"              # should be ~2
-  osx:
-    - JOBS="$(sysctl -n hw.ncpu)"  # should be 2
+    PREMAKE_VERSION="5.0.0-alpha15"
 
 addons:
   apt:
@@ -144,6 +140,11 @@ script:
   - pushd build
   - |
     if [[ "${PREMAKE_GENERATOR}" == "gmake"* ]]; then
+      if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+        export JOBS="$(sysctl -n hw.ncpu)"  # should be 2
+      elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
+        export JOBS="$(nproc)"              # should be ~2
+      fi
       config=release make -j${JOBS}
     elif [[ "${PREMAKE_GENERATOR}" == "xcode"* ]]; then
       xcodebuild -project Game.xcodeproj -target Game -configuration Release
@@ -154,8 +155,8 @@ deploy:
   - provider: releases
     api_key:
       secure: IhrVPJTMBqjDyaM2384WfLGlctyQKPWPLABaVWtLef9hEsGr2U1zSzvdTpChFfgFT8Rc6BZSyFeQTVUoNGMAx3Sb3ei44VBL7b3L4xPuRglnjesmgd0CwMmQjYYLn1eL8D599cxkobhkwMxgl4ynDXS/1e07g0HwDdw5e/MVguotnLvsu0PXmHJEJ6Vt7lgkCQb4qK207D2RDfxWHZYry9uLsC+RWG3c0rrEF+oYnUfrb7248OPGzOBQCzZtNcOzxP2YWw+Em2/cn2HbOjiYClM7gjZnVgisE+x4Xel7OPNKur2LtYEuoEMrvGd7r3m4xMmiNLWOb3XWzAQncqUiK1nLBoAdA9MQm7lIS8I+mpV0i9wvsWLmFM98gAKjY/bv5tcpjPC4iRlbWZCMm50+Oxpg4Jwkw60Te0teG2tSCdWEbqVYku6PIv699f6EfpADA4vyteC832sIirIJ/Q+XawnSJpHII/OcGgOzPujk/IzGLk8IZyM3z6ZVaXB0NSmdYKP7AdylsS3GKxIFCL+hf9hRQniXDgmZyf2ehGt1kdLuWayPjkmaWpu5rnen1JJARLAx8n2ozhMHQt32SrPOpDBxX4z05g1UR/rgbtN9ij65puHOcwXO0mOLwRlC5mb+/1PBYKfcC+9O2Gw6IrMlx4wbwah3cEBHVs7Vp3f8mVQ=
-    file: build/bin/Linux_Release/Game
-    skip_cleanup: 'true'
+    file: build/bin/linux_Release/Game
+    cleanup: false
     on:
       condition: $TRAVIS_OS_NAME = linux
       tags: true
@@ -163,8 +164,8 @@ deploy:
     api_key:
       secure: IhrVPJTMBqjDyaM2384WfLGlctyQKPWPLABaVWtLef9hEsGr2U1zSzvdTpChFfgFT8Rc6BZSyFeQTVUoNGMAx3Sb3ei44VBL7b3L4xPuRglnjesmgd0CwMmQjYYLn1eL8D599cxkobhkwMxgl4ynDXS/1e07g0HwDdw5e/MVguotnLvsu0PXmHJEJ6Vt7lgkCQb4qK207D2RDfxWHZYry9uLsC+RWG3c0rrEF+oYnUfrb7248OPGzOBQCzZtNcOzxP2YWw+Em2/cn2HbOjiYClM7gjZnVgisE+x4Xel7OPNKur2LtYEuoEMrvGd7r3m4xMmiNLWOb3XWzAQncqUiK1nLBoAdA9MQm7lIS8I+mpV0i9wvsWLmFM98gAKjY/bv5tcpjPC4iRlbWZCMm50+Oxpg4Jwkw60Te0teG2tSCdWEbqVYku6PIv699f6EfpADA4vyteC832sIirIJ/Q+XawnSJpHII/OcGgOzPujk/IzGLk8IZyM3z6ZVaXB0NSmdYKP7AdylsS3GKxIFCL+hf9hRQniXDgmZyf2ehGt1kdLuWayPjkmaWpu5rnen1JJARLAx8n2ozhMHQt32SrPOpDBxX4z05g1UR/rgbtN9ij65puHOcwXO0mOLwRlC5mb+/1PBYKfcC+9O2Gw6IrMlx4wbwah3cEBHVs7Vp3f8mVQ=
     # OSX currently generates a 'Game' executable even with Xcode, never an .app
-    file: build/bin/OSX_Release/Game
-    skip_cleanup: 'true'
+    file: build/bin/osx_Release/Game
+    cleanup: false
     on:
       condition: $TRAVIS_OS_NAME = osx
       tags: true
