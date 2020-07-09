@@ -10,7 +10,13 @@ project "Game"
     -- g++-10 and clang-10 support "c++20" on Linux, but clang 11 on OSX only uses "c++2a"
     buildoptions "-std=c++2a"
 
-    includedirs { "engine/third-party/install/SFML/include" }
+    -- Unfortunately, SFML uses the convention of including its headers with <> instead of ""
+    -- gmake will tolerate this but Xcode will reject USER library headers include with <> unless 
+    -- ALWAYS_SEARCH_USER_PATHS is YES (deprecated, and hardcoded to NO in premake anyway)
+    -- or we are using a framework (only possible when building SFML dynamically).
+    -- So, when building SFML statically, to support Xcode we need to use sysincludedirs
+    -- instead of includedirs to set HEADER_SEARCH_PATHS instead of USER_SEARCH_PATHS in Xcode.
+    sysincludedirs { "engine/third-party/install/SFML/include" }
     libdirs {"engine/third-party/install/SFML/lib"}
 
     -- link to static SFML libs (for GCC compatibility, make sure to put dependent libs
