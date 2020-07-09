@@ -8,18 +8,6 @@ language: cpp
 # For Linux, use Ubuntu 18.04 to have g++-10 in Ubuntu Toolchain PPA
 dist: bionic
 
-# This is useful for OSX + homebrew only, but for now it's simpler to put it at top-level
-cache:
-  directories:
-    # A *very* simplified version of homebrew built package caching,
-    # which doesn't take into account new versions and doesn't even
-    # cache downloaded bottles, but should be enough to avoid
-    # building the same formula over and over again.
-    # See https://stackoverflow.com/questions/39930171/cache-brew-builds-with-travis-ci
-    # for the clean method.
-    # Note that OSX builds with different env variables will use different caches.
-    - /usr/local/Cellar
-
 env:
   global:
     - PREMAKE_VERSION="5.0.0-alpha15"
@@ -65,7 +53,6 @@ jobs:
           packages:
             - *linux_packages
             - g++-10
-            - lcov
           sources:
             - ubuntu-toolchain-r-test
     - os: linux
@@ -78,17 +65,9 @@ jobs:
           packages:
             - *linux_packages
             - clang-10
-            - lcov
           sources:
             - llvm-toolchain-bionic-10
       compiler: clang++
-
-before_install:
-  # install lcov for OSX
-  - |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      brew install lcov
-    fi
 
 install:
   # Set the ${CXX} variable properly (don't do it in env, it is too early and would be overriden
