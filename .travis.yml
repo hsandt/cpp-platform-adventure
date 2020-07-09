@@ -161,14 +161,13 @@ script:
   - popd
 
 before_deploy:
-  # Linux executable needs execution permission
-  # It doesn't need to be archived to be deployed, but it allows us to preserve execution permissions
+  # Linux doesn't need to be archived to be deployed,
+  # but it allows us to preserve execution permissions
   # OSX .app folder needs archiving for deployment of a single file
   # With OSX, we pushd to avoid archiving the whole folder hierarchy into the zip
   - |
     if [[ $TRAVIS_OS_NAME == "linux" ]]; then
       pushd build/linux_Release/bin
-      chmod +x ${DEPLOY_FILE}
       zip -r Game_Linux.zip Game_Linux
       popd
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
