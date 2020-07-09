@@ -54,7 +54,7 @@ jobs:
         - PREMAKE_GENERATOR=gmake
         # make with g++ build will represent Linux to deploy release
         - DEPLOY=true
-        - DEPLOY_FILE=build/linux_Release/bin/Game_Linux
+        - DEPLOY_FILE=build/linux_Release/bin/Game_Linux.zip
       addons:
         apt:
           packages:
@@ -162,11 +162,15 @@ script:
 
 before_deploy:
   # Linux executable needs execution permission
+  # It doesn't need to be archived to be deployed, but it allows us to preserve execution permissions
   # OSX .app folder needs archiving for deployment of a single file
   # With OSX, we pushd to avoid archiving the whole folder hierarchy into the zip
   - |
     if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+      pushd build/linux_Release/bin
       chmod +x ${DEPLOY_FILE}
+      zip -r Game_Linux.zip Game_Linux
+      popd
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
       pushd build/macosx_Release/bin
       zip -r Game_OSX.zip Game.app
