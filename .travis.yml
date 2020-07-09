@@ -21,7 +21,7 @@ addons:
     packages: &linux_packages
       libxrandr-dev
       libudev-dev
-      libgl-dev
+      libgl1-mesa-dev
       libflac-dev
       libogg-dev
       libvorbis-dev
@@ -31,39 +31,43 @@ addons:
 
 jobs:
   include:
+    # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-11 and premake5 for correct architecture
     - os: osx
-    # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-10 and premake5 for correct architecture
       osx_image: xcode11.6
-      env: COMPILER=clang++  # osx simply names "clang" the latest clang installed with Xcode toolchain
+      env:
+        - COMPILER=clang++  # osx simply names "clang++" the latest clang installed with Xcode toolchain
+        - PREMAKE_GENERATOR=gmake
+      compiler: clang++
+    - os: osx
+      osx_image: xcode11.6
+      env:
+        - COMPILER=clang++
+        - PREMAKE_GENERATOR=xcode4
       compiler: clang++
     - os: linux
-      env: COMPILER=g++-10
+      env:
+        - COMPILER=g++-10
+        - PREMAKE_GENERATOR=gmake
       addons:
         apt:
           packages:
             - *linux_packages
             - g++-10
-            - lcov
           sources:
             - ubuntu-toolchain-r-test
     - os: linux
-      env: COMPILER=clang++-10
+      # On Linux we stick to 10 which is LLVM's latest stable
+      env:
+        - COMPILER=clang++-10
+        - PREMAKE_GENERATOR=gmake
       addons:
         apt:
           packages:
             - *linux_packages
             - clang-10
-            - lcov
           sources:
             - llvm-toolchain-bionic-10
       compiler: clang++
-
-before_install:
-  # install lcov for OSX
-  - |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      brew install lcov
-    fi
 
 install:
   # Set the ${CXX} variable properly (don't do it in env, it is too early and would be overriden
@@ -80,6 +84,7 @@ install:
   # Download premake binary for current platform if not already done via cache (also check version just in case)
   - |
     if [[ ! -d "premake-${PREMAKE_VERSION}" || ! -x "premake-${PREMAKE_VERSION}/premake5" || "$(premake5 --version)" != *"${PREMAKE_VERSION}" ]]; then
+      rm -rf "premake-${PREMAKE_VERSION}"
       mkdir -p "premake-${PREMAKE_VERSION}"
       pushd "premake-${PREMAKE_VERSION}"
 
@@ -89,7 +94,6 @@ install:
         PREMAKE_BINARY_OS_NAME="linux"
       fi
       wget "https://github.com/premake/premake-core/releases/download/v${PREMAKE_VERSION}/premake-${PREMAKE_VERSION}-${PREMAKE_BINARY_OS_NAME}.tar.gz"
-      rm -rf "premake-${PREMAKE_VERSION}"
       tar -xvzf "premake-${PREMAKE_VERSION}-${PREMAKE_BINARY_OS_NAME}.tar.gz"
 
       popd
@@ -130,13 +134,25 @@ before_script:
   # Build dependencies
   - engine/third-party/build_sfml.py
   # Premake
-  - premake5 gmake
+  - premake5 "${PREMAKE_GENERATOR}"
 
 script:
   # Make (build dir must have been created by premake5)
   - pushd build
-  # Manual debug to understand how each platform generates Makefile for premake
-  - echo "build/Game.make content:"
-  - cat build/Game.make
-  - config=release make -j${JOBS}
+  - |
+    if [[ "${PREMAKE_GENERATOR}" == "gmake"* ]]; then
+      config=release make -j${JOBS}
+    elif [[ "${PREMAKE_GENERATOR}" == "xcode"* ]]; then
+      xcodebuild -project Game.xcodeproj -target Game -configuration Release
+    fi
   - popd
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: IhrVPJTMBqjDyaM2384WfLGlctyQKPWPLABaVWtLef9hEsGr2U1zSzvdTpChFfgFT8Rc6BZSyFeQTVUoNGMAx3Sb3ei44VBL7b3L4xPuRglnjesmgd0CwMmQjYYLn1eL8D599cxkobhkwMxgl4ynDXS/1e07g0HwDdw5e/MVguotnLvsu0PXmHJEJ6Vt7lgkCQb4qK207D2RDfxWHZYry9uLsC+RWG3c0rrEF+oYnUfrb7248OPGzOBQCzZtNcOzxP2YWw+Em2/cn2HbOjiYClM7gjZnVgisE+x4Xel7OPNKur2LtYEuoEMrvGd7r3m4xMmiNLWOb3XWzAQncqUiK1nLBoAdA9MQm7lIS8I+mpV0i9wvsWLmFM98gAKjY/bv5tcpjPC4iRlbWZCMm50+Oxpg4Jwkw60Te0teG2tSCdWEbqVYku6PIv699f6EfpADA4vyteC832sIirIJ/Q+XawnSJpHII/OcGgOzPujk/IzGLk8IZyM3z6ZVaXB0NSmdYKP7AdylsS3GKxIFCL+hf9hRQniXDgmZyf2ehGt1kdLuWayPjkmaWpu5rnen1JJARLAx8n2ozhMHQt32SrPOpDBxX4z05g1UR/rgbtN9ij65puHOcwXO0mOLwRlC5mb+/1PBYKfcC+9O2Gw6IrMlx4wbwah3cEBHVs7Vp3f8mVQ=
+    # both Linux and OSX generate a 'Game' executable, as we didn't set Xcode to produce an .app
+    file: build/bin/Release/Game
+    skip_cleanup: 'true'
+    on:
+      tags: true
