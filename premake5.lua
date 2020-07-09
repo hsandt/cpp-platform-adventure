@@ -48,15 +48,15 @@ project "Game"
         -- unlike ...dirs {}, linkoptions does not interpret paths
         -- so we must enter them relatively to location "build", hence "../"
         linkoptions {"-F ../engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
-        -- to avoid undefined symbols from various frameworks used by Xcode, we link those below:
-        links {
-            "AppKit.framework",  -- includes CoreFoundation, CoreGraphics, etc.
-            "Carbon.framework",  -- old, but required for _LM, _TIS and _kTIS symbols
-            "IOKit.framework"
-        }
 
     filter { "system:macosx" }
+        -- to avoid undefined symbols from various frameworks used by Xcode, we link those below:
         links {
+            -- SFML's own dependencies, OSX-specific
+            "AppKit.framework",  -- includes CoreFoundation, CoreGraphics, etc.
+            "Carbon.framework",  -- old, but required for _LM, _TIS and _kTIS symbols
+            "IOKit.framework",
+            -- SFML's own dependencies, generic
             "OpenGL.framework",
             "FLAC.framework",
             "ogg.framework",
