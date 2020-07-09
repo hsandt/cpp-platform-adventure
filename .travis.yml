@@ -43,14 +43,17 @@ jobs:
       env:
         - COMPILER=clang++
         - PREMAKE_GENERATOR=xcode4
-        - DEPLOY=true  # Xcode build will represent OSX to deploy release
-        - DEPLOY_FILE=build/macosx_Release/bin/Game.app  # unlike gmake, the Xcode build generates an .app 
+        # Xcode build will represent OSX to deploy release
+        - DEPLOY=true
+        # unlike gmake, the Xcode build generates an .app, which needs to be zipped for deployment
+        - DEPLOY_FILE=build/macosx_Release/bin/Game.zip
       compiler: clang++
     - os: linux
       env:
         - COMPILER=g++-10
         - PREMAKE_GENERATOR=gmake
-        - DEPLOY=true  # make with g++ build will represent Linux to deploy release
+        # make with g++ build will represent Linux to deploy release
+        - DEPLOY=true
         - DEPLOY_FILE=build/linux_Release/bin/Game
       addons:
         apt:
@@ -156,6 +159,16 @@ script:
       xcodebuild -project Game.xcodeproj -target Game -configuration Release
     fi
   - popd
+
+before_deploy:
+  # Linux executable needs execution permission
+  # OSX .app folder needs archiving for deployment of a single file
+  - |
+    if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+      chmod +x ${DEPLOY_FILE}
+    elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
+      zip -r ${DEPLOY_FILE} build/macosx_Release/bin/Game.app
+    fi
 
 deploy:
   - provider: releases
