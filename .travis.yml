@@ -146,3 +146,13 @@ script:
       xcodebuild -project Game.xcodeproj -target Game -configuration Release
     fi
   - popd
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: IhrVPJTMBqjDyaM2384WfLGlctyQKPWPLABaVWtLef9hEsGr2U1zSzvdTpChFfgFT8Rc6BZSyFeQTVUoNGMAx3Sb3ei44VBL7b3L4xPuRglnjesmgd0CwMmQjYYLn1eL8D599cxkobhkwMxgl4ynDXS/1e07g0HwDdw5e/MVguotnLvsu0PXmHJEJ6Vt7lgkCQb4qK207D2RDfxWHZYry9uLsC+RWG3c0rrEF+oYnUfrb7248OPGzOBQCzZtNcOzxP2YWw+Em2/cn2HbOjiYClM7gjZnVgisE+x4Xel7OPNKur2LtYEuoEMrvGd7r3m4xMmiNLWOb3XWzAQncqUiK1nLBoAdA9MQm7lIS8I+mpV0i9wvsWLmFM98gAKjY/bv5tcpjPC4iRlbWZCMm50+Oxpg4Jwkw60Te0teG2tSCdWEbqVYku6PIv699f6EfpADA4vyteC832sIirIJ/Q+XawnSJpHII/OcGgOzPujk/IzGLk8IZyM3z6ZVaXB0NSmdYKP7AdylsS3GKxIFCL+hf9hRQniXDgmZyf2ehGt1kdLuWayPjkmaWpu5rnen1JJARLAx8n2ozhMHQt32SrPOpDBxX4z05g1UR/rgbtN9ij65puHOcwXO0mOLwRlC5mb+/1PBYKfcC+9O2Gw6IrMlx4wbwah3cEBHVs7Vp3f8mVQ=
+    # both Linux and OSX generate a 'Game' executable, as we didn't set Xcode to produce an .app
+    file: build/bin/Release/Game
+    skip_cleanup: 'true'
+    on:
+      tags: true
