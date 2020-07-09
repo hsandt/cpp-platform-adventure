@@ -36,17 +36,25 @@ jobs:
       env:
         - COMPILER=clang++  # osx simply names "clang++" the latest clang installed with Xcode toolchain
         - PREMAKE_GENERATOR=gmake
+        - DEPLOY=false
       compiler: clang++
     - os: osx
       osx_image: xcode11.6
       env:
         - COMPILER=clang++
         - PREMAKE_GENERATOR=xcode4
+        # Xcode build will represent OSX to deploy release
+        - DEPLOY=true
+        # unlike gmake, the Xcode build generates an .app, which needs to be zipped for deployment
+        - DEPLOY_FILE=build/macosx_Release/bin/Game_OSX.zip
       compiler: clang++
     - os: linux
       env:
         - COMPILER=g++-10
         - PREMAKE_GENERATOR=gmake
+        # make with g++ build will represent Linux to deploy release
+        - DEPLOY=true
+        - DEPLOY_FILE=build/linux_Release/bin/Game_Linux.zip
       addons:
         apt:
           packages:
@@ -59,6 +67,7 @@ jobs:
       env:
         - COMPILER=clang++-10
         - PREMAKE_GENERATOR=gmake
+        - DEPLOY=false
       addons:
         apt:
           packages:
@@ -151,21 +160,30 @@ script:
     fi
   - popd
 
+before_deploy:
+  # Linux executable needs execution permission
+  # It doesn't need to be archived to be deployed, but it allows us to preserve execution permissions
+  # OSX .app folder needs archiving for deployment of a single file
+  # With OSX, we pushd to avoid archiving the whole folder hierarchy into the zip
+  - |
+    if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+      pushd build/linux_Release/bin
+      chmod +x ${DEPLOY_FILE}
+      zip -r Game_Linux.zip Game_Linux
+      popd
+    elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
+      pushd build/macosx_Release/bin
+      zip -r Game_OSX.zip Game.app
+      popd
+    fi
+
 deploy:
   - provider: releases
     api_key:
       secure: IhrVPJTMBqjDyaM2384WfLGlctyQKPWPLABaVWtLef9hEsGr2U1zSzvdTpChFfgFT8Rc6BZSyFeQTVUoNGMAx3Sb3ei44VBL7b3L4xPuRglnjesmgd0CwMmQjYYLn1eL8D599cxkobhkwMxgl4ynDXS/1e07g0HwDdw5e/MVguotnLvsu0PXmHJEJ6Vt7lgkCQb4qK207D2RDfxWHZYry9uLsC+RWG3c0rrEF+oYnUfrb7248OPGzOBQCzZtNcOzxP2YWw+Em2/cn2HbOjiYClM7gjZnVgisE+x4Xel7OPNKur2LtYEuoEMrvGd7r3m4xMmiNLWOb3XWzAQncqUiK1nLBoAdA9MQm7lIS8I+mpV0i9wvsWLmFM98gAKjY/bv5tcpjPC4iRlbWZCMm50+Oxpg4Jwkw60Te0teG2tSCdWEbqVYku6PIv699f6EfpADA4vyteC832sIirIJ/Q+XawnSJpHII/OcGgOzPujk/IzGLk8IZyM3z6ZVaXB0NSmdYKP7AdylsS3GKxIFCL+hf9hRQniXDgmZyf2ehGt1kdLuWayPjkmaWpu5rnen1JJARLAx8n2ozhMHQt32SrPOpDBxX4z05g1UR/rgbtN9ij65puHOcwXO0mOLwRlC5mb+/1PBYKfcC+9O2Gw6IrMlx4wbwah3cEBHVs7Vp3f8mVQ=
-    file: build/bin/linux_Release/Game
-    cleanup: false
+    file: ${DEPLOY_FILE}
+    # ignore travis lint warning, the new `cleanup` is not working yet
+    skip_cleanup: true
     on:
-      condition: $TRAVIS_OS_NAME = linux
-      tags: true
-  - provider: releases
-    api_key:
-      secure: IhrVPJTMBqjDyaM2384WfLGlctyQKPWPLABaVWtLef9hEsGr2U1zSzvdTpChFfgFT8Rc6BZSyFeQTVUoNGMAx3Sb3ei44VBL7b3L4xPuRglnjesmgd0CwMmQjYYLn1eL8D599cxkobhkwMxgl4ynDXS/1e07g0HwDdw5e/MVguotnLvsu0PXmHJEJ6Vt7lgkCQb4qK207D2RDfxWHZYry9uLsC+RWG3c0rrEF+oYnUfrb7248OPGzOBQCzZtNcOzxP2YWw+Em2/cn2HbOjiYClM7gjZnVgisE+x4Xel7OPNKur2LtYEuoEMrvGd7r3m4xMmiNLWOb3XWzAQncqUiK1nLBoAdA9MQm7lIS8I+mpV0i9wvsWLmFM98gAKjY/bv5tcpjPC4iRlbWZCMm50+Oxpg4Jwkw60Te0teG2tSCdWEbqVYku6PIv699f6EfpADA4vyteC832sIirIJ/Q+XawnSJpHII/OcGgOzPujk/IzGLk8IZyM3z6ZVaXB0NSmdYKP7AdylsS3GKxIFCL+hf9hRQniXDgmZyf2ehGt1kdLuWayPjkmaWpu5rnen1JJARLAx8n2ozhMHQt32SrPOpDBxX4z05g1UR/rgbtN9ij65puHOcwXO0mOLwRlC5mb+/1PBYKfcC+9O2Gw6IrMlx4wbwah3cEBHVs7Vp3f8mVQ=
-    # OSX currently generates a 'Game' executable even with Xcode, never an .app
-    file: build/bin/osx_Release/Game
-    cleanup: false
-    on:
-      condition: $TRAVIS_OS_NAME = osx
+      condition: $DEPLOY = true
       tags: true

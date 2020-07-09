@@ -50,6 +50,9 @@ project "Game"
         frameworkdirs {"engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
 
     filter { "system:macosx", "action:gmake*"}
+        -- both OSX and Linux can generate extensionless executables, so add a suffix to distinguish them
+        targetsuffix "_OSX"
+
         -- unlike ...dirs {}, linkoptions does not interpret paths
         -- so we must enter them relatively to location "build", hence "../"
         linkoptions {"-F ../engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
@@ -72,6 +75,9 @@ project "Game"
         }
 
     filter { "system:linux" }
+        -- both OSX and Linux can generate extensionless executables, so add a suffix to distinguish them
+        targetsuffix "_Linux"
+        
         -- on Linux, we basically use the list on https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
         -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
         -- they must be installed locally on the machine
