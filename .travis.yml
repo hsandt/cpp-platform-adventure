@@ -4,7 +4,7 @@
 # Do not trigger Travis if any of these are true:
 # - we are working on the appveyor branch (mostly modifying appveyor.yml only)
 # - the commit message contains "(WIP)" or "#no_travis" (case-insensitive)
-if: NOT branch = feature/appveyor AND commit_message !~ /(\(wip\)|#no_travis)/
+if: NOT branch = feature/appveyor AND commit_message !~ /(\(WIP\)|#no_travis)/
 
 language: cpp
 
