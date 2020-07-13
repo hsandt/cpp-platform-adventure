@@ -1,13 +1,44 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <cmath>
 
 int main(int argc, char const *argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    // no aliasing
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 0;
+    
+    // windowed 720p. no resize
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Game", sf::Style::Close, settings);
+
+    // 60 FPS, no vsync
+    window.setFramerateLimit(60);
+
+    // grass rectangle (goes beyond the bottom of the screen on start to allow camera motion on Y)
+    sf::RectangleShape grass({1280.f, 400.f});
+    grass.setFillColor(sf::Color::Green);
+    grass.setPosition(0.f, 420.f);
+
+    // camera view
+    sf::View view;
+    view.setCenter({1280.f * 0.5f, 720.f * 0.5f});
+    view.setSize({1280.f, 720.f});
+
+    // time management
+    sf::Clock clock;
+    sf::Time time;
 
     while (window.isOpen())
     {
+        // Time check
+        sf::Time elapsedTime = clock.restart();
+        time += elapsedTime;
+        if (time.asSeconds() > 1000 * 1000)
+        {
+            time = sf::Time::Zero;
+        }
+
+        // Event handling
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -18,8 +49,17 @@ int main(int argc, char const *argv[])
             }
         }
 
-        window.clear();
-        window.draw(shape);
+        // move camera
+        view.move(0.f, std::sin(time.asSeconds()) * 50.f * elapsedTime.asSeconds());
+
+        // clear sky
+        window.clear(sf::Color::Cyan);
+
+        // show grass with moving camera
+        window.setView(view);
+        window.draw(grass);
+
+        // flip
         window.display();
     }
 
