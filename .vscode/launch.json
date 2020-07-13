@@ -16,10 +16,10 @@
                 "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
-                "program": "${workspaceFolder}/build/linux_Debug/bin/Game",
+                "program": "${workspaceFolder}/build/linux_Debug/bin/Game_Linux",
             },
             "osx": {
-                "program": "${workspaceFolder}/build/osx_Debug/bin/Game",
+                "program": "${workspaceFolder}/build/osx_Debug/bin/Game_OSX",
             },
             "externalConsole": false,
             "MIMode": "gdb",
@@ -30,7 +30,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "make (g++, debug)",
+            "preLaunchTask": "quick make (g++, debug)",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
