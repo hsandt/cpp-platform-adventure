@@ -55,6 +55,8 @@ On OSX, I recommend to install the latest Xcode (currently 11) and the lastest c
 
 ### Dependencies
 
+You need python3.6+ (named `python3` in your PATH) to run build_sfml.py.
+
 #### Linux
 
 To build SFML, you need the libraries mentioned in https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php. I modified the list slightly to match the libraries I actually needed in [premake5.lua]'s `links` (in particular, I use GL instead of OpenGL to include GLX/GLExtensions). Exact names may vary depending on your distribution, I'll give the name of Debian packages below.
