@@ -77,6 +77,13 @@
             "group": "build",
         },
         {
+            "label": "premake5 xcode4",
+            "type": "shell",
+            "command": "premake5 xcode4",
+            "problemMatcher": [],
+            "group": "build",
+        },
+        {
             "label": "make (g++, debug)",
             "type": "shell",
             "command": "make",
