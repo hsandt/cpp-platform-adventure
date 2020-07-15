@@ -5,19 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gdb - Build and debug active file",
+            "name": "gdb - Build and debug project",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/Debug/Game",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [
-                {
+            "environment": [{
                 "name": "LD_LIBRARY_PATH",
                 "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
-                }
-            ],
+            }],
+            "linux": {
+                "program": "${workspaceFolder}/build/linux_Debug/bin/Game_Linux",
+            },
+            "osx": {
+                "program": "${workspaceFolder}/build/osx_Debug/bin/Game_OSX",
+            },
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
@@ -27,7 +30,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "make",
+            "preLaunchTask": "quick make (g++, debug)",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
