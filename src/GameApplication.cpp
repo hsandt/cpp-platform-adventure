@@ -7,6 +7,7 @@
 
 GameApplication::GameApplication() :
     window(std::make_unique<sf::RenderWindow>()),
+    view(std::make_unique<sf::View>()),
     m_initialized(false),
     m_time()
 {
@@ -30,7 +31,6 @@ void GameApplication::init()
     window->setFramerateLimit(60);
 
     // camera view
-    view = std::make_unique<sf::View>();
     view->setCenter({1280.f * 0.5f, 720.f * 0.5f});
     view->setSize({1280.f, 720.f});
 
