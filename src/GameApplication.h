@@ -44,5 +44,11 @@ private:
     std::unique_ptr<sf::RectangleShape> grass;
 
     /* State */
-    sf::Time m_Time;
+
+    /// Has the app been initialized?
+    /// (currently used in debug only, consider #if DEBUG)
+    bool m_initialized;
+
+    /// Time elapsed since application start
+    sf::Time m_time;
 };
