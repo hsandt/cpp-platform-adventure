@@ -22,32 +22,31 @@ void GameApplication::init()
 
     // 60 FPS, no vsync
     window->setFramerateLimit(60);
+
+    // camera view
+    view = std::make_unique<sf::View>();
+    view->setCenter({1280.f * 0.5f, 720.f * 0.5f});
+    view->setSize({1280.f, 720.f});
 }
 
 void GameApplication::run()
 {
     // grass rectangle (goes beyond the bottom of the screen on start to allow camera motion on Y)
-    sf::RectangleShape grass({1280.f, 400.f});
-    grass.setFillColor(sf::Color::Green);
-    grass.setPosition(0.f, 420.f);
-
-    // camera view
-    sf::View view;
-    view.setCenter({1280.f * 0.5f, 720.f * 0.5f});
-    view.setSize({1280.f, 720.f});
+    grass = std::make_unique<sf::RectangleShape>(sf::Vector2f{1280.f, 400.f});
+    grass->setFillColor(sf::Color::Green);
+    grass->setPosition(0.f, 420.f);
 
     // time management
     sf::Clock clock;
-    sf::Time time;
 
     while (window->isOpen())
     {
         // Time check
         sf::Time elapsedTime = clock.restart();
-        time += elapsedTime;
-        if (time.asSeconds() > 1000 * 1000)
+        m_Time += elapsedTime;
+        if (m_Time.asSeconds() > 1000 * 1000)
         {
-            time = sf::Time::Zero;
+            m_Time = sf::Time::Zero;
         }
 
         // Event handling
@@ -61,17 +60,26 @@ void GameApplication::run()
             }
         }
 
-        // move camera
-        view.move(0.f, std::sin(time.asSeconds()) * 50.f * elapsedTime.asSeconds());
-
-        // clear sky
-        window->clear(sf::Color::Cyan);
-
-        // show grass with moving camera
-        window->setView(view);
-        window->draw(grass);
-
-        // flip
-        window->display();
+        update(elapsedTime);
+        render();
     }
+}
+
+void GameApplication::update(sf::Time elapsedTime)
+{
+    // move camera
+    view->move(0.f, std::sin(m_Time.asSeconds()) * 50.f * elapsedTime.asSeconds());
+}
+
+void GameApplication::render()
+{
+    // clear sky
+    window->clear(sf::Color::Cyan);
+
+    // show grass with moving camera
+    window->setView(*view);
+    window->draw(*grass);
+
+    // flip
+    window->display();
 }

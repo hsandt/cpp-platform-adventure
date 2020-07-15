@@ -1,10 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <SFML/System/Time.hpp>
 
 namespace sf
 {
     class RenderWindow;
+    class View;
+    class RectangleShape;
 }
 
 /// Game Application. Handles game loop.
@@ -25,8 +28,21 @@ public:
     void run();
 
 private:
-    /* State */
+    void update(sf::Time elapsedTime);
+    void render();
+
+private:
+    /* Components */
 
     /// Render window
     std::unique_ptr<sf::RenderWindow> window;
+
+    /// View used to draw grass
+    std::unique_ptr<sf::View> view;
+
+    /// Grass to draw
+    std::unique_ptr<sf::RectangleShape> grass;
+
+    /* State */
+    sf::Time m_Time;
 };
