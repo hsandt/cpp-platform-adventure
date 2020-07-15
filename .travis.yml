@@ -36,17 +36,18 @@ jobs:
       env:
         - COMPILER=clang++  # osx simply names "clang++" the latest clang installed with Xcode toolchain
         - PREMAKE_GENERATOR=gmake
-        - DEPLOY=false
+        # There are two OSX builds deployed, here is the gmake build
+        - DEPLOY=true
+        - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_OSX.zip
       compiler: clang++
     - os: osx
       osx_image: xcode11.6
       env:
         - COMPILER=clang++
         - PREMAKE_GENERATOR=xcode4
-        # Xcode build will represent OSX to deploy release
+        # There are two OSX builds deployed, here is the Xcode build
         - DEPLOY=true
-        # unlike gmake, the Xcode build generates an .app, which needs to be zipped for deployment
-        - DEPLOY_FILE=build/macosx_Release/bin/Game_OSX.zip
+        - DEPLOY_FILE=build/macosx_xcode4_Release/bin/Game.app.zip
       compiler: clang++
     - os: linux
       env:
@@ -54,7 +55,7 @@ jobs:
         - PREMAKE_GENERATOR=gmake
         # make with g++ build will represent Linux to deploy release
         - DEPLOY=true
-        - DEPLOY_FILE=build/linux_Release/bin/Game_Linux.zip
+        - DEPLOY_FILE=build/linux_gmake_Release/bin/Game_Linux.zip
       addons:
         apt:
           packages:
@@ -161,19 +162,25 @@ script:
   - popd
 
 before_deploy:
-  # Linux doesn't need to be archived to be deployed,
-  # but it allows us to preserve execution permissions
+  # Linux/OSX gmake doesn't need to be archived to be deployed,
+  # but it allows us to preserve execution permissions.
   # OSX .app folder needs archiving for deployment of a single file
-  # With OSX, we pushd to avoid archiving the whole folder hierarchy into the zip
+  # We pushd to avoid archiving the whole folder hierarchy into the zip
   - |
     if [[ $TRAVIS_OS_NAME == "linux" ]]; then
-      pushd build/linux_Release/bin
+      pushd build/linux_${PREMAKE_GENERATOR}_Release/bin
       zip -r Game_Linux.zip Game_Linux
       popd
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
-      pushd build/macosx_Release/bin
-      zip -r Game_OSX.zip Game.app
-      popd
+      if [[ $PREMAKE_GENERATOR == "gmake"* ]]; then
+        pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
+        zip -r Game_OSX.zip Game_OSX
+        popd
+      else
+        pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
+        zip -r Game.app.zip Game.app
+        popd
+      fi
     fi
 
 deploy:

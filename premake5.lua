@@ -1,5 +1,5 @@
 -- ex: build/Linux_debug
-output_dir = "build/%{cfg.system}_%{cfg.buildcfg}"
+output_dir = "build/%{cfg.system}_%{cfg.action}_%{cfg.buildcfg}"
 
 workspace "C++_Platform_Adventure"
     configurations { "Debug", "Release" }
@@ -93,7 +93,7 @@ project "Game"
             "vorbis",
             "vorbisenc",
             "vorbisfile"
-        }        
+        }
 
     filter {}
 
