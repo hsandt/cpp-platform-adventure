@@ -38,7 +38,7 @@ jobs:
         - PREMAKE_GENERATOR=gmake
         # There are two OSX builds deployed, here is the gmake build
         - DEPLOY=true
-        - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_OSX.zip
+        - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_gmake.app.zip
       compiler: clang++
     - os: osx
       osx_image: xcode11.6
@@ -174,7 +174,7 @@ before_deploy:
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
       if [[ $PREMAKE_GENERATOR == "gmake"* ]]; then
         pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
-        zip -r Game_OSX.zip Game_OSX
+        zip -r Game_gmake.app.zip Game.app
         popd
       else
         pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin

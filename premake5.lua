@@ -50,8 +50,7 @@ project "Game"
         frameworkdirs {"engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
 
     filter { "system:macosx", "action:gmake*"}
-        -- both OSX and Linux can generate extensionless executables, so add a suffix to distinguish them
-        targetsuffix "_OSX"
+        -- it seems that even with gmake, OSX builds an .app, so no need to add target suffix "_OSX"
 
         -- unlike ...dirs {}, linkoptions does not interpret paths
         -- so we must enter them relatively to location "build", hence "../"
@@ -75,7 +74,8 @@ project "Game"
         }
 
     filter { "system:linux" }
-        -- both OSX and Linux can generate extensionless executables, so add a suffix to distinguish them
+        -- only Linux can generate extensionless executables, but we keep the target suffix
+        -- we prepared when we thought OSX gmake would also build one, for now
         targetsuffix "_Linux"
         
         -- on Linux, we basically use the list on https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
