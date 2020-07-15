@@ -130,6 +130,22 @@
             "dependsOn": ["premake5 gmake", "build dependencies (g++)"]
         },
         {
+            // alternative version without checking deps at all
+            // run it when you're sure deps have been built to gain 1s
+            "label": "quick make (g++, release)",
+            "type": "shell",
+            "command": "make",
+            "options": {
+                "cwd": "build",
+                "env": {"CXX": "g++-10", "config": "release"}
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "make (clang++, debug)",
             "type": "shell",
             "command": "make",
