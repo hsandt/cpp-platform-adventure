@@ -155,7 +155,7 @@ script:
       elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
         export JOBS="$(nproc)"              # should be ~2
       fi
-      config=release make -j${JOBS}
+      config=release make -j${JOBS} --debug=v
     elif [[ "${PREMAKE_GENERATOR}" == "xcode"* ]]; then
       xcodebuild -project Game.xcodeproj -target Game -configuration Release
     fi
