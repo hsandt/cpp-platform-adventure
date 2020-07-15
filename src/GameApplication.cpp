@@ -3,7 +3,9 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+
 #include <SFML/Graphics.hpp>
+#include "yaml-cpp/yaml.h"
 
 GameApplication::GameApplication() :
     window(std::make_unique<sf::RenderWindow>()),
@@ -24,6 +26,9 @@ void GameApplication::init()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 0;
     
+    // WIP YAML config
+    // YAML::Node config = YAML::LoadFile("config.yaml");
+
     // windowed 720p. no resize
     window->create(sf::VideoMode(1280, 720), "Game", sf::Style::Close, settings);
 

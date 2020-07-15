@@ -15,6 +15,9 @@ project "Game"
     -- g++-10 and clang-10 support "c++20" on Linux, but clang 11 on OSX only uses "c++2a"
     buildoptions "-std=c++2a"
 
+
+    -- Dependency: SFML --
+
     -- Unfortunately, SFML uses the convention of including its headers with <> instead of ""
     -- gmake will tolerate this but Xcode will reject USER library headers include with <> unless 
     -- ALWAYS_SEARCH_USER_PATHS is YES (deprecated, and hardcoded to NO in premake anyway)
@@ -96,6 +99,13 @@ project "Game"
         }
 
     filter {}
+
+
+    -- Dependency: yaml-cpp --
+
+    includedirs { "engine/third-party/install/yaml-cpp/include" }
+    libdirs {"engine/third-party/install/yaml-cpp/lib"}
+    links {"yaml-cpp"}
 
     -- add all files recursively to project
     files { "src/**.h", "src/**.cpp" }

@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "engine/third-party/SFML/include"
+                "engine/third-party/SFML/include",
+                "engine/third-party/yaml-cpp/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++-10",

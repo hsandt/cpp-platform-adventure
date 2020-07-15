@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Build SFML
+# Build and install SFML
 
 import sys
 import logging
@@ -25,11 +25,11 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
     # - static libs for static linking (bigger, self-contained game executable)
     # - all modules except NETWORK
     # - no package config
-    # - install locally in: ../../install/SFML/
-    # - install deps in: ../../install/SFML/deps/ (for Windows and OSX)
+    # - install locally in: engine/third-party/install/SFML/
+    # - install deps in: engine/third-party/install/SFML/deps/ (for Windows and OSX)
     # !! we are not currenty building project linking to deps/, so build will only work on Linux
     # !! where SFML deps are installed on system
-    # - install misc in: ../../install/SFML/share/
+    # - install misc in: engine/third-party/install/SFML/share/
     # - build for: Release (default)
     # - use architecture: x86_64 (default)
     # - no doc, no examples (default)
@@ -42,7 +42,7 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
         f"-DCMAKE_INSTALL_PREFIX={sfml_install_path}",
         f"-DSFML_DEPENDENCIES_INSTALL_PREFIX={sfml_install_path}/deps",
         f"-DSFML_MISC_INSTALL_PREFIX={sfml_install_path}/share",
-        "-DSFML_INSTALL_PKGCONFIG_FILES=FALSE"
+        "-DSFML_INSTALL_PKGCONFIG_FILES=FALSE",
     ]
     try:
         run(["cmake", *options, sfml_path], cwd=sfml_build_path, check=True)
