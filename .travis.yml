@@ -163,23 +163,23 @@ script:
   - popd
 
 before_deploy:
-  # Linux/OSX gmake doesn't need to be archived to be deployed,
-  # but it allows us to preserve execution permissions.
-  # OSX .app folder needs archiving for deployment of a single file
-  # We pushd to avoid archiving the whole folder hierarchy into the zip
+  # Archive the whole bin content to make sure to have the executable, assets and config.
+  # On OSX, we will eventually put everything in the .app, but the zip command should still work.
+  # Archiving also allows us to preserve execution permissions on Unix systems.
+  # We pushd to avoid archiving the whole folder hierarchy into the zip.
   - |
     if [[ $TRAVIS_OS_NAME == "linux" ]]; then
       pushd build/linux_${PREMAKE_GENERATOR}_Release/bin
-      zip -r Game_Linux.zip Game_Linux
+      zip -r Game_Linux.zip .
       popd
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
       if [[ $PREMAKE_GENERATOR == "gmake"* ]]; then
         pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
-        zip -r Game_gmake.app.zip Game.app
+        zip -r Game_gmake.app.zip .
         popd
       else
         pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
-        zip -r Game.app.zip Game.app
+        zip -r Game.app.zip .
         popd
       fi
     fi

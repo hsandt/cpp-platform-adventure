@@ -1,0 +1,9 @@
+# no aliasing
+antialiasingLevel: 0
+
+# windowed 720p. no resize
+dimensions: [1280, 720]
+title: "Game"
+
+# 60 FPS, no vsync
+framerateLimit: 60

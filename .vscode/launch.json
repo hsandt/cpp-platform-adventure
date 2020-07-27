@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gdb - Debug build and launch project",
+            "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
             "args": [],
@@ -19,7 +19,9 @@
                 "program": "${workspaceFolder}/build/linux_gmake_Debug/bin/Game_Linux",
             },
             "osx": {
-                "program": "${workspaceFolder}/build/osx_xcode4_Debug/bin/Game_OSX",
+                // Trying to open app, OSX style. If it doesn't work, run the executable inside .app directly.
+                "program": "open",
+                "args": ["-a", "${workspaceFolder}/build/osx_xcode4_Debug/bin/Game.app"]
             },
             "externalConsole": false,
             "MIMode": "gdb",
@@ -34,7 +36,39 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "gdb - Release build and launch project",
+            "name": "Debug (from executable dir)",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [],
+            "stopAtEntry": false,
+            "environment": [{
+                "name": "LD_LIBRARY_PATH",
+                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+            }],
+            "linux": {
+                "cwd": "${workspaceFolder}/build/linux_gmake_Debug/bin",
+                "program": "${workspaceFolder}/build/linux_gmake_Debug/bin/Game_Linux",
+            },
+            "osx": {
+                // Trying to open app, OSX style. If it doesn't work, run the executable inside .app directly.
+                "cwd": "${workspaceFolder}/build/osx_xcode4_Debug/bin",
+                "program": "open",
+                "args": ["-a", "Game.app"]
+            },
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "quick make (g++, debug)",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Release",
             "type": "cppdbg",
             "request": "launch",
             "args": [],
@@ -49,6 +83,38 @@
             },
             "osx": {
                 "program": "${workspaceFolder}/build/osx_xcode4_Release/bin/Game_OSX",
+            },
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "quick make (g++, release)",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Release (from executable dir)",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [],
+            "stopAtEntry": false,
+            "environment": [{
+                "name": "LD_LIBRARY_PATH",
+                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+            }],
+            "linux": {
+                "cwd": "${workspaceFolder}/build/linux_gmake_Release/bin",
+                "program": "${workspaceFolder}/build/linux_gmake_Release/bin/Game_Linux",
+            },
+            "osx": {
+                // Trying to open app, OSX style. If it doesn't work, run the executable inside .app directly.
+                "cwd": "${workspaceFolder}/build/osx_xcode4_Release/bin",
+                "program": "open",
+                "args": ["-a", "Game.app"]
             },
             "externalConsole": false,
             "MIMode": "gdb",

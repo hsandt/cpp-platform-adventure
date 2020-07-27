@@ -121,3 +121,16 @@ project "Game"
         buildoptions "-O3"
     
     filter {}
+
+
+    -- Copy assets and config folders near executable
+    -- Note that paths are relative to location "build", so we access project root with ".." (else we'd need to use project_root = os.realpath("."))
+    --   (%{wks.location} and %{prj.location} are both relative to location themselves, so ".")
+    -- We prefer prebuild to postbuild, simply because in case of failure, the whole process fails and next time we try to build,
+    --   it will also try to copy again (in postbuild, the executable has already been generated and `make` does nothing on next build,
+    --   even if there are files to copy)
+    -- OSX note: this is not the standard way to do it, we should Copy Bundle Resources into the .app.
+    prebuildcommands {
+        "{MKDIR} %{cfg.targetdir}",
+        "{COPY} ../assets ../config %{cfg.targetdir}",
+    }
