@@ -7,6 +7,8 @@
 #include <SFML/Graphics.hpp>
 #include "yaml-cpp/yaml.h"
 
+#include "WindowConfig.h"
+
 GameApplication::GameApplication() :
     window(std::make_unique<sf::RenderWindow>()),
     view(std::make_unique<sf::View>()),
@@ -22,18 +24,37 @@ GameApplication::~GameApplication()
 
 void GameApplication::init()
 {
-    // no aliasing
+    WindowConfig windowConfig;
+
+    try
+    {
+        YAML::Node windowConfigFile = YAML::LoadFile("config/window.yml");
+
+        // implicit conversion to unsigned int
+        windowConfig.width = windowConfigFile["width"].as<int>();
+        windowConfig.height = windowConfigFile["height"].as<int>();
+        windowConfig.framerateLimit = windowConfigFile["framerateLimit"].as<int>();
+        windowConfig.antialiasingLevel = windowConfigFile["antialiasingLevel"].as<int>();
+
+        // implicit conversion to sf::String
+        windowConfig.title = windowConfigFile["title"].as<std::string>();
+    }
+    catch(const YAML::BadFile& e)
+    {
+        std::cerr << e.what() << " config/window.yml, using default window config.\n";
+    }
+
+    // set aliasing
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 0;
-    
-    // WIP YAML config
-    // YAML::Node config = YAML::LoadFile("config.yaml");
+    settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
-    // windowed 720p. no resize
-    window->create(sf::VideoMode(1280, 720), "Game", sf::Style::Close, settings);
+    // set window size (windowed, no resize)
+    window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
 
-    // 60 FPS, no vsync
-    window->setFramerateLimit(60);
+    // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
+    // doing this disables vsync
+    std::cout << windowConfig.framerateLimit << std::endl;
+    window->setFramerateLimit(windowConfig.framerateLimit);
 
     // camera view
     view->setCenter({1280.f * 0.5f, 720.f * 0.5f});
