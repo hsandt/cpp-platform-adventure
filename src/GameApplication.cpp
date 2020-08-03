@@ -2,10 +2,8 @@
 
 #include <cassert>
 #include <cmath>
-#include <iostream>
 
 #include <SFML/Graphics.hpp>
-#include "yaml-cpp/yaml.h"
 
 #include "WindowConfig.h"
 
@@ -24,25 +22,7 @@ GameApplication::~GameApplication()
 
 void GameApplication::init()
 {
-    WindowConfig windowConfig;
-
-    try
-    {
-        YAML::Node windowConfigFile = YAML::LoadFile("config/window.yml");
-
-        // implicit conversion to unsigned int
-        windowConfig.width = windowConfigFile["width"].as<int>();
-        windowConfig.height = windowConfigFile["height"].as<int>();
-        windowConfig.framerateLimit = windowConfigFile["framerateLimit"].as<int>();
-        windowConfig.antialiasingLevel = windowConfigFile["antialiasingLevel"].as<int>();
-
-        // implicit conversion to sf::String
-        windowConfig.title = windowConfigFile["title"].as<std::string>();
-    }
-    catch(const YAML::BadFile& e)
-    {
-        std::cerr << e.what() << " config/window.yml, using default window config.\n";
-    }
+    WindowConfig windowConfig = WindowConfig::from_file("config/window.yml");
 
     // set aliasing
     sf::ContextSettings settings;
@@ -53,7 +33,6 @@ void GameApplication::init()
 
     // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
     // doing this disables vsync
-    std::cout << windowConfig.framerateLimit << std::endl;
     window->setFramerateLimit(windowConfig.framerateLimit);
 
     // camera view
