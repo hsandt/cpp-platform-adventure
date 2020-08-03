@@ -6,7 +6,7 @@
         {
             "label": "build dependencies (g++)",
             "type": "shell",
-            "command": "python3 engine/third-party/build_sfml.py && python3 engine/third-party/build_yamlcpp.py",
+            "command": "python3 engine/build_deps.py",
             "options": {
                 "env": {"CXX": "g++-10"}
             },
@@ -16,7 +16,7 @@
         {
             "label": "build dependencies (clang++)",
             "type": "shell",
-            "command": "python3 engine/third-party/build_sfml.py && python3 engine/third-party/build_yamlcpp.py",
+            "command": "python3 engine/build_deps.py",
             "options": {
                 "env": {"CXX": "clang++-10", "CC": "clang-10"}
             },

@@ -141,8 +141,7 @@ install:
 
 before_script:
   # Build dependencies
-  - engine/third-party/build_sfml.py
-  - engine/third-party/build_yamlcpp.py
+  - engine/build_deps.py
   # Premake
   - premake5 "${PREMAKE_GENERATOR}"
 

@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 
+#include "fmt/format.h"
 #include "yaml-cpp/yaml.h"
 
 WindowConfig::WindowConfig() :
@@ -36,11 +37,8 @@ WindowConfig::WindowConfig() :
     }
     catch(const YAML::BadFile& e)
     {
-        // what() just contains "bad file", so prefer custom message
-        // TODO: use https://github.com/fmtlib/fmt to format string
-        std::ostringstream oss;
-        oss << "YAML::BadFile: '" << filename << "'" << std::endl;
-        throw(std::runtime_error(oss.str()));
+        // what() just contains "bad file", so prefer custom error message
+        throw(std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename)));
     }
 
     return windowConfig;

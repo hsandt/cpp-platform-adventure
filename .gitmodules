@@ -4,3 +4,6 @@
 [submodule "engine/third-party/yaml-cpp"]
 	path = engine/third-party/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "engine/third-party/fmt"]
+	path = engine/third-party/fmt
+	url = https://github.com/fmtlib/fmt

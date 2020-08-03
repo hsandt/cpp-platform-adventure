@@ -16,10 +16,17 @@ project "Game"
     buildoptions "-std=c++2a"
 
 
+    -- Dependency: {fmt} --
+
+    includedirs { "engine/third-party/install/fmt/include" }
+    libdirs {"engine/third-party/install/fmt/lib"}
+    links {"fmt"}
+
+
     -- Dependency: SFML --
 
     -- Unfortunately, SFML uses the convention of including its headers with <> instead of ""
-    -- gmake will tolerate this but Xcode will reject USER library headers include with <> unless 
+    -- gmake will tolerate this but Xcode will reject USER library headers include with <> unless
     -- ALWAYS_SEARCH_USER_PATHS is YES (deprecated, and hardcoded to NO in premake anyway)
     -- or we are using a framework (only possible when building SFML dynamically).
     -- So, when building SFML statically, to support Xcode we need to use sysincludedirs
@@ -48,7 +55,7 @@ project "Game"
     -- on OSX, SFML deps are pre-installed in the repository, so just use them
     -- frameworkdirs will work with Xcode only, so for gmake pass -F manually
     -- https://github.com/premake/premake-core/issues/196
-    
+
     filter { "system:macosx", "action:xcode*"}
         frameworkdirs {"engine/third-party/SFML/extlibs/libs-osx/Frameworks"}
 
@@ -80,7 +87,7 @@ project "Game"
         -- only Linux can generate extensionless executables, but we keep the target suffix
         -- we prepared when we thought OSX gmake would also build one, for now
         targetsuffix "_Linux"
-        
+
         -- on Linux, we basically use the list on https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
         -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
         -- they must be installed locally on the machine
@@ -119,7 +126,7 @@ project "Game"
         defines { "NDEBUG" }
         -- `optimize "On"` sets -O2 instead of -O3, so prefer manual options
         buildoptions "-O3"
-    
+
     filter {}
 
 
