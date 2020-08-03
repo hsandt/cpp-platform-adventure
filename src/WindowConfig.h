@@ -1,6 +1,8 @@
 #pragma once
 
 #include <bits/stringfwd.h>
+#include <concepts>
+
 #include <SFML/System/String.hpp>
 
 namespace YAML
@@ -20,9 +22,10 @@ struct WindowConfig
     /// If key is found, set var by reference to YAML value at key and return true
     /// Else, return false
     /// YAMLValue must be convertible to Var type
-    /// Var and YAMLKey types can be deduced from the arguments, so just indicate <YAMLValue>
+    /// Var and YAMLKey types can be deduced from the arguments, so just pass <YAMLValue> on call
     /// (int, std::string, etc.)
     template<typename YAMLValue, typename Var, typename YAMLKey>
+    requires std::convertible_to<YAMLValue, Var>
     static bool try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& windowConfigFile);
 
     /// Window dimensions (for VideoMode)

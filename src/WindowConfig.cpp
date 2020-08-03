@@ -47,13 +47,13 @@ WindowConfig::WindowConfig() :
 }
 
 template<typename YAMLValue, typename Var, typename YAMLKey>
+requires std::convertible_to<YAMLValue, Var>
 /* static */ bool WindowConfig::try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& windowConfigFile)
 {
     YAML::Node node = windowConfigFile[key];
     if (node.IsDefined())
     {
-        // implicit conversion from Value to Out type may happen
-        // TODO: use concepts with convertible_to
+        // implicit conversion from Value to Out type may happen here
         var = node.as<YAMLValue>();
         return true;
     }
