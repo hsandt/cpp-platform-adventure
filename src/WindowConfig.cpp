@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 #include "yaml-cpp/yaml.h"
 
@@ -25,20 +26,50 @@ WindowConfig WindowConfig::from_file(const std::string& filename)
 
     try
     {
-        YAML::Node windowConfigFile = YAML::LoadFile("config/window.yml");
+        YAML::Node windowConfigFile = YAML::LoadFile(filename);
 
-        // implicit conversion to unsigned int
-        windowConfig.width = windowConfigFile["width"].as<int>();
-        windowConfig.height = windowConfigFile["height"].as<int>();
-        windowConfig.framerateLimit = windowConfigFile["framerateLimit"].as<int>();
-        windowConfig.antialiasingLevel = windowConfigFile["antialiasingLevel"].as<int>();
+        YAML::Node windowConfigFileWidth = windowConfigFile["width"];
+        if (windowConfigFileWidth.IsDefined())
+        {
+            // implicit conversion to unsigned int
+            windowConfig.width = windowConfigFileWidth.as<int>();
+        }
 
-        // implicit conversion to sf::String
-        windowConfig.title = windowConfigFile["title"].as<std::string>();
+        YAML::Node windowConfigFileHeight = windowConfigFile["height"];
+        if (windowConfigFileHeight.IsDefined())
+        {
+            // implicit conversion to unsigned int
+            windowConfig.height = windowConfigFileHeight.as<int>();
+        }
+
+        YAML::Node windowConfigFileFramerateLimit = windowConfigFile["framerateLimit"];
+        if (windowConfigFileFramerateLimit.IsDefined())
+        {
+            // implicit conversion to unsigned int
+            windowConfig.framerateLimit = windowConfigFileFramerateLimit.as<int>();
+        }
+
+        YAML::Node windowConfigFileAntialiasingLevel = windowConfigFile["antialiasingLevel"];
+        if (windowConfigFileAntialiasingLevel.IsDefined())
+        {
+            // implicit conversion to unsigned int
+            windowConfig.antialiasingLevel = windowConfigFileAntialiasingLevel.as<int>();
+        }
+
+        YAML::Node windowConfigFileTitle = windowConfigFile["title"];
+        if (windowConfigFileTitle.IsDefined())
+        {
+            // implicit conversion to sf::String
+            windowConfig.title = windowConfigFileTitle.as<std::string>();
+        }
     }
     catch(const YAML::BadFile& e)
     {
-        std::cerr << e.what() << " config/window.yml, using default window config.\n";
+        // what() just contains "bad file", so prefer custom message
+        // TODO: use https://github.com/fmtlib/fmt to format string
+        std::ostringstream oss;
+        oss << "YAML::BadFile: '" << filename << "'" << std::endl;
+        throw(std::runtime_error(oss.str()));
     }
 
     return windowConfig;
