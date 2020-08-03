@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- App: Added WindowConfig, which can be set with config/window.yml
+- App: Added WindowConfig, which can be set with _config/window.yml_
 
 ## [0.0.4] - 2020-07-15
 ### Added

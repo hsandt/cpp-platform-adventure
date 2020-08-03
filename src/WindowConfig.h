@@ -3,6 +3,11 @@
 #include <bits/stringfwd.h>
 #include <SFML/System/String.hpp>
 
+namespace YAML
+{
+    class Node;
+}
+
 struct WindowConfig
 {
     /// Default constructor with sensible defaults
@@ -10,6 +15,15 @@ struct WindowConfig
 
     /// Parse YAML file containing window config and return WindowConfig
     static WindowConfig from_file(const std::string& filename);
+
+    /// Search for key in windowConfigFile
+    /// If key is found, set var by reference to YAML value at key and return true
+    /// Else, return false
+    /// YAMLValue must be convertible to Var type
+    /// Var and YAMLKey types can be deduced from the arguments, so just indicate <YAMLValue>
+    /// (int, std::string, etc.)
+    template<typename YAMLValue, typename Var, typename YAMLKey>
+    static bool try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& windowConfigFile);
 
     /// Window dimensions (for VideoMode)
     unsigned int width;

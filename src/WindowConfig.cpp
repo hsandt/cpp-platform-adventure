@@ -20,7 +20,7 @@ WindowConfig::WindowConfig() :
 
 }
 
-WindowConfig WindowConfig::from_file(const std::string& filename)
+/* static */ WindowConfig WindowConfig::from_file(const std::string& filename)
 {
     WindowConfig windowConfig;
 
@@ -28,40 +28,11 @@ WindowConfig WindowConfig::from_file(const std::string& filename)
     {
         YAML::Node windowConfigFile = YAML::LoadFile(filename);
 
-        YAML::Node windowConfigFileWidth = windowConfigFile["width"];
-        if (windowConfigFileWidth.IsDefined())
-        {
-            // implicit conversion to unsigned int
-            windowConfig.width = windowConfigFileWidth.as<int>();
-        }
-
-        YAML::Node windowConfigFileHeight = windowConfigFile["height"];
-        if (windowConfigFileHeight.IsDefined())
-        {
-            // implicit conversion to unsigned int
-            windowConfig.height = windowConfigFileHeight.as<int>();
-        }
-
-        YAML::Node windowConfigFileFramerateLimit = windowConfigFile["framerateLimit"];
-        if (windowConfigFileFramerateLimit.IsDefined())
-        {
-            // implicit conversion to unsigned int
-            windowConfig.framerateLimit = windowConfigFileFramerateLimit.as<int>();
-        }
-
-        YAML::Node windowConfigFileAntialiasingLevel = windowConfigFile["antialiasingLevel"];
-        if (windowConfigFileAntialiasingLevel.IsDefined())
-        {
-            // implicit conversion to unsigned int
-            windowConfig.antialiasingLevel = windowConfigFileAntialiasingLevel.as<int>();
-        }
-
-        YAML::Node windowConfigFileTitle = windowConfigFile["title"];
-        if (windowConfigFileTitle.IsDefined())
-        {
-            // implicit conversion to sf::String
-            windowConfig.title = windowConfigFileTitle.as<std::string>();
-        }
+        try_set_from_key<int>(windowConfig.width, "width", windowConfigFile);
+        try_set_from_key<int>(windowConfig.height, "height", windowConfigFile);
+        try_set_from_key<int>(windowConfig.framerateLimit, "framerateLimit", windowConfigFile);
+        try_set_from_key<int>(windowConfig.antialiasingLevel, "antialiasingLevel", windowConfigFile);
+        try_set_from_key<std::string>(windowConfig.title, "title", windowConfigFile);
     }
     catch(const YAML::BadFile& e)
     {
@@ -73,4 +44,19 @@ WindowConfig WindowConfig::from_file(const std::string& filename)
     }
 
     return windowConfig;
+}
+
+template<typename YAMLValue, typename Var, typename YAMLKey>
+/* static */ bool WindowConfig::try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& windowConfigFile)
+{
+    YAML::Node node = windowConfigFile[key];
+    if (node.IsDefined())
+    {
+        // implicit conversion from Value to Out type may happen
+        // TODO: use concepts with convertible_to
+        var = node.as<YAMLValue>();
+        return true;
+    }
+
+    return false;
 }
