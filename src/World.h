@@ -20,6 +20,7 @@ public:
     ~World();
 
 public:
+    void loadScene();
     void update(sf::Time elapsedTime);
     void render(sf::RenderWindow& window);
 

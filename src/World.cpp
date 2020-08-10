@@ -7,15 +7,20 @@
 #include "NonPlayerCharacter.h"
 #include "PlayerCharacter.h"
 
-World::World() :
-    terrain(std::make_unique<Terrain>()),
-    playerCharacter(std::make_unique<PlayerCharacter>()),
-    nonPlayerCharacter(std::make_unique<NonPlayerCharacter>())
+World::World()
 {
 }
 
 World::~World()
 {
+}
+
+void World::loadScene()
+{
+    // for now, we load a unique scene
+    terrain = std::make_unique<Terrain>();
+    playerCharacter = std::make_unique<PlayerCharacter>();
+    nonPlayerCharacter = std::make_unique<NonPlayerCharacter>();
 }
 
 void World::update(sf::Time elapsedTime)

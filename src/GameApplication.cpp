@@ -11,12 +11,11 @@
 /* static */ GameApplication* GameApplication::singletonInstance = nullptr;
 
 GameApplication::GameApplication() :
-    window(std::make_unique<sf::RenderWindow>()),
-    view(std::make_unique<sf::View>()),
-    world(std::make_unique<World>()),
     m_initialized(false),
     m_time()
 {
+    // initialize as little as you can before setting singleton instance
+    // to avoid risk of other objects trying to access this instance too early
     if (singletonInstance == nullptr)
     {
         singletonInstance = this;
@@ -34,6 +33,16 @@ GameApplication::~GameApplication()
     singletonInstance = nullptr;
 }
 
+/* static */ GameApplication& GameApplication::get()
+{
+    if (singletonInstance == nullptr)
+    {
+        throw std::runtime_error("GameApplication singletonInstance not set, cannot get()");
+    }
+
+    return *singletonInstance;
+}
+
 void GameApplication::init()
 {
     WindowConfig windowConfig = WindowConfig::from_file("config/window.yml");
@@ -42,6 +51,9 @@ void GameApplication::init()
     sf::ContextSettings settings;
     settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
+    // create window
+    window = std::make_unique<sf::RenderWindow>();
+
     // set window size (windowed, no resize)
     window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
 
@@ -49,9 +61,17 @@ void GameApplication::init()
     // doing this disables vsync
     window->setFramerateLimit(windowConfig.framerateLimit);
 
-    // camera view
-    view->setCenter({1280.f * 0.5f, 720.f * 0.5f});
-    view->setSize({1280.f, 720.f});
+    // create camera view
+    view = std::make_unique<sf::View>(
+        sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f),
+        sf::Vector2f(1280.f, 720.f)
+    );
+
+    // create world
+    world = std::make_unique<World>();
+
+    // load initial scene
+    world->loadScene();
 
     // confirm initialization
     m_initialized = true;

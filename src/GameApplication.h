@@ -28,8 +28,9 @@ public:
 
     /// Return reference to singleton instance
     /// UB unless a GameApplication has been constructed
-    /// which should be the case during the whole game
-    static GameApplication& get() { return *singletonInstance; }
+    /// which should always be the case unless calling during
+    /// GameApplication construction itself
+    static GameApplication& get();
 
 
     /// Initialize game application.
