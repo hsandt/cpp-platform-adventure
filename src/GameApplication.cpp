@@ -8,6 +8,8 @@
 #include "WindowConfig.h"
 #include "World.h"
 
+/* static */ GameApplication* GameApplication::singletonInstance = nullptr;
+
 GameApplication::GameApplication() :
     window(std::make_unique<sf::RenderWindow>()),
     view(std::make_unique<sf::View>()),
@@ -15,13 +17,21 @@ GameApplication::GameApplication() :
     m_initialized(false),
     m_time()
 {
-
+    if (singletonInstance == nullptr)
+    {
+        singletonInstance = this;
+    }
+    else
+    {
+        throw(std::runtime_error("GameApplication singleton instance already registered, cannot register further constructed instances"));
+    }
 }
 
 // even if empty, destructor definition should be in .cpp
 // so we don't need to #include T for each std::unique_ptr<T> members
 GameApplication::~GameApplication()
 {
+    singletonInstance = nullptr;
 }
 
 void GameApplication::init()

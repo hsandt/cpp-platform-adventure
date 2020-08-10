@@ -23,6 +23,15 @@ public:
     GameApplication& operator=(const GameApplication&) = delete;
 
 public:
+
+    /* Singleton */
+
+    /// Return reference to singleton instance
+    /// UB unless a GameApplication has been constructed
+    /// which should be the case during the whole game
+    static GameApplication& get() { return *singletonInstance; }
+
+
     /// Initialize game application.
     void init();
 
@@ -34,6 +43,13 @@ private:
     void render();
 
 private:
+
+    /* Singleton */
+
+    /// Singleton instance
+    static GameApplication* singletonInstance;
+
+
     /* Components */
 
     /// Render window
@@ -44,6 +60,7 @@ private:
 
     /// Game world
     std::unique_ptr<World> world;
+
 
     /* State */
 
