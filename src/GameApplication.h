@@ -10,9 +10,7 @@ namespace sf
     class View;
 }
 
-class NonPlayerCharacter;
-class PlayerCharacter;
-class Terrain;
+class World;
 
 /// Game Application. Handles game loop.
 class GameApplication
@@ -44,12 +42,8 @@ private:
     /// View used to draw grass
     std::unique_ptr<sf::View> view;
 
-    /// Grass to draw
-    std::unique_ptr<Terrain> terrain;
-
-    /// Characters
-    std::unique_ptr<PlayerCharacter> playerCharacter;
-    std::unique_ptr<NonPlayerCharacter> villager;
+    /// Game world
+    std::unique_ptr<World> world;
 
     /* State */
 

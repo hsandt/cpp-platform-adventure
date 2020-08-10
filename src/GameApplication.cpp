@@ -5,14 +5,13 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Terrain.h"
-#include "NonPlayerCharacter.h"
-#include "PlayerCharacter.h"
 #include "WindowConfig.h"
+#include "World.h"
 
 GameApplication::GameApplication() :
     window(std::make_unique<sf::RenderWindow>()),
     view(std::make_unique<sf::View>()),
+    world(std::make_unique<World>()),
     m_initialized(false),
     m_time()
 {
@@ -52,13 +51,6 @@ void GameApplication::run()
 {
     assert(m_initialized);
 
-    // terrain
-    terrain = std::make_unique<Terrain>();
-
-    // characters
-    playerCharacter = std::make_unique<PlayerCharacter>();
-    villager = std::make_unique<NonPlayerCharacter>();
-
     // time management
     sf::Clock clock;
 
@@ -94,8 +86,7 @@ void GameApplication::update(sf::Time elapsedTime)
     view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
 
     // update characters
-    playerCharacter->update(elapsedTime);
-    villager->update(elapsedTime);
+    world->update(elapsedTime);
 }
 
 void GameApplication::render()
@@ -106,12 +97,8 @@ void GameApplication::render()
     // set view from moving camera
     window->setView(*view);
 
-    // show terrain
-    terrain->render(*window);
-
-    // show characters
-    playerCharacter->render(*window);
-    villager->render(*window);
+    // render world
+    world->render(*window);
 
     // flip
     window->display();
