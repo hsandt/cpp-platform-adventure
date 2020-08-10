@@ -5,7 +5,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Character.h"
+#include "NonPlayerCharacter.h"
+#include "PlayerCharacter.h"
 #include "WindowConfig.h"
 
 GameApplication::GameApplication() :
@@ -55,13 +56,9 @@ void GameApplication::run()
     grass->setFillColor(sf::Color::Green);
     grass->setPosition(0.f, 420.f);
 
-    // player character
-    character = std::make_unique<Character>();
-
-    // villager rectangle
-    villager = std::make_unique<sf::RectangleShape>(sf::Vector2f{32.f, 32.f});
-    villager->setFillColor(sf::Color::Blue);
-    villager->setPosition(600.f, 400.f);
+    // characters
+    playerCharacter = std::make_unique<PlayerCharacter>();
+    villager = std::make_unique<NonPlayerCharacter>();
 
     // time management
     sf::Clock clock;
@@ -97,8 +94,9 @@ void GameApplication::update(sf::Time elapsedTime)
     // move camera
     view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
 
-    // update player character
-    character->update(elapsedTime);
+    // update characters
+    playerCharacter->update(elapsedTime);
+    villager->update(elapsedTime);
 }
 
 void GameApplication::render()
@@ -111,8 +109,8 @@ void GameApplication::render()
     window->draw(*grass);
 
     // show characters
-    character->render(*window);
-    window->draw(*villager);
+    playerCharacter->render(*window);
+    villager->render(*window);
 
     // flip
     window->display();

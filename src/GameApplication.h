@@ -11,7 +11,8 @@ namespace sf
     class View;
 }
 
-class Character;
+class PlayerCharacter;
+class NonPlayerCharacter;
 
 /// Game Application. Handles game loop.
 class GameApplication
@@ -46,11 +47,9 @@ private:
     /// Grass to draw
     std::unique_ptr<sf::RectangleShape> grass;
 
-    /// Character to draw
-    std::unique_ptr<Character> character;
-
-    /// NPC to draw
-    std::unique_ptr<sf::RectangleShape> villager;
+    /// Characters
+    std::unique_ptr<PlayerCharacter> playerCharacter;
+    std::unique_ptr<NonPlayerCharacter> villager;
 
     /* State */
 

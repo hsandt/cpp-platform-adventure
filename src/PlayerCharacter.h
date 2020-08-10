@@ -10,10 +10,10 @@ namespace sf
     class RenderWindow;
 }
 
-class Character
+class PlayerCharacter
 {
 public:
-    Character();
+    PlayerCharacter();
 
 public:
     void update(sf::Time elapsedTime);

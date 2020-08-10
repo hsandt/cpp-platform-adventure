@@ -1,9 +1,9 @@
-#include "Character.h"
+#include "PlayerCharacter.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-Character::Character() :
+PlayerCharacter::PlayerCharacter() :
     shape(std::make_unique<sf::RectangleShape>())
 {
     // character rectangle
@@ -12,7 +12,7 @@ Character::Character() :
     shape->setPosition(100.f, 400.f);
 }
 
-void Character::update(sf::Time elapsedTime)
+void PlayerCharacter::update(sf::Time elapsedTime)
 {
     // Move character based on input
 
@@ -32,7 +32,7 @@ void Character::update(sf::Time elapsedTime)
     shape->move(characterSpeedX * elapsedTime.asSeconds() * moveIntentionX, 0.f);
 }
 
-void Character::render(sf::RenderWindow& window)
+void PlayerCharacter::render(sf::RenderWindow& window)
 {
     window.draw(*shape);
 }
