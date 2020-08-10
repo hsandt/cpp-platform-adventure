@@ -52,6 +52,11 @@ void GameApplication::run()
     grass->setFillColor(sf::Color::Green);
     grass->setPosition(0.f, 420.f);
 
+    // character rectangle
+    character = std::make_unique<sf::RectangleShape>(sf::Vector2f{32.f, 32.f});
+    character->setFillColor(sf::Color::Red);
+    character->setPosition(0.f, 400.f);
+
     // time management
     sf::Clock clock;
 
@@ -85,6 +90,23 @@ void GameApplication::update(sf::Time elapsedTime)
 {
     // move camera
     view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
+
+    // move character
+
+    // compute move intention on X
+    float moveIntentionX = 0.f;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        moveIntentionX -= 1.f;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        moveIntentionX += 1.f;
+    }
+
+    // apply character speed in px/s
+    const float characterSpeedX = 32.f * 10;
+    character->move(characterSpeedX * elapsedTime.asSeconds() * moveIntentionX, 0.f);
 }
 
 void GameApplication::render()
@@ -95,6 +117,9 @@ void GameApplication::render()
     // show grass with moving camera
     window->setView(*view);
     window->draw(*grass);
+
+    // show character
+    window->draw(*character);
 
     // flip
     window->display();

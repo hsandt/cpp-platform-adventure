@@ -43,6 +43,9 @@ private:
     /// Grass to draw
     std::unique_ptr<sf::RectangleShape> grass;
 
+    /// Character to draw
+    std::unique_ptr<sf::RectangleShape> character;
+
     /* State */
 
     /// Has the app been initialized?
