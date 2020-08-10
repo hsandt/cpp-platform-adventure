@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 PlayerCharacter::PlayerCharacter() :
     shape(std::make_unique<sf::RectangleShape>())
@@ -11,6 +12,7 @@ PlayerCharacter::PlayerCharacter() :
     shape->setFillColor(sf::Color::Red);
     shape->setPosition(100.f, 400.f);
 }
+
 
 void PlayerCharacter::update(sf::Time elapsedTime)
 {

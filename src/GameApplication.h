@@ -6,13 +6,13 @@
 
 namespace sf
 {
-    class RectangleShape;
     class RenderWindow;
     class View;
 }
 
-class PlayerCharacter;
 class NonPlayerCharacter;
+class PlayerCharacter;
+class Terrain;
 
 /// Game Application. Handles game loop.
 class GameApplication
@@ -45,7 +45,7 @@ private:
     std::unique_ptr<sf::View> view;
 
     /// Grass to draw
-    std::unique_ptr<sf::RectangleShape> grass;
+    std::unique_ptr<Terrain> terrain;
 
     /// Characters
     std::unique_ptr<PlayerCharacter> playerCharacter;

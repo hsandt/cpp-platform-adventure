@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Terrain.h"
 #include "NonPlayerCharacter.h"
 #include "PlayerCharacter.h"
 #include "WindowConfig.h"
@@ -51,10 +52,8 @@ void GameApplication::run()
 {
     assert(m_initialized);
 
-    // grass rectangle (goes beyond the bottom of the screen on start to allow camera motion on Y)
-    grass = std::make_unique<sf::RectangleShape>(sf::Vector2f{1280.f, 400.f});
-    grass->setFillColor(sf::Color::Green);
-    grass->setPosition(0.f, 420.f);
+    // terrain
+    terrain = std::make_unique<Terrain>();
 
     // characters
     playerCharacter = std::make_unique<PlayerCharacter>();
@@ -104,9 +103,11 @@ void GameApplication::render()
     // clear sky
     window->clear(sf::Color::Cyan);
 
-    // show grass with moving camera
+    // set view from moving camera
     window->setView(*view);
-    window->draw(*grass);
+
+    // show terrain
+    terrain->render(*window);
 
     // show characters
     playerCharacter->render(*window);
