@@ -54,7 +54,9 @@ void GameApplication::run()
     // time management
     sf::Clock clock;
 
-    while (window->isOpen())
+    bool shouldRun = true;
+
+    while (shouldRun)
     {
         // Time check
         sf::Time elapsedTime = clock.restart();
@@ -71,13 +73,19 @@ void GameApplication::run()
             if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
             {
-                window->close();
+                shouldRun = false;
+                break;
             }
         }
 
-        update(elapsedTime);
-        render();
+        if (shouldRun)
+        {
+            update(elapsedTime);
+            render();
+        }
     }
+
+    window->close();
 }
 
 void GameApplication::update(sf::Time elapsedTime)
