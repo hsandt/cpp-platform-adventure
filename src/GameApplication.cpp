@@ -55,7 +55,12 @@ void GameApplication::run()
     // character rectangle
     character = std::make_unique<sf::RectangleShape>(sf::Vector2f{32.f, 32.f});
     character->setFillColor(sf::Color::Red);
-    character->setPosition(0.f, 400.f);
+    character->setPosition(100.f, 400.f);
+
+    // villager rectangle
+    villager = std::make_unique<sf::RectangleShape>(sf::Vector2f{32.f, 32.f});
+    villager->setFillColor(sf::Color::Blue);
+    villager->setPosition(600.f, 400.f);
 
     // time management
     sf::Clock clock;
@@ -118,8 +123,9 @@ void GameApplication::render()
     window->setView(*view);
     window->draw(*grass);
 
-    // show character
+    // show characters
     window->draw(*character);
+    window->draw(*villager);
 
     // flip
     window->display();

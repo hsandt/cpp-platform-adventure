@@ -46,6 +46,9 @@ private:
     /// Character to draw
     std::unique_ptr<sf::RectangleShape> character;
 
+    /// NPC to draw
+    std::unique_ptr<sf::RectangleShape> villager;
+
     /* State */
 
     /// Has the app been initialized?
