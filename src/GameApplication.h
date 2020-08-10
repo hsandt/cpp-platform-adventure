@@ -1,8 +1,11 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 
 #include <SFML/System/Time.hpp>
+
+typedef std::function<void()> onKeyPressFunc;
 
 namespace sf
 {
@@ -39,6 +42,12 @@ public:
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
+    /// Register action for Space key Pressed
+    void assignSpacePressedAction(onKeyPressFunc action);
+
+    /// Unregister action for Space key Pressed
+    void unassignSpacePressedAction();
+
 private:
     void update(sf::Time elapsedTime);
     void render();
@@ -71,4 +80,7 @@ private:
 
     /// Time elapsed since application start
     sf::Time m_time;
+
+    /// Callback associated to the Space key Press event
+    onKeyPressFunc m_OnSpacePressAction;
 };

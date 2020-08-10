@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <stdexcept>
 
 #include <SFML/Graphics.hpp>
 
@@ -91,6 +92,7 @@ void GameApplication::run()
         // Time check
         sf::Time elapsedTime = clock.restart();
         m_time += elapsedTime;
+        // anti-overflow (brutal)
         if (m_time.asSeconds() > 1000 * 1000)
         {
             m_time = sf::Time::Zero;
@@ -106,6 +108,17 @@ void GameApplication::run()
                 shouldRun = false;
                 break;
             }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Space)
+                {
+                    // apply action callback if any
+                    if (m_OnSpacePressAction)
+                    {
+                        m_OnSpacePressAction();
+                    }
+                }
+            }
         }
 
         if (shouldRun)
@@ -116,6 +129,17 @@ void GameApplication::run()
     }
 
     window->close();
+}
+
+void GameApplication::assignSpacePressedAction(std::function<void()> action)
+{
+    // overwrite any previous action
+    m_OnSpacePressAction = action;
+}
+
+void GameApplication::unassignSpacePressedAction()
+{
+    m_OnSpacePressAction = nullptr;
 }
 
 void GameApplication::update(sf::Time elapsedTime)

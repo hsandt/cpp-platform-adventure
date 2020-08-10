@@ -1,8 +1,12 @@
 #include "PlayerCharacter.h"
 
+#include <iostream>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+
+#include "GameApplication.h"
 
 PlayerCharacter::PlayerCharacter() :
     shape(std::make_unique<sf::RectangleShape>())
@@ -11,8 +15,14 @@ PlayerCharacter::PlayerCharacter() :
     shape->setSize(sf::Vector2f{32.f, 32.f});
     shape->setFillColor(sf::Color::Red);
     shape->setPosition(100.f, 400.f);
+
+    GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
 }
 
+PlayerCharacter::~PlayerCharacter()
+{
+    GameApplication::get().unassignSpacePressedAction();
+}
 
 void PlayerCharacter::update(sf::Time elapsedTime)
 {
@@ -37,4 +47,9 @@ void PlayerCharacter::update(sf::Time elapsedTime)
 void PlayerCharacter::render(sf::RenderWindow& window)
 {
     window.draw(*shape);
+}
+
+void PlayerCharacter::interact()
+{
+    std::cout << "INTERACT" << std::endl;
 }

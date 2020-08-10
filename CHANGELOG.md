@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - App: Added WindowConfig, which can be set with _config/window.yml_
+- World: World class with Terrain (existing grass), PlayerCharacter (new), NonPlayerCharacter (new)
+- PC: Hold Left/Right keys to move
+- NPC: (WIP) Press Space to interact
 
 ## [0.0.4] - 2020-07-15
 ### Added

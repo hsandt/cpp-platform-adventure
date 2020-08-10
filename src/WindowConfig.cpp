@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stdexcept>
 
 #include "fmt/format.h"
 #include "yaml-cpp/yaml.h"

@@ -19,6 +19,8 @@ public:
     void update(sf::Time elapsedTime);
     void render(sf::RenderWindow& window);
 
+    void onInteract();
+
 private:
     /* Components */
 

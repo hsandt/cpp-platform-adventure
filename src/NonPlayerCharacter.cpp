@@ -1,5 +1,7 @@
 #include "NonPlayerCharacter.h"
 
+#include <iostream>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
@@ -14,14 +16,14 @@ NonPlayerCharacter::NonPlayerCharacter() :
 
 void NonPlayerCharacter::update(sf::Time elapsedTime)
 {
-    // Move character based on time
-
-    // apply character speed in px/s
-    const float characterSpeedX = 32.f * 10;
-    shape->move(characterSpeedX * elapsedTime.asSeconds() * 0.5f, 0.f);
 }
 
 void NonPlayerCharacter::render(sf::RenderWindow& window)
 {
     window.draw(*shape);
+}
+
+void NonPlayerCharacter::onInteract()
+{
+    std::cout << "ON INTERACT" << std::endl;
 }
