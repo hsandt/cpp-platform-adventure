@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Character.h"
 #include "WindowConfig.h"
 
 GameApplication::GameApplication() :
@@ -16,6 +17,8 @@ GameApplication::GameApplication() :
 
 }
 
+// even if empty, destructor definition should be in .cpp
+// so we don't need to #include T for each std::unique_ptr<T> members
 GameApplication::~GameApplication()
 {
 }
@@ -52,10 +55,8 @@ void GameApplication::run()
     grass->setFillColor(sf::Color::Green);
     grass->setPosition(0.f, 420.f);
 
-    // character rectangle
-    character = std::make_unique<sf::RectangleShape>(sf::Vector2f{32.f, 32.f});
-    character->setFillColor(sf::Color::Red);
-    character->setPosition(100.f, 400.f);
+    // player character
+    character = std::make_unique<Character>();
 
     // villager rectangle
     villager = std::make_unique<sf::RectangleShape>(sf::Vector2f{32.f, 32.f});
@@ -96,22 +97,8 @@ void GameApplication::update(sf::Time elapsedTime)
     // move camera
     view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
 
-    // move character
-
-    // compute move intention on X
-    float moveIntentionX = 0.f;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        moveIntentionX -= 1.f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        moveIntentionX += 1.f;
-    }
-
-    // apply character speed in px/s
-    const float characterSpeedX = 32.f * 10;
-    character->move(characterSpeedX * elapsedTime.asSeconds() * moveIntentionX, 0.f);
+    // update player character
+    character->update(elapsedTime);
 }
 
 void GameApplication::render()
@@ -124,7 +111,7 @@ void GameApplication::render()
     window->draw(*grass);
 
     // show characters
-    window->draw(*character);
+    character->render(*window);
     window->draw(*villager);
 
     // flip

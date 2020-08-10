@@ -1,14 +1,17 @@
 #pragma once
 
 #include <memory>
+
 #include <SFML/System/Time.hpp>
 
 namespace sf
 {
+    class RectangleShape;
     class RenderWindow;
     class View;
-    class RectangleShape;
 }
+
+class Character;
 
 /// Game Application. Handles game loop.
 class GameApplication
@@ -44,7 +47,7 @@ private:
     std::unique_ptr<sf::RectangleShape> grass;
 
     /// Character to draw
-    std::unique_ptr<sf::RectangleShape> character;
+    std::unique_ptr<Character> character;
 
     /// NPC to draw
     std::unique_ptr<sf::RectangleShape> villager;
