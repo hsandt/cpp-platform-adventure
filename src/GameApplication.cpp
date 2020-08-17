@@ -31,6 +31,12 @@ GameApplication::GameApplication() :
 // so we don't need to #include T for each std::unique_ptr<T> members
 GameApplication::~GameApplication()
 {
+    // members will be destroyed automatically *after* this implementation
+    // some of the world objects will unregister from GameApplication::get()
+    // (which throws if singletonInstance is nullptr) in their own destructor,
+    // so to be safe, clear the world now
+    world.reset();
+
     singletonInstance = nullptr;
 }
 

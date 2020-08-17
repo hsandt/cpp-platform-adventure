@@ -32,7 +32,7 @@ public:
     /// Return reference to singleton instance
     /// UB unless a GameApplication has been constructed
     /// which should always be the case unless calling during
-    /// GameApplication construction itself
+    /// GameApplication construction or destruction itself
     static GameApplication& get();
 
 
