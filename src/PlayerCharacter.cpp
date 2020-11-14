@@ -64,9 +64,10 @@ void PlayerCharacter::detectInteractable(World& world)
     if (npc)
     {
         // check if NPC center position is inside square centered
-        // on player character with half-size (10, 10)
+        // on player character with half-size (50, 50)
         sf::Vector2f vectorToNpc = npc->getPosition() - shape->getPosition();
-        if (fabs(vectorToNpc.x) < 10.f && fabs(vectorToNpc.y) < 10.f)
+        const float maxInteractDistance = 50.f;
+        if (fabs(vectorToNpc.x) < maxInteractDistance && fabs(vectorToNpc.y) < maxInteractDistance)
         {
             m_detectedInteractable = npc;
         }
@@ -79,6 +80,8 @@ void PlayerCharacter::interact()
     {
         if (std::shared_ptr<NonPlayerCharacter> npc = m_detectedInteractable.lock())
         {
+            m_activeInteractable = m_detectedInteractable;
+            m_detectedInteractable.reset();
             npc->onInteract();
         }
     }
