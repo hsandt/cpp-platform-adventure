@@ -11,6 +11,7 @@ namespace sf
 }
 
 class NonPlayerCharacter;
+class Transform;
 class World;
 
 class PlayerCharacter
@@ -34,7 +35,8 @@ private:
 
     /* Components */
 
-    std::unique_ptr<sf::RectangleShape> shape;
+    std::unique_ptr<Transform> mc_transform;
+    std::unique_ptr<sf::RectangleShape> mc_shape;
 
 
     /* State */

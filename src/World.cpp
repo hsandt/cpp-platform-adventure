@@ -11,6 +11,8 @@ World::World()
 {
 }
 
+// Even empty, destructor definition in .cpp required if only class-forwarding
+// some smart pointer contained types in .h
 World::~World()
 {
 }

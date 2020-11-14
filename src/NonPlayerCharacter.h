@@ -11,12 +11,14 @@ namespace sf
     class RenderWindow;
 }
 
+class Transform;
 class World;
 
 class NonPlayerCharacter
 {
 public:
     NonPlayerCharacter();
+    ~NonPlayerCharacter();
 
 public:
     void update(World& world, sf::Time elapsedTime);
@@ -24,13 +26,15 @@ public:
 
     // Quick way to get position before we switch to an engine-side
     // position, with shape just syncing to it
-    sf::Vector2f getPosition() const { return shape->getPosition(); }
+    sf::Vector2f getPosition() const { return mc_shape->getPosition(); }
 
     /// Callback for interaction
     void onInteract();
 
 private:
+
     /* Components */
 
-    std::unique_ptr<sf::RectangleShape> shape;
+    std::unique_ptr<Transform> mc_transform;
+    std::unique_ptr<sf::RectangleShape> mc_shape;
 };
