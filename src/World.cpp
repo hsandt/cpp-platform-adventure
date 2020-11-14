@@ -6,6 +6,7 @@
 #include "Terrain.h"
 #include "NonPlayerCharacter.h"
 #include "PlayerCharacter.h"
+#include "Components/Transform.h"
 
 World::World()
 {
@@ -21,8 +22,12 @@ void World::loadScene()
 {
     // for now, we load a unique scene
     terrain = std::make_unique<Terrain>();
+
     playerCharacter = std::make_unique<PlayerCharacter>();
+    playerCharacter->mc_transform->position = sf::Vector2(100.f, 400.f);
+
     nonPlayerCharacter = std::make_shared<NonPlayerCharacter>();
+    nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
 }
 
 void World::update(sf::Time elapsedTime)

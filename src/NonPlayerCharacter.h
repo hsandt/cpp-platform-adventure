@@ -24,14 +24,10 @@ public:
     void update(World& world, sf::Time elapsedTime);
     void render(sf::RenderWindow& window);
 
-    // Quick way to get position before we switch to an engine-side
-    // position, with shape just syncing to it
-    sf::Vector2f getPosition() const { return mc_shape->getPosition(); }
-
     /// Callback for interaction
     void onInteract();
 
-private:
+public:
 
     /* Components */
 

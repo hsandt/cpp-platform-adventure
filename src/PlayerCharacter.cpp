@@ -18,9 +18,9 @@ PlayerCharacter::PlayerCharacter() :
     m_canInteract(true)
 {
     // character rectangle
-    mc_shape->setSize(sf::Vector2f{32.f, 32.f});
+    mc_shape->setPosition(0.f, 0.f);
+    mc_shape->setSize(sf::Vector2f(32.f, 32.f));
     mc_shape->setFillColor(sf::Color::Red);
-    mc_shape->setPosition(100.f, 400.f);
 
     GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
 }
@@ -47,7 +47,7 @@ void PlayerCharacter::update(World& world, sf::Time elapsedTime)
 
     // apply character speed in px/s
     const float characterSpeedX = 32.f * 10;
-    mc_shape->move(characterSpeedX * elapsedTime.asSeconds() * moveIntentionX, 0.f);
+    mc_transform->position.x += characterSpeedX * elapsedTime.asSeconds() * moveIntentionX;
 
     // Detect interactable elements around character
     detectInteractable(world);
@@ -55,7 +55,10 @@ void PlayerCharacter::update(World& world, sf::Time elapsedTime)
 
 void PlayerCharacter::render(sf::RenderWindow& window)
 {
-    window.draw(*mc_shape);
+    // convert custom Transform component to SFML Transform
+    sf::Transform sfTransform;
+    sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
+    window.draw(*mc_shape, sfTransform);
 }
 
 void PlayerCharacter::detectInteractable(World& world)
@@ -67,7 +70,7 @@ void PlayerCharacter::detectInteractable(World& world)
     {
         // check if NPC center position is inside square centered
         // on player character with half-size (50, 50)
-        sf::Vector2f vectorToNpc = npc->getPosition() - mc_shape->getPosition();
+        sf::Vector2f vectorToNpc = npc->mc_transform->position - mc_transform->position;
         const float maxInteractDistance = 50.f;
         if (fabs(vectorToNpc.x) < maxInteractDistance && fabs(vectorToNpc.y) < maxInteractDistance)
         {

@@ -2,8 +2,7 @@
 
 /// Transform component
 /// Handles position
-class Transform
+struct Transform
 {
-public:
-    Transform();
+    sf::Vector2f position;
 };
