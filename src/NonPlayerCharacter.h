@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
 
 namespace sf
@@ -10,15 +11,22 @@ namespace sf
     class RenderWindow;
 }
 
+class World;
+
 class NonPlayerCharacter
 {
 public:
     NonPlayerCharacter();
 
 public:
-    void update(sf::Time elapsedTime);
+    void update(World& world, sf::Time elapsedTime);
     void render(sf::RenderWindow& window);
 
+    // Quick way to get position before we switch to an engine-side
+    // position, with shape just syncing to it
+    sf::Vector2f getPosition() const { return shape->getPosition(); }
+
+    /// Callback for interaction
     void onInteract();
 
 private:

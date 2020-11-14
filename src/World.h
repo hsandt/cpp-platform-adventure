@@ -24,11 +24,16 @@ public:
     void update(sf::Time elapsedTime);
     void render(sf::RenderWindow& window);
 
+    std::shared_ptr<NonPlayerCharacter>& getNonPlayerCharacter()
+    {
+        return nonPlayerCharacter;
+    }
+
 private:
 
     /* Components */
 
     std::unique_ptr<Terrain> terrain;
     std::unique_ptr<PlayerCharacter> playerCharacter;
-    std::unique_ptr<NonPlayerCharacter> nonPlayerCharacter;
+    std::shared_ptr<NonPlayerCharacter> nonPlayerCharacter;
 };

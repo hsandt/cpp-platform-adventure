@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
 NonPlayerCharacter::NonPlayerCharacter() :
@@ -14,7 +13,7 @@ NonPlayerCharacter::NonPlayerCharacter() :
     shape->setPosition(600.f, 400.f);
 }
 
-void NonPlayerCharacter::update(sf::Time elapsedTime)
+void NonPlayerCharacter::update(World& world, sf::Time elapsedTime)
 {
 }
 
