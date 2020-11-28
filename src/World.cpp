@@ -8,7 +8,8 @@
 #include "PlayerCharacter.h"
 #include "Components/Transform.h"
 
-World::World()
+World::World() :
+    terrain(std::make_unique<Terrain>())
 {
 }
 
@@ -20,8 +21,7 @@ World::~World()
 
 void World::loadScene()
 {
-    // for now, we load a unique scene
-    terrain = std::make_unique<Terrain>();
+    // for now, we load a unique, hard-coded scene
 
     playerCharacter = std::make_unique<PlayerCharacter>();
     playerCharacter->mc_transform->position = sf::Vector2(100.f, 400.f);

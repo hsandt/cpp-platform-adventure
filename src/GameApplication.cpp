@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "UI/UIRoot.h"
 #include "WindowConfig.h"
 #include "World.h"
 
@@ -27,8 +28,6 @@ GameApplication::GameApplication() :
     }
 }
 
-// even if empty, destructor definition should be in .cpp
-// so we don't need to #include T for each std::unique_ptr<T> members
 GameApplication::~GameApplication()
 {
     // members will be destroyed automatically *after* this implementation

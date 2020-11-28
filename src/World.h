@@ -33,7 +33,7 @@ private:
 
     /* Components */
 
-    std::unique_ptr<Terrain> terrain;
+    const std::unique_ptr<Terrain> terrain;
     std::unique_ptr<PlayerCharacter> playerCharacter;
     std::shared_ptr<NonPlayerCharacter> nonPlayerCharacter;
 };

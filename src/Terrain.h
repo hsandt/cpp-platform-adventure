@@ -19,5 +19,5 @@ public:
 private:
     /* Components */
 
-    std::unique_ptr<sf::RectangleShape> shape;
+    const std::unique_ptr<sf::RectangleShape> shape;
 };

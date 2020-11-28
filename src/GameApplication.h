@@ -13,6 +13,7 @@ namespace sf
     class View;
 }
 
+class UIRoot;
 class World;
 
 /// Game Application. Handles game loop.
@@ -70,6 +71,9 @@ private:
 
     /// Game world
     std::unique_ptr<World> world;
+
+    /// Game UI
+    std::unique_ptr<UIRoot> uiRoot;
 
 
     /* State */
