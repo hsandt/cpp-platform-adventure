@@ -43,6 +43,8 @@ public:
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
+    const std::unique_ptr<UIRoot>& getUIRoot() const { return uiRoot; }
+
     /// Register action for Space key Pressed
     void assignSpacePressedAction(onKeyPressFunc action);
 
@@ -73,7 +75,7 @@ private:
     std::unique_ptr<World> world;
 
     /// Game UI
-    std::unique_ptr<UIRoot> uiRoot;
+    const std::unique_ptr<UIRoot> uiRoot;
 
 
     /* State */

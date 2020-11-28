@@ -13,6 +13,7 @@
 /* static */ GameApplication* GameApplication::singletonInstance = nullptr;
 
 GameApplication::GameApplication() :
+    uiRoot(std::make_unique<UIRoot>()),
     m_initialized(false),
     m_time()
 {
