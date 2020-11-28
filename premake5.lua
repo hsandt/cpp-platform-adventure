@@ -14,7 +14,7 @@ project "Game"
     -- so use std option directly
     -- g++-10 and clang-10 support "c++20" on Linux, but clang 11 on OSX only uses "c++2a"
     buildoptions "-std=c++2a"
-
+    includedirs { "src" }
 
     -- Dependency: {fmt} --
 
