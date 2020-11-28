@@ -1,7 +1,7 @@
 #pragma once
 
-#include <bits/stringfwd.h>
 #include <concepts>
+#include <string>
 
 #include <SFML/System/String.hpp>
 
