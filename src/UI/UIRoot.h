@@ -7,6 +7,11 @@
 
 #include "Common.h"
 
+namespace sf
+{
+    class RenderWindow;
+}
+
 class UIWidget;
 
 class UIRoot
@@ -16,6 +21,9 @@ public:
     ~UIRoot();
 
 public:
+    /// Render all widgets, in undetermined order
+    void render(sf::RenderWindow& window);
+
     /// Add widget to map of widgets, and return map handle
     /// for future access. This transfers ownership to UI root
     Handle addWidget(std::unique_ptr<UIWidget> widget);

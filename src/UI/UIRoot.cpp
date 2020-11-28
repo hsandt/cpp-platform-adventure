@@ -13,6 +13,14 @@ UIRoot::~UIRoot()
 {
 }
 
+void UIRoot::render(sf::RenderWindow& window)
+{
+    for (auto &&widget : m_widgets)
+    {
+        widget.second->render(window);
+    }
+}
+
 Handle UIRoot::addWidget(std::unique_ptr<UIWidget> widget)
 {
     m_widgets.insert({m_nextInsertHandle, std::move(widget)});

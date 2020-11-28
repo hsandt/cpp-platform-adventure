@@ -168,6 +168,12 @@ void GameApplication::render()
     // render world
     world->render(*window);
 
+    // set view back to default view so UI has fixed position on screen
+    window->setView(window->getDefaultView());
+
+    // render UI
+    uiRoot->render(*window);
+
     // flip
     window->display();
 }

@@ -24,7 +24,7 @@ void World::loadScene()
     // for now, we load a unique, hard-coded scene
 
     playerCharacter = std::make_unique<PlayerCharacter>();
-    playerCharacter->mc_transform->position = sf::Vector2(100.f, 400.f);
+    playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
 
     nonPlayerCharacter = std::make_shared<NonPlayerCharacter>();
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
