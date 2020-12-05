@@ -1,9 +1,14 @@
 #pragma once
 
+// std
 #include <functional>
 #include <memory>
 
+// SFML
 #include <SFML/System/Time.hpp>
+
+// Game
+#include "Common.h"
 
 typedef std::function<void()> onKeyPressFunc;
 
