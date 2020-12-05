@@ -1,4 +1,4 @@
-#include "GameApplication.h"
+#include "Application/GameApplication.h"
 
 #include <cassert>
 #include <cmath>
@@ -7,8 +7,8 @@
 #include <SFML/Graphics.hpp>
 
 #include "UI/UIRoot.h"
-#include "WindowConfig.h"
-#include "World.h"
+#include "Application/WindowConfig.h"
+#include "Space/World.h"
 
 /* static */ GameApplication* GameApplication::singletonInstance = nullptr;
 

@@ -1,4 +1,4 @@
-#include "NonPlayerCharacter.h"
+#include "Entities/NonPlayerCharacter.h"
 
 #include <iostream>
 
@@ -8,7 +8,7 @@
 #include "Components/Transform.h"
 #include "UI/UIRoot.h"
 #include "UI/UIWidgetRectangle.h"
-#include "GameApplication.h"
+#include "Application/GameApplication.h"
 
 NonPlayerCharacter::NonPlayerCharacter() :
     mc_transform(std::make_unique<Transform>()),

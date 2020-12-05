@@ -1,4 +1,4 @@
-#include "GameApplication.h"
+#include "Application/GameApplication.h"
 
 int main(int argc, char const *argv[])
 {

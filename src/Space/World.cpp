@@ -1,11 +1,11 @@
-#include "World.h"
+#include "Space/World.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include "Terrain.h"
-#include "NonPlayerCharacter.h"
-#include "PlayerCharacter.h"
+#include "Space/Terrain.h"
+#include "Entities/NonPlayerCharacter.h"
+#include "Entities/PlayerCharacter.h"
 #include "Components/Transform.h"
 
 World::World() :

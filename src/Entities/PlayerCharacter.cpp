@@ -1,4 +1,4 @@
-#include "PlayerCharacter.h"
+#include "Entities/PlayerCharacter.h"
 
 #include <cmath>
 #include <iostream>
@@ -7,9 +7,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
-#include "GameApplication.h"
-#include "NonPlayerCharacter.h"
-#include "World.h"
+#include "Application/GameApplication.h"
+#include "Entities/NonPlayerCharacter.h"
+#include "Space/World.h"
 #include "Components/Transform.h"
 
 PlayerCharacter::PlayerCharacter() :
