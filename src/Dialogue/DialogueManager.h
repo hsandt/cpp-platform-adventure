@@ -26,4 +26,7 @@ public:
 
     /// Handle to current dialog box
     std::optional<Handle> ms_oDialogueBoxHandle;
+
+    /// Handle to current dialog text
+    std::optional<Handle> ms_oDialogueTextHandle;
 };

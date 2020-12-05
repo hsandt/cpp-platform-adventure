@@ -3,7 +3,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
-#include <unordered_map>
+#include <map>
 
 #include "Common.h"
 
@@ -21,7 +21,7 @@ public:
     ~UIRoot();
 
 public:
-    /// Render all widgets, in undetermined order
+    /// Render all widgets, elements with greatest Handle at the top
     void render(sf::RenderWindow& window);
 
     /// Add widget to map of widgets, and return map handle
@@ -43,5 +43,5 @@ private:
     Handle m_nextInsertHandle;
 
     /// Map of owned widgets, identified by handle
-    std::unordered_map<Handle, std::unique_ptr<UIWidget>> m_widgets;
+    std::map<Handle, std::unique_ptr<UIWidget>> m_widgets;
 };

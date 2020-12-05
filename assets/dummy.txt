@@ -1,2 +1,0 @@
-This file is only here to let Git detect the assets folder
-So machines cloning this repo (including Travis) do not fail on prebuild copy assets folder step.
