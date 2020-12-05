@@ -29,12 +29,12 @@ Handle UIRoot::addWidget(std::unique_ptr<UIWidget> widget)
 
 std::optional<std::reference_wrapper<UIWidget>> UIRoot::getWidget(Handle widgetHandle) const
 {
-    auto it = m_widgets.find(m_nextInsertHandle);
+    auto it = m_widgets.find(widgetHandle);
     return it != m_widgets.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
 }
 
 bool UIRoot::removeWidget(Handle widgetHandle)
 {
-    size_t erasedCount = m_widgets.erase(m_nextInsertHandle);
+    size_t erasedCount = m_widgets.erase(widgetHandle);
     return erasedCount > 0;
 }
