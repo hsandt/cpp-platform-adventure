@@ -94,6 +94,7 @@ project "Game"
         -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
         -- they must be installed locally on the machine
         links {
+            "freetype",
             "X11",
             "Xrandr",
             "udev",
