@@ -122,11 +122,7 @@ script:
   - pushd build
   - |
     if [[ "${PREMAKE_GENERATOR}" == "gmake"* ]]; then
-      if [[ $TRAVIS_OS_NAME == "linux" ]]; then
-        export JOBS="$(sysctl -n hw.ncpu)"  # should be 2
-      elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
-        export JOBS="$(nproc)"              # should be ~2
-      fi
+      export JOBS="$(nproc)"              # should be ~2
       config=release make -j${JOBS} --debug=v
     elif [[ "${PREMAKE_GENERATOR}" == "xcode"* ]]; then
       xcodebuild -project Game.xcodeproj -target Game -configuration Release
