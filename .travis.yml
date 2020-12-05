@@ -60,9 +60,8 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
     - os: linux
-      # On Linux we stick to 10 which is LLVM's latest stable
       env:
-        - COMPILER=clang++-10
+        - COMPILER=clang++-11
         - PREMAKE_GENERATOR=gmake
         - DEPLOY=false
       addons:
@@ -71,11 +70,11 @@ jobs:
             - *linux_packages
             # g++-10 is only to install C++20 headers/libraries to be used by clang
             - g++-10
-            - clang-10
+            - clang-11
           sources:
             # ubuntu-toolchain-r-test is only to install g++-10
             - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       compiler: clang++
 
