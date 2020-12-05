@@ -10,7 +10,7 @@ namespace sf
     class RenderWindow;
 }
 
-class Transform;
+struct Transform;
 
 /// UI widget representing a rectangle of uniform color
 class UIWidgetRectangle : public UIWidget

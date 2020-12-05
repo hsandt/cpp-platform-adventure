@@ -11,8 +11,8 @@ namespace sf
 }
 
 class NonPlayerCharacter;
-class Transform;
 class World;
+struct Transform;
 
 class PlayerCharacter
 {

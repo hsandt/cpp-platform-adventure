@@ -11,8 +11,8 @@ namespace sf
     class RenderWindow;
 }
 
-class Transform;
 class World;
+struct Transform;
 
 class NonPlayerCharacter
 {

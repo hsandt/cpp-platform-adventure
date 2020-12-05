@@ -10,7 +10,7 @@ namespace sf
     class Text;
 }
 
-class Transform;
+struct Transform;
 
 /// UI widget representing a text
 class UIWidgetText : public UIWidget
