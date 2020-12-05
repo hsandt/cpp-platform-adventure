@@ -25,18 +25,19 @@ addons:
 
 jobs:
   include:
-    # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-11 and premake5 for correct architecture
+    # For OSX, use 10.15.7 with Xcode 12.2 to have OSX clang 12.0.0
     - os: osx
-      osx_image: xcode11.6
+      osx_image: xcode12.2
       env:
-        - COMPILER=clang++  # osx simply names "clang++" the latest clang installed with Xcode toolchain
+        # osx simply names "clang++" the latest clang installed with Xcode toolchain
+        - COMPILER=clang++
         - PREMAKE_GENERATOR=gmake
         # There are two OSX builds deployed, here is the gmake build
         - DEPLOY=true
         - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_gmake.app.zip
       compiler: clang++
     - os: osx
-      osx_image: xcode11.6
+      osx_image: xcode12.2
       env:
         - COMPILER=clang++
         - PREMAKE_GENERATOR=xcode4
