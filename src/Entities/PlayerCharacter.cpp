@@ -15,19 +15,20 @@
 PlayerCharacter::PlayerCharacter() :
     mc_transform(std::make_unique<Transform>()),
     mc_shape(std::make_unique<sf::RectangleShape>()),
-    m_canInteract(true)
+    m_canInteract(false)  // so setCanInteract works
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);
     mc_shape->setSize(sf::Vector2f(32.f, 32.f));
     mc_shape->setFillColor(sf::Color::Red);
 
-    GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
+    setCanInteract(true);
 }
 
 PlayerCharacter::~PlayerCharacter()
 {
-    GameApplication::get().unassignSpacePressedAction();
+    // important to remove input bindings
+    setCanInteract(false);
 }
 
 void PlayerCharacter::update(World& world, sf::Time elapsedTime)
@@ -79,12 +80,34 @@ void PlayerCharacter::detectInteractable(World& world)
     }
 }
 
+void PlayerCharacter::setCanInteract(bool value)
+{
+    if (m_canInteract != value)
+    {
+        m_canInteract = value;
+
+        if (value)
+        {
+            GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
+        }
+        else
+        {
+            GameApplication::get().unassignSpacePressedAction();
+        }
+    }
+}
+
 void PlayerCharacter::interact()
 {
     if (m_canInteract)
     {
+        // always interact with the interactable previously detected
+        // (this is just to avoid doing an extra detection and match UI)
         if (std::shared_ptr<NonPlayerCharacter> npc = m_detectedInteractable.lock())
         {
+            // prevent further interaction, including input binding
+            setCanInteract(false);
+
             m_activeInteractable = m_detectedInteractable;
             m_detectedInteractable.reset();
             npc->onInteract();

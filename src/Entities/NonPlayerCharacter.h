@@ -33,4 +33,8 @@ public:
 
     const std::unique_ptr<Transform> mc_transform;
     const std::unique_ptr<sf::RectangleShape> mc_shape;
+
+    /* Parameters */
+
+    std::string mp_dialogueText;
 };

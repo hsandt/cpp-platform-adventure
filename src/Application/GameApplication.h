@@ -18,6 +18,7 @@ namespace sf
     class View;
 }
 
+class DialogueManager;
 class UIRoot;
 class World;
 
@@ -48,7 +49,9 @@ public:
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
+    const std::unique_ptr<World>& getWorld() const { return world; }
     const std::unique_ptr<UIRoot>& getUIRoot() const { return uiRoot; }
+    const std::unique_ptr<DialogueManager>& getDialogueManager() const { return dialogueManager; }
 
     /// Register action for Space key Pressed
     void assignSpacePressedAction(onKeyPressFunc action);
@@ -82,6 +85,8 @@ private:
     /// Game UI
     const std::unique_ptr<UIRoot> uiRoot;
 
+    /// Dialogue manager
+    const std::unique_ptr<DialogueManager> dialogueManager;
 
     /* State */
 

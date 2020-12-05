@@ -29,6 +29,11 @@ public:
         return nonPlayerCharacter;
     }
 
+    std::unique_ptr<PlayerCharacter>& getPlayerCharacter()
+    {
+        return playerCharacter;
+    }
+
 private:
 
     /* Components */

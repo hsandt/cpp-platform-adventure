@@ -28,6 +28,7 @@ void World::loadScene()
 
     nonPlayerCharacter = std::make_shared<NonPlayerCharacter>();
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
+    nonPlayerCharacter->mp_dialogueText = "Hello!";
 }
 
 void World::update(sf::Time elapsedTime)

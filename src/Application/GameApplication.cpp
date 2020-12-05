@@ -1,11 +1,15 @@
 #include "Application/GameApplication.h"
 
+// std
 #include <cassert>
 #include <cmath>
 #include <stdexcept>
 
+// SFML
 #include <SFML/Graphics.hpp>
 
+// Game
+#include "Dialogue/DialogueManager.h"
 #include "UI/UIRoot.h"
 #include "Application/WindowConfig.h"
 #include "Space/World.h"
@@ -14,6 +18,7 @@
 
 GameApplication::GameApplication() :
     uiRoot(std::make_unique<UIRoot>()),
+    dialogueManager(std::make_unique<DialogueManager>()),
     m_initialized(false),
     m_time()
 {

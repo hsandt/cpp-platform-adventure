@@ -24,6 +24,9 @@ public:
     void update(World& world, sf::Time elapsedTime);
     void render(sf::RenderWindow& window);
 
+    /// Set whether this character can interact, and updating input bindings
+    void setCanInteract(bool value);
+
 private:
     /// Detect nearby interactable element
     void detectInteractable(World& world);

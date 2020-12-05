@@ -1,18 +1,21 @@
 #include "Entities/NonPlayerCharacter.h"
 
+// std
 #include <iostream>
 
+// SFML
 #include <SFML/System.hpp>
 
+// Game
 #include "Common.h"
-#include "Components/Transform.h"
-#include "UI/UIRoot.h"
-#include "UI/UIWidgetRectangle.h"
 #include "Application/GameApplication.h"
+#include "Components/Transform.h"
+#include "Dialogue/DialogueManager.h"
 
 NonPlayerCharacter::NonPlayerCharacter() :
     mc_transform(std::make_unique<Transform>()),
-    mc_shape(std::make_unique<sf::RectangleShape>())
+    mc_shape(std::make_unique<sf::RectangleShape>()),
+    mp_dialogueText()
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);
@@ -40,12 +43,6 @@ void NonPlayerCharacter::render(sf::RenderWindow& window)
 
 void NonPlayerCharacter::onInteract()
 {
-    auto dialogBox = std::make_unique<UIWidgetRectangle>();
-    dialogBox->mc_transform->position = sf::Vector2f(100.f, 500.f);
-    dialogBox->mc_shape->setPosition(0.f, 0.f);
-    // dialogBox->mc_shape->setOrigin(sf::Vector2f(350.f, 50.f));
-    dialogBox->mc_shape->setSize(sf::Vector2f(700.f, 100.f));
-    dialogBox->mc_shape->setFillColor(sf::Color::Blue);
-    Handle handle = GameApplication::get().getUIRoot()->addWidget(std::move(dialogBox));
     std::cout << "ON INTERACT" << std::endl;
+    GameApplication::get().getDialogueManager()->showDialogueText(mp_dialogueText);
 }
