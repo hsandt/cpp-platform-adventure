@@ -8,20 +8,6 @@
 #include "fmt/format.h"
 #include "yaml-cpp/yaml.h"
 
-WindowConfig::WindowConfig() :
-    // 720p
-    width(1280),
-    height(720),
-    // Framerate limit at 60 for roughly 60 FPS
-    framerateLimit(60),
-    // No anti-aliasing
-    antialiasingLevel(0),
-    // Generic title
-    title("Game")
-{
-
-}
-
 /* static */ WindowConfig WindowConfig::from_file(const std::string& filename)
 {
     WindowConfig windowConfig;
@@ -58,4 +44,18 @@ requires std::convertible_to<YAMLValue, Var>
     }
 
     return false;
+}
+
+WindowConfig::WindowConfig() :
+    // 720p
+    width(1280),
+    height(720),
+    // Framerate limit at 60 for roughly 60 FPS
+    framerateLimit(60),
+    // No anti-aliasing
+    antialiasingLevel(0),
+    // Generic title
+    title("Game")
+{
+
 }

@@ -4,7 +4,7 @@
 #include <memory>
 
 // SFML
-#include <SFML/System.hpp>
+#include <SFML/System/Time.hpp>
 
 // Game
 #include "Common.h"
@@ -23,11 +23,8 @@ class World;
 class MyClass
 {
 public:
-
     /// Return the static value
     static int getStaticValue();
-
-public:
 
     MyClass();
     ~MyClass();
@@ -44,15 +41,16 @@ private:
     void incrementHealth();
 
 public:
-
     /* Static */
 
     /// Static value
     static int s_staticValue;
 
+
     /* Components */
 
     const std::unique_ptr<Transform> mc_transform;
+
 
     /* Parameters */
 
@@ -60,7 +58,6 @@ public:
     u16 mp_initialHealth;
 
 private:
-
     /* State */
 
     /// Current health

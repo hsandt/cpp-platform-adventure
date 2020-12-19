@@ -20,8 +20,14 @@ public:
     ~World();
 
 public:
+
+    /// Load scene content
     void loadScene();
+
+    /// Update all world elements
     void update(sf::Time elapsedTime);
+
+    /// Render all world elements
     void render(sf::RenderWindow& window);
 
     std::shared_ptr<NonPlayerCharacter>& getNonPlayerCharacter()

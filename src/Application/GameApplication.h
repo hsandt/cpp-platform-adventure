@@ -10,8 +10,6 @@
 // Game
 #include "Common.h"
 
-typedef std::function<void()> onKeyPressFunc;
-
 namespace sf
 {
     class RenderWindow;
@@ -21,6 +19,8 @@ namespace sf
 class DialogueManager;
 class UIRoot;
 class World;
+
+using onKeyPressFunc = std::function<void()>;
 
 /// Game Application. Handles game loop.
 class GameApplication
@@ -34,14 +34,11 @@ public:
 
 public:
 
-    /* Singleton */
-
     /// Return reference to singleton instance
     /// UB unless a GameApplication has been constructed
     /// which should always be the case unless calling during
     /// GameApplication construction or destruction itself
     static GameApplication& get();
-
 
     /// Initialize game application.
     void init();
@@ -60,7 +57,10 @@ public:
     void unassignSpacePressedAction();
 
 private:
+    /// Update the view and world
     void update(sf::Time elapsedTime);
+
+    /// Render the world and HUD
     void render();
 
 private:
@@ -87,6 +87,7 @@ private:
 
     /// Dialogue manager
     const std::unique_ptr<DialogueManager> dialogueManager;
+
 
     /* State */
 

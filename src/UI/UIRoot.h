@@ -21,6 +21,7 @@ public:
     ~UIRoot();
 
 public:
+
     /// Render all widgets, elements with greatest Handle at the top
     void render(sf::RenderWindow& window);
 

@@ -12,9 +12,6 @@ namespace YAML
 
 struct WindowConfig
 {
-    /// Default constructor with sensible defaults
-    WindowConfig();
-
     /// Parse YAML file containing window config and return WindowConfig
     static WindowConfig from_file(const std::string& filename);
 
@@ -27,6 +24,9 @@ struct WindowConfig
     template<typename YAMLValue, typename Var, typename YAMLKey>
     requires std::convertible_to<YAMLValue, Var>
     static bool try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& windowConfigFile);
+
+    /// Default constructor with sensible defaults
+    WindowConfig();
 
     /// Window dimensions (for VideoMode)
     unsigned int width;
