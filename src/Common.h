@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 // Type aliases
 using u8 = uint8_t;
 using u16 = uint16_t;
