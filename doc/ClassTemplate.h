@@ -19,15 +19,15 @@ namespace sf
 struct Transform;
 class World;
 
-/// MyClass description
-class MyClass
+/// ClassTemplate description
+class ClassTemplate
 {
 public:
     /// Return the static value
     static int getStaticValue();
 
-    MyClass();
-    ~MyClass();
+    ClassTemplate();
+    ~ClassTemplate();
 
     /// Update
     void update(World& world, sf::Time elapsedTime);

@@ -1,4 +1,4 @@
-#include "ClassTemplate.h"
+#include "Module/ClassTemplate.h"
 
 // std
 #include <cassert>
@@ -11,32 +11,32 @@
 // Game
 #include "Space/World.h"
 
-/* static */ int MyClass::s_staticValue = 1;
+/* static */ int ClassTemplate::s_staticValue = 1;
 
-/* static */ int MyClass::getStaticValue()
+/* static */ int ClassTemplate::getStaticValue()
 {
     return s_staticValue;
 }
 
-MyClass::MyClass() :
+ClassTemplate::ClassTemplate() :
     mp_initialHealth(100)
 {
 }
 
-MyClass::~MyClass()
+ClassTemplate::~ClassTemplate()
 {
 }
 
-void MyClass::update(World& world, sf::Time elapsedTime)
+void ClassTemplate::update(World& world, sf::Time elapsedTime)
 {
     world.update(elapsedTime);
 }
 
-void MyClass::render(sf::RenderWindow& window)
+void ClassTemplate::render(sf::RenderWindow& window)
 {
 }
 
-void MyClass::incrementHealth()
+void ClassTemplate::incrementHealth()
 {
     ++ms_initialHealth;
 }

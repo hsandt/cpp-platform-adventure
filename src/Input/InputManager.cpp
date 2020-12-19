@@ -1,4 +1,4 @@
-#include "InputManager.h"
+#include "Input/InputManager.h"
 
 // SFML
 #include <SFML/Window.hpp>
