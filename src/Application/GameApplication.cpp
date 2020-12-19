@@ -10,6 +10,7 @@
 
 // Game
 #include "Dialogue/DialogueManager.h"
+#include "Input/InputManager.h"
 #include "UI/UIRoot.h"
 #include "Application/WindowConfig.h"
 #include "Space/World.h"
@@ -17,8 +18,6 @@
 /* static */ GameApplication* GameApplication::singletonInstance = nullptr;
 
 GameApplication::GameApplication() :
-    uiRoot(std::make_unique<UIRoot>()),
-    dialogueManager(std::make_unique<DialogueManager>()),
     m_initialized(false),
     m_time()
 {

@@ -9,6 +9,7 @@
 
 // Game
 #include "Common.h"
+#include "Memory/Box.hpp"
 
 namespace sf
 {
@@ -17,6 +18,7 @@ namespace sf
 }
 
 class DialogueManager;
+class InputManager;
 class UIRoot;
 class World;
 
@@ -47,8 +49,8 @@ public:
     void run();
 
     const std::unique_ptr<World>& getWorld() const { return world; }
-    const std::unique_ptr<UIRoot>& getUIRoot() const { return uiRoot; }
-    const std::unique_ptr<DialogueManager>& getDialogueManager() const { return dialogueManager; }
+    const Box<UIRoot>& getUIRoot() const { return uiRoot; }
+    const Box<DialogueManager>& getDialogueManager() const { return dialogueManager; }
 
     /// Register action for Space key Pressed
     void assignSpacePressedAction(onKeyPressFunc action);
@@ -76,6 +78,9 @@ private:
     /// Render window
     std::unique_ptr<sf::RenderWindow> window;
 
+    /// Game world
+    const Box<InputManager> inputManager;
+
     /// View used to draw grass
     std::unique_ptr<sf::View> view;
 
@@ -83,10 +88,10 @@ private:
     std::unique_ptr<World> world;
 
     /// Game UI
-    const std::unique_ptr<UIRoot> uiRoot;
+    const Box<UIRoot> uiRoot;
 
     /// Dialogue manager
-    const std::unique_ptr<DialogueManager> dialogueManager;
+    const Box<DialogueManager> dialogueManager;
 
 
     /* State */
