@@ -1,5 +1,11 @@
 #include "Input/InputManager.h"
 
+// std
+#include <stdexcept>
+
+// fmt
+#include "fmt/format.h"
+
 // SFML
 #include <SFML/Window.hpp>
 
@@ -11,9 +17,53 @@ InputManager::~InputManager()
 {
 }
 
+void InputManager::registerKey(sf::Keyboard::Key key)
+{
+	ms_keyDynamicStateMap.emplace(key, KeyDynamicState::HeldReleased);
+}
+
 void InputManager::update()
 {
     processInputs();
+}
+
+bool InputManager::isKeyJustPressed(sf::Keyboard::Key key) const
+{
+	KeyDynamicState dynamicState = getKeyDynamicState(key);
+	return dynamicState == KeyDynamicState::JustPressed;
+}
+
+bool InputManager::isKeyJustReleased(sf::Keyboard::Key key) const
+{
+	KeyDynamicState dynamicState = getKeyDynamicState(key);
+	return dynamicState == KeyDynamicState::JustReleased;
+}
+
+bool InputManager::isKeyPressed(sf::Keyboard::Key key) const
+{
+	KeyDynamicState dynamicState = getKeyDynamicState(key);
+	return dynamicState == KeyDynamicState::JustPressed || dynamicState == KeyDynamicState::HeldPressed;
+}
+
+bool InputManager::isKeyReleased(sf::Keyboard::Key key) const
+{
+	KeyDynamicState dynamicState = getKeyDynamicState(key);
+	return dynamicState == KeyDynamicState::JustReleased || dynamicState == KeyDynamicState::HeldReleased;
+}
+
+KeyDynamicState InputManager::getKeyDynamicState(sf::Keyboard::Key key) const
+{
+    auto itKeyDynamicStatePair = ms_keyDynamicStateMap.find(key);
+
+    if (itKeyDynamicStatePair == ms_keyDynamicStateMap.end())
+    {
+        throw std::runtime_error(fmt::format(
+            "Key {} has not been registered to be tracked, InputManager cannot check isKeyJustPressed",
+            key
+        ));
+    }
+
+    return itKeyDynamicStatePair->second;
 }
 
 void InputManager::processInputs()
@@ -29,7 +79,7 @@ void InputManager::processInputs()
 
 KeyDynamicState InputManager::computeNewDynamicButtonState(KeyDynamicState oldDynamicState, bool isPressed)
 {
-    if (oldDynamicState == KeyDynamicState::Released)
+    if (oldDynamicState == KeyDynamicState::HeldReleased)
     {
         if (isPressed)
         {
@@ -40,14 +90,14 @@ KeyDynamicState InputManager::computeNewDynamicButtonState(KeyDynamicState oldDy
     {
         if (isPressed)
         {
-            return KeyDynamicState::Pressed;
+            return KeyDynamicState::HeldPressed;
         }
         else
         {
             return KeyDynamicState::JustReleased;
         }
     }
-    else if (oldDynamicState == KeyDynamicState::Pressed)
+    else if (oldDynamicState == KeyDynamicState::HeldPressed)
     {
         if (!isPressed)
         {
@@ -62,7 +112,7 @@ KeyDynamicState InputManager::computeNewDynamicButtonState(KeyDynamicState oldDy
         }
         else
         {
-            return KeyDynamicState::Released;
+            return KeyDynamicState::HeldReleased;
         }
     }
 

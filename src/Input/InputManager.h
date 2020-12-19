@@ -10,6 +10,8 @@
 #include "Common.h"
 #include "Input/KeyDynamicState.h"  // KeyDynamicState
 
+
+
 /// Handles game input state update and access
 /// Devices supported: Keyboard
 class InputManager
@@ -18,10 +20,28 @@ public:
     InputManager();
     ~InputManager();
 
+    /// Register a key for tracking
+    void registerKey(sf::Keyboard::Key key);
+
     /// Update
     void update();
 
+    /// Return true if the key has been pressed during this frame
+    bool isKeyJustPressed(sf::Keyboard::Key key) const;
+
+    /// Return true if the key has been released during this frame
+    bool isKeyJustReleased(sf::Keyboard::Key key) const;
+
+    /// Return true if the key is currently pressed
+    bool isKeyPressed(sf::Keyboard::Key key) const;
+
+    /// Return true if the key is currently released
+    bool isKeyReleased(sf::Keyboard::Key key) const;
+
 private:
+
+    /// Return dynamic state of a key
+    KeyDynamicState getKeyDynamicState(sf::Keyboard::Key key) const;
 
     /// Update key dynamic states based on static state this frame
     void processInputs();
