@@ -155,6 +155,9 @@ void GameApplication::unassignSpacePressedAction()
 
 void GameApplication::update(sf::Time elapsedTime)
 {
+    // update input
+    // TODO
+
     // move camera
     view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
 

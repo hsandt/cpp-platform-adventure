@@ -41,6 +41,7 @@ private:
     void incrementHealth();
 
 public:
+
     /* Static */
 
     /// Static value
@@ -58,6 +59,7 @@ public:
     u16 mp_initialHealth;
 
 private:
+
     /* State */
 
     /// Current health
