@@ -25,26 +25,27 @@ addons:
 
 jobs:
   include:
-    # For OSX, use 10.15.7 with Xcode 12.2 to have OSX clang 12.0.0
-    - os: osx
-      osx_image: xcode12.2
-      env:
-        # osx simply names "clang++" the latest clang installed with Xcode toolchain
-        - COMPILER=clang++
-        - PREMAKE_GENERATOR=gmake
-        # There are two OSX builds deployed, here is the gmake build
-        - DEPLOY=true
-        - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_gmake.app.zip
-      compiler: clang++
-    - os: osx
-      osx_image: xcode12.2
-      env:
-        - COMPILER=clang++
-        - PREMAKE_GENERATOR=xcode4
-        # There are two OSX builds deployed, here is the Xcode build
-        - DEPLOY=true
-        - DEPLOY_FILE=build/macosx_xcode4_Release/bin/Game.app.zip
-      compiler: clang++
+    # Disable OSX since we know OSX clang doesn't support <concepts>
+    # # For OSX, use 10.15.7 with Xcode 12.2 to have OSX clang 12.0.0
+    # - os: osx
+    #   osx_image: xcode12.2
+    #   env:
+    #     # osx simply names "clang++" the latest clang installed with Xcode toolchain
+    #     - COMPILER=clang++
+    #     - PREMAKE_GENERATOR=gmake
+    #     # There are two OSX builds deployed, here is the gmake build
+    #     - DEPLOY=true
+    #     - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_gmake.app.zip
+    #   compiler: clang++
+    # - os: osx
+    #   osx_image: xcode12.2
+    #   env:
+    #     - COMPILER=clang++
+    #     - PREMAKE_GENERATOR=xcode4
+    #     # There are two OSX builds deployed, here is the Xcode build
+    #     - DEPLOY=true
+    #     - DEPLOY_FILE=build/macosx_xcode4_Release/bin/Game.app.zip
+    #   compiler: clang++
     - os: linux
       env:
         - COMPILER=g++-10
