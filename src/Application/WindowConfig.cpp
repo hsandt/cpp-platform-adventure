@@ -25,7 +25,7 @@
     catch(const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer custom error message
-        throw(std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename)));
+        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename));
     }
 
     return windowConfig;

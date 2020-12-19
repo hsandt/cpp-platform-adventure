@@ -9,6 +9,7 @@
 
 #include "Application/GameApplication.h"
 #include "Entities/NonPlayerCharacter.h"
+#include "Input/InputManager.h"
 #include "Space/World.h"
 #include "Components/Transform.h"
 
@@ -23,6 +24,9 @@ PlayerCharacter::PlayerCharacter() :
     mc_shape->setFillColor(sf::Color::Red);
 
     setCanInteract(true);
+
+    // TODO: better in input or some manager
+    GameApplication::get().mc_inputManager->registerKey(sf::Keyboard::Key::Space);
 }
 
 PlayerCharacter::~PlayerCharacter()
@@ -52,6 +56,16 @@ void PlayerCharacter::update(World& world, sf::Time elapsedTime)
 
     // Detect interactable elements around character
     detectInteractable(world);
+
+    if (m_canInteract)
+    {
+        if (GameApplication::get().mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
+        {
+            interact();
+        }
+
+    }
+
 }
 
 void PlayerCharacter::render(sf::RenderWindow& window)
@@ -86,14 +100,14 @@ void PlayerCharacter::setCanInteract(bool value)
     {
         m_canInteract = value;
 
-        if (value)
-        {
-            GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
-        }
-        else
-        {
-            GameApplication::get().unassignSpacePressedAction();
-        }
+        // if (value)
+        // {
+        //     GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
+        // }
+        // else
+        // {
+        //     GameApplication::get().unassignSpacePressedAction();
+        // }
     }
 }
 

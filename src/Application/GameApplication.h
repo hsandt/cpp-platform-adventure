@@ -65,6 +65,13 @@ private:
     /// Render the world and HUD
     void render();
 
+public:
+
+    /* Components */
+
+    /// Game world
+    const Box<InputManager> mc_inputManager;
+
 private:
 
     /* Singleton */
@@ -77,9 +84,6 @@ private:
 
     /// Render window
     std::unique_ptr<sf::RenderWindow> window;
-
-    /// Game world
-    const Box<InputManager> inputManager;
 
     /// View used to draw grass
     std::unique_ptr<sf::View> view;

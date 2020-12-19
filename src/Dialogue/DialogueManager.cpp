@@ -42,6 +42,7 @@ void DialogueManager::showDialogueText(const std::string& text)
     dialogText->mp_text = text;
     ms_oDialogueTextHandle = GameApplication::get().getUIRoot()->addWidget(std::move(dialogText));
 
+    // TODO: use new InputManager
     GameApplication::get().assignSpacePressedAction(std::bind(&DialogueManager::interact, this));
 }
 
@@ -57,6 +58,10 @@ void DialogueManager::closeDialogue()
     // allow player character to interact again
     // (only one binding is allowed at a time, so we need to unassignSpacePressedAction
     // before; although in this case, the line below will overwrite the action anyway)
+    // FIXME: with the new input manager, inputs are constantly checked
+    // so character will be able to detect that Space was pressed *this frame*
+    // and reuse the Close input to Re-interact with the NPC on the same frame!
+    // Make sure to consume inputs only once
     GameApplication::get().getWorld()->getPlayerCharacter()->setCanInteract(true);
 }
 
