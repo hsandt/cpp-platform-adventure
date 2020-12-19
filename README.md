@@ -110,7 +110,9 @@ $ config=release make -j2
 
 The game executable will be created at build/bin/Release/Game.
 
-#### Xcode (OSX)
+#### Xcode (OSX, experimental)
+
+! The game is known not to currently build on OSX due to OSX's clang not supporting `<concepts>`.
 
 From the repository root:
 
@@ -123,3 +125,7 @@ $ xcodebuild -project Game.xcodeproj -target Game -configuration Release
 ```
 
 The game executable will be created at build/bin/Release/Game.
+
+## Coding conventions
+
+Class headers and sources follow [ClassTemplate.h](doc/ClassTemplate.h) and [ClassTemplate.cpp](doc/ClassTemplate.cpp) respectively.
