@@ -8,7 +8,7 @@
 /// own default-constructed value. T requires default constructor
 template<typename T>
 // we don't require std::is_default_constructible_v<T> which would
-// require any user of Box<T> to include T's header, including in a header
+// require any user of Box<T> to include T's header, even inside a header
 class Box
 {
 public:

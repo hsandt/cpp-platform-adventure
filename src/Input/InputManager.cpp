@@ -28,12 +28,16 @@ void InputManager::processEvent(sf::Event event)
 
 void InputManager::update()
 {
+    // set the input context for this frame
+    // even if the stack changes, it should not change until next frame for stability
+    ms_oCurrentInputContext = ms_inputContextStack.top();
+
     updateInputStates();
 }
 
-InputContext InputManager::getCurrentInputContext() const
+std::optional<InputContext> InputManager::getCurrentInputContext() const
 {
-    return ms_inputContextStack.top();
+    return ms_oCurrentInputContext;
 }
 
 void InputManager::pushInputContext(InputContext inputContext)

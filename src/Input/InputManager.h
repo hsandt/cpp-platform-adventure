@@ -2,6 +2,7 @@
 
 // std
 #include <map>
+#include <optional>
 #include <stack>
 
 // SFML
@@ -22,19 +23,23 @@ public:
     ~InputManager();
 
     /// Process a key event. Other event types are ignored.
+    /// This must always be called to update the key dynamic state map,
+    /// and doesn't consume the event to let other objects handle it.
     void processEvent(sf::Event event);
 
     /// Update
     void update();
 
-    /// Return InputContext on stack top
-    InputContext getCurrentInputContext() const;
+    /// Return current input context
+    std::optional<InputContext> getCurrentInputContext() const;
 
-    /// Push a new InputContext onto the stack
+    /// Push a new input context onto the stack
     void pushInputContext(InputContext inputContext);
 
-    /// Pop an InputContext from the stack top
+    /// Pop an expected input context from the stack top
     /// UB unless the stack is not empty and has the passed input context at the top
+    /// (passing the expected input context is only for confirmation, normal behavior
+    /// doesn't change)
     void popInputContext(InputContext inputContext);
 
     /// Return true if the key has been pressed during this frame
@@ -88,6 +93,16 @@ private:
     /// but it's not too expensive for few entries, and useful for debug.
     std::map<sf::Keyboard::Key, KeyDynamicState> ms_keyDynamicStateMap;
 
-    /// Stack of input contexts, the current one being at the top
+    /// Stack of input contexts. The one at the top becomes the current context
+    /// at the beginning of the next frame, but not before.
     std::stack<InputContext> ms_inputContextStack;
+
+    /// Input context to use this frame
+    /// This is important to store so that even if the input context stack is modified
+    /// during input handling, we don't change context in the middle of the frame,
+    /// possibly causing unwanted reuse of same input in different contexts during one frame.
+    /// It is only optional because there is no good default value as the enum doesn't contain None.
+    /// You should push the first input context pretty early in the game, even if just to skip
+    /// a splash screen.
+    std::optional<InputContext> ms_oCurrentInputContext;
 };
