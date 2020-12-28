@@ -57,13 +57,13 @@ void PlayerCharacter::update(World& world, sf::Time elapsedTime)
     // Detect interactable elements around character
     detectInteractable(world);
 
-    if (m_canInteract)
+    if (m_canInteract &&
+        GameApplication::get().mc_inputManager->getCurrentInputContext() == InputContext::Platforming)
     {
         if (GameApplication::get().mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
         {
             interact();
         }
-
     }
 
 }

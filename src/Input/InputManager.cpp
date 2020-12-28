@@ -27,6 +27,11 @@ void InputManager::update()
     processInputs();
 }
 
+InputContext InputManager::getCurrentInputContext() const
+{
+    return ms_inputContextStack.top();
+}
+
 void InputManager::pushInputContext(InputContext inputContext)
 {
     ms_inputContextStack.emplace(inputContext);

@@ -26,6 +26,9 @@ public:
     /// Update
     void update();
 
+    /// Return InputContext on stack top
+    InputContext getCurrentInputContext() const;
+
     /// Push a new InputContext onto the stack
     void pushInputContext(InputContext inputContext);
 

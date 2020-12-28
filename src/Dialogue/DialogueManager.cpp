@@ -30,7 +30,8 @@ DialogueManager::~DialogueManager()
 
 void DialogueManager::handleInput()
 {
-    if (ms_oDialogueBoxHandle)
+    if (ms_oDialogueBoxHandle &&
+        GameApplication::get().mc_inputManager->getCurrentInputContext() == InputContext::Dialogue)
     {
         if (GameApplication::get().mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
         {
