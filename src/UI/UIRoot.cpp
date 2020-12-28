@@ -1,5 +1,12 @@
 #include "UI/UIRoot.h"
 
+// std
+#include <stdexcept>
+
+// fmt
+#include "fmt/format.h"
+
+// Game
 #include "UI/UIWidget.h"
 
 UIRoot::UIRoot() :
@@ -33,8 +40,18 @@ std::optional<std::reference_wrapper<UIWidget>> UIRoot::getWidget(Handle widgetH
     return it != m_widgets.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
 }
 
-bool UIRoot::removeWidget(Handle widgetHandle)
+void UIRoot::removeWidget(std::optional<Handle>& oWidgetHandle)
 {
-    size_t erasedCount = m_widgets.erase(widgetHandle);
-    return erasedCount > 0;
+    size_t erasedCount = m_widgets.erase(*oWidgetHandle);
+
+    if (erasedCount == 0)
+    {
+        throw std::runtime_error(fmt::format(
+            "No widget with handle {} found in UIRoot::m_widgets, could not remove.",
+            *oWidgetHandle
+        ));
+    }
+
+    // clear handle for safety
+    oWidgetHandle.reset();
 }

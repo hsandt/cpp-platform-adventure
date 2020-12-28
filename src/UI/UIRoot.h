@@ -32,9 +32,11 @@ public:
     /// Return widget with handle, or empty unique_ptr if none matches
     std::optional<std::reference_wrapper<UIWidget>> getWidget(Handle widgetHandle) const;
 
-    /// Remove widget with handle, if one is found
-    /// Return whether the value was in the map
-    bool removeWidget(Handle widgetHandle);
+    /// Remove widget with handle and clear optional handle
+    /// This invalidates the handle, and clearing the handle passed by reference is for safety,
+    /// but if you have another copy of that handle, make sure to clear it manually afterward.
+    /// UB unless a widget with the passed handle exists.
+    void removeWidget(std::optional<Handle>& oWidgetHandle);
 
 private:
 

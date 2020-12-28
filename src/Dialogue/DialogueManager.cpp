@@ -62,10 +62,8 @@ void DialogueManager::closeDialogue()
     assert(ms_oDialogueBoxHandle);
     assert(ms_oDialogueTextHandle);
 
-    GameApplication::get().getUIRoot()->removeWidget(*ms_oDialogueBoxHandle);
-    GameApplication::get().getUIRoot()->removeWidget(*ms_oDialogueTextHandle);
-    ms_oDialogueBoxHandle.reset();
-    ms_oDialogueTextHandle.reset();
+    GameApplication::get().getUIRoot()->removeWidget(ms_oDialogueBoxHandle);
+    GameApplication::get().getUIRoot()->removeWidget(ms_oDialogueTextHandle);
 
     GameApplication::get().mc_inputManager->popInputContext(InputContext::Dialogue);
 

@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - App: Added WindowConfig, which can be set with _config/window.yml_
 - World: World class with Terrain (existing grass), PlayerCharacter (new), NonPlayerCharacter (new)
+- Input: Added InputManager to handle dynamic keyboard inputs
+- UI: Added DialogueManager to show dialogue box with Dialogue input context, closed on Space press
 - PC: Hold Left/Right keys to move
-- NPC: (WIP) Press Space to interact
+- NPC: (WIP) Press Space to interact: show dialogue box with text
 
 ## [0.0.4] - 2020-07-15
 ### Added
