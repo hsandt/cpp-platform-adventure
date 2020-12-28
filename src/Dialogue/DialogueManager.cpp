@@ -13,6 +13,7 @@
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Entities/PlayerCharacter.h"
+#include "Input/InputManager.h"
 #include "Space/World.h"
 #include "UI/UIRoot.h"
 #include "UI/UIWidgetRectangle.h"
@@ -25,6 +26,17 @@ DialogueManager::DialogueManager() :
 
 DialogueManager::~DialogueManager()
 {
+}
+
+void DialogueManager::handleInput()
+{
+    if (ms_oDialogueBoxHandle)
+    {
+        if (GameApplication::get().mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
+        {
+            closeDialogue();
+        }
+    }
 }
 
 void DialogueManager::showDialogueText(const std::string& text)
@@ -42,8 +54,7 @@ void DialogueManager::showDialogueText(const std::string& text)
     dialogText->mp_text = text;
     ms_oDialogueTextHandle = GameApplication::get().getUIRoot()->addWidget(std::move(dialogText));
 
-    // TODO: use new InputManager
-    GameApplication::get().assignSpacePressedAction(std::bind(&DialogueManager::interact, this));
+    GameApplication::get().mc_inputManager->pushInputContext(InputContext::Dialogue);
 }
 
 void DialogueManager::closeDialogue()
@@ -53,7 +64,10 @@ void DialogueManager::closeDialogue()
 
     GameApplication::get().getUIRoot()->removeWidget(*ms_oDialogueBoxHandle);
     GameApplication::get().getUIRoot()->removeWidget(*ms_oDialogueTextHandle);
-    GameApplication::get().unassignSpacePressedAction();
+    ms_oDialogueBoxHandle.reset();
+    ms_oDialogueTextHandle.reset();
+
+    GameApplication::get().mc_inputManager->popInputContext(InputContext::Dialogue);
 
     // allow player character to interact again
     // (only one binding is allowed at a time, so we need to unassignSpacePressedAction

@@ -44,5 +44,5 @@ void NonPlayerCharacter::render(sf::RenderWindow& window)
 void NonPlayerCharacter::onInteract()
 {
     std::cout << "ON INTERACT" << std::endl;
-    GameApplication::get().getDialogueManager()->showDialogueText(mp_dialogueText);
+    GameApplication::get().mc_dialogueManager->showDialogueText(mp_dialogueText);
 }

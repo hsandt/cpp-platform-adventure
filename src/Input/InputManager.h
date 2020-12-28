@@ -2,6 +2,7 @@
 
 // std
 #include <map>
+#include <stack>
 
 // SFML
 #include <SFML/Window/Keyboard.hpp>  // sf::Keyboard::Key
@@ -9,8 +10,7 @@
 // Game
 #include "Common.h"
 #include "Input/KeyDynamicState.h"  // KeyDynamicState
-
-
+#include "Input/InputContext.h"     // InputContext
 
 /// Handles game input state update and access
 /// Devices supported: Keyboard
@@ -25,6 +25,13 @@ public:
 
     /// Update
     void update();
+
+    /// Push a new InputContext onto the stack
+    void pushInputContext(InputContext inputContext);
+
+    /// Pop an InputContext from the stack top
+    /// UB unless the stack is not empty and has the passed input context at the top
+    void popInputContext(InputContext inputContext);
 
     /// Return true if the key has been pressed during this frame
     bool isKeyJustPressed(sf::Keyboard::Key key) const;
@@ -58,4 +65,7 @@ private:
     /// std::map is used as sparse array. We don't need ordering,
     /// but it's not too expensive for few entries, and useful for debug.
     std::map<sf::Keyboard::Key, KeyDynamicState> ms_keyDynamicStateMap;
+
+    /// Stack of input contexts, the current one being at the top
+    std::stack<InputContext> ms_inputContextStack;
 };

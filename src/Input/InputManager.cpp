@@ -27,6 +27,25 @@ void InputManager::update()
     processInputs();
 }
 
+void InputManager::pushInputContext(InputContext inputContext)
+{
+    ms_inputContextStack.emplace(inputContext);
+}
+
+void InputManager::popInputContext(InputContext inputContext)
+{
+    InputContext top = ms_inputContextStack.top();
+    if (top != inputContext)
+    {
+        throw std::runtime_error(fmt::format(
+            "Input context stack top is {}, cannot pop expected input context {}.",
+            top, inputContext
+        ));
+    }
+
+    ms_inputContextStack.pop();
+}
+
 bool InputManager::isKeyJustPressed(sf::Keyboard::Key key) const
 {
 	KeyDynamicState dynamicState = getKeyDynamicState(key);

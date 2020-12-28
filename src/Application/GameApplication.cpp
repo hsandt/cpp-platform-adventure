@@ -9,10 +9,10 @@
 #include <SFML/Graphics.hpp>
 
 // Game
+#include "Application/WindowConfig.h"
 #include "Dialogue/DialogueManager.h"
 #include "Input/InputManager.h"
 #include "UI/UIRoot.h"
-#include "Application/WindowConfig.h"
 #include "Space/World.h"
 
 /* static */ GameApplication* GameApplication::singletonInstance = nullptr;
@@ -83,6 +83,9 @@ void GameApplication::init()
 
     // load initial scene
     world->loadScene();
+
+    // set initial input context to Platforming
+    mc_inputManager->pushInputContext(InputContext::Platforming);
 
     // confirm initialization
     m_initialized = true;
@@ -157,11 +160,13 @@ void GameApplication::update(sf::Time elapsedTime)
     // update input
     mc_inputManager->update();
 
-    // move camera
-    view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
+    mc_dialogueManager->handleInput();
 
     // update characters
     world->update(elapsedTime);
+
+    // move camera
+    view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
 }
 
 void GameApplication::render()

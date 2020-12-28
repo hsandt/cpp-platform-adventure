@@ -14,6 +14,7 @@ public:
     ~DialogueManager();
 
 public:
+    void handleInput();
     void showDialogueText(const std::string& text);
     void closeDialogue();
 

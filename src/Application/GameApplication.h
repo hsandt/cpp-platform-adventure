@@ -50,7 +50,6 @@ public:
 
     const std::unique_ptr<World>& getWorld() const { return world; }
     const Box<UIRoot>& getUIRoot() const { return uiRoot; }
-    const Box<DialogueManager>& getDialogueManager() const { return dialogueManager; }
 
     /// Register action for Space key Pressed
     void assignSpacePressedAction(onKeyPressFunc action);
@@ -71,6 +70,9 @@ public:
 
     /// Game world
     const Box<InputManager> mc_inputManager;
+
+    /// Dialogue manager
+    const Box<DialogueManager> mc_dialogueManager;
 
 private:
 
@@ -93,9 +95,6 @@ private:
 
     /// Game UI
     const Box<UIRoot> uiRoot;
-
-    /// Dialogue manager
-    const Box<DialogueManager> dialogueManager;
 
 
     /* State */
