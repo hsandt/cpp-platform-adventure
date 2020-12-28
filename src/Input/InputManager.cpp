@@ -17,14 +17,18 @@ InputManager::~InputManager()
 {
 }
 
-void InputManager::registerKey(sf::Keyboard::Key key)
+void InputManager::processEvent(sf::Event event)
 {
-	ms_keyDynamicStateMap.emplace(key, KeyDynamicState::HeldReleased);
+    if (event.type == sf::Event::EventType::KeyPressed || event.type == sf::Event::EventType::KeyReleased)
+    {
+        // we ignore any key modifiers (on Linux, combinations are not detected anyway)
+        setKeyDynamicStateAfterEvent(event.key.code, event.type == sf::Event::EventType::KeyPressed);
+    }
 }
 
 void InputManager::update()
 {
-    processInputs();
+    updateInputStates();
 }
 
 InputContext InputManager::getCurrentInputContext() const
@@ -54,25 +58,30 @@ void InputManager::popInputContext(InputContext inputContext)
 bool InputManager::isKeyJustPressed(sf::Keyboard::Key key) const
 {
 	KeyDynamicState dynamicState = getKeyDynamicState(key);
-	return dynamicState == KeyDynamicState::JustPressed;
+
+    // if KeyPressed has been detected this frame and updateInputStates properly called,
+    // framesSinceLastStateChange should now be 1, but we also check 0 just in case
+	return dynamicState.isPressed && dynamicState.framesSinceLastStateChange <= 1;
 }
 
 bool InputManager::isKeyJustReleased(sf::Keyboard::Key key) const
 {
 	KeyDynamicState dynamicState = getKeyDynamicState(key);
-	return dynamicState == KeyDynamicState::JustReleased;
+
+    // see comment in isKeyJustPressed
+	return !dynamicState.isPressed && dynamicState.framesSinceLastStateChange <= 1;
 }
 
 bool InputManager::isKeyPressed(sf::Keyboard::Key key) const
 {
 	KeyDynamicState dynamicState = getKeyDynamicState(key);
-	return dynamicState == KeyDynamicState::JustPressed || dynamicState == KeyDynamicState::HeldPressed;
+	return dynamicState.isPressed;
 }
 
 bool InputManager::isKeyReleased(sf::Keyboard::Key key) const
 {
 	KeyDynamicState dynamicState = getKeyDynamicState(key);
-	return dynamicState == KeyDynamicState::JustReleased || dynamicState == KeyDynamicState::HeldReleased;
+	return !dynamicState.isPressed;
 }
 
 KeyDynamicState InputManager::getKeyDynamicState(sf::Keyboard::Key key) const
@@ -81,65 +90,41 @@ KeyDynamicState InputManager::getKeyDynamicState(sf::Keyboard::Key key) const
 
     if (itKeyDynamicStatePair == ms_keyDynamicStateMap.end())
     {
-        throw std::runtime_error(fmt::format(
-            "Key {} has not been registered to be tracked, InputManager cannot check isKeyJustPressed",
-            key
-        ));
+        // no entry found for this key, return default state (released for a long time)
+        // we do not cache this default in the state map to avoid either dropping this method's
+        // const or marking the map as mutable
+        return defaultKeyDynamicState;
     }
 
     return itKeyDynamicStatePair->second;
 }
 
-void InputManager::processInputs()
+void InputManager::setKeyDynamicStateAfterEvent(sf::Keyboard::Key keyCode, bool isEventKeyPressed)
 {
-    // SFML only provides a function to get the static state of a key (pressed or released).
-    // In order to track the dynamic state of keys (released, just pressed, pressed, just released),
-    // we need to monitor the evolution of their static states.
-    for (auto& [key, dynamicState] : ms_keyDynamicStateMap)
-    {
-        dynamicState = computeNewDynamicButtonState(dynamicState, sf::Keyboard::isKeyPressed(key));
-    }
+    KeyDynamicState dynamicState = {
+        .isPressed = isEventKeyPressed,
+        // we start at 0 to remember we haven't processed this key in updateInputStates yet,
+        // it will soon become 1 during this frame
+        .framesSinceLastStateChange = 0
+    };
+
+    ms_keyDynamicStateMap[keyCode] = dynamicState;
 }
 
-KeyDynamicState InputManager::computeNewDynamicButtonState(KeyDynamicState oldDynamicState, bool isPressed)
+void InputManager::updateInputStates()
 {
-    if (oldDynamicState == KeyDynamicState::HeldReleased)
+    // setKeyDynamicStateAfterEvent already takes care of switching key state
+    // so this method only increments frames since last state change (effectively moving
+    // from a "just pressed/released" state to a "held pressed/released" state)
+    for (auto& [key, dynamicState] : ms_keyDynamicStateMap)
     {
-        if (isPressed)
+        // overflow check
+        if (dynamicState.framesSinceLastStateChange < 255)
         {
-            return KeyDynamicState::JustPressed;
+            // increment frames count since press/release
+            // if we have just detected a KeyPressed/KeyReleased event then the count
+            // will become 1, which is still considered as "just pressed/released"
+            ++dynamicState.framesSinceLastStateChange;
         }
     }
-    else if (oldDynamicState == KeyDynamicState::JustPressed)
-    {
-        if (isPressed)
-        {
-            return KeyDynamicState::HeldPressed;
-        }
-        else
-        {
-            return KeyDynamicState::JustReleased;
-        }
-    }
-    else if (oldDynamicState == KeyDynamicState::HeldPressed)
-    {
-        if (!isPressed)
-        {
-            return KeyDynamicState::JustReleased;
-        }
-    }
-    else  // (oldDynamicState == KeyDynamicState::JustReleased)
-    {
-        if (isPressed)
-        {
-            return KeyDynamicState::JustPressed;
-        }
-        else
-        {
-            return KeyDynamicState::HeldReleased;
-        }
-    }
-
-    // no change detected
-    return oldDynamicState;
 }

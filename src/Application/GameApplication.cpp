@@ -115,22 +115,15 @@ void GameApplication::run()
         sf::Event event;
         while (window->pollEvent(event))
         {
-            if (event.type == sf::Event::Closed ||
-                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            if (event.type == sf::Event::EventType::Closed ||
+                (event.type == sf::Event::EventType::KeyPressed && event.key.code == sf::Keyboard::Key::Escape))
             {
                 shouldRun = false;
                 break;
             }
-            else if (event.type == sf::Event::KeyPressed)
+            else
             {
-                if (event.key.code == sf::Keyboard::Space)
-                {
-                    // apply action callback if any
-                    if (m_OnSpacePressAction)
-                    {
-                        m_OnSpacePressAction();
-                    }
-                }
+                mc_inputManager->processEvent(event);
             }
         }
 
@@ -142,17 +135,6 @@ void GameApplication::run()
     }
 
     window->close();
-}
-
-void GameApplication::assignSpacePressedAction(std::function<void()> action)
-{
-    // overwrite any previous action
-    m_OnSpacePressAction = action;
-}
-
-void GameApplication::unassignSpacePressedAction()
-{
-    m_OnSpacePressAction = nullptr;
 }
 
 void GameApplication::update(sf::Time elapsedTime)

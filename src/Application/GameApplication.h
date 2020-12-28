@@ -1,7 +1,6 @@
 #pragma once
 
 // std
-#include <functional>
 #include <memory>
 
 // SFML
@@ -21,8 +20,6 @@ class DialogueManager;
 class InputManager;
 class UIRoot;
 class World;
-
-using onKeyPressFunc = std::function<void()>;
 
 /// Game Application. Handles game loop.
 class GameApplication
@@ -50,12 +47,6 @@ public:
 
     const std::unique_ptr<World>& getWorld() const { return world; }
     const Box<UIRoot>& getUIRoot() const { return uiRoot; }
-
-    /// Register action for Space key Pressed
-    void assignSpacePressedAction(onKeyPressFunc action);
-
-    /// Unregister action for Space key Pressed
-    void unassignSpacePressedAction();
 
 private:
     /// Update the view and world
@@ -105,7 +96,4 @@ private:
 
     /// Time elapsed since application start
     sf::Time m_time;
-
-    /// Callback associated to the Space key Press event
-    onKeyPressFunc m_OnSpacePressAction;
 };

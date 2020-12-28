@@ -24,9 +24,6 @@ PlayerCharacter::PlayerCharacter() :
     mc_shape->setFillColor(sf::Color::Red);
 
     setCanInteract(true);
-
-    // TODO: better in input or some manager
-    GameApplication::get().mc_inputManager->registerKey(sf::Keyboard::Key::Space);
 }
 
 PlayerCharacter::~PlayerCharacter()
