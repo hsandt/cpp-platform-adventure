@@ -8,10 +8,11 @@
 #include <SFML/Window.hpp>
 
 #include "Application/GameApplication.h"
+#include "Components/Transform.h"
+#include "Entities/IInteractable.h"
 #include "Entities/NonPlayerCharacter.h"
 #include "Input/InputManager.h"
 #include "Space/World.h"
-#include "Components/Transform.h"
 
 PlayerCharacter::PlayerCharacter() :
     mc_transform(std::make_unique<Transform>()),
@@ -96,15 +97,6 @@ void PlayerCharacter::setCanInteract(bool value)
     if (m_canInteract != value)
     {
         m_canInteract = value;
-
-        // if (value)
-        // {
-        //     GameApplication::get().assignSpacePressedAction(std::bind(&PlayerCharacter::interact, this));
-        // }
-        // else
-        // {
-        //     GameApplication::get().unassignSpacePressedAction();
-        // }
     }
 }
 
@@ -114,14 +106,14 @@ void PlayerCharacter::interact()
     {
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
-        if (std::shared_ptr<NonPlayerCharacter> npc = m_detectedInteractable.lock())
+        if (std::shared_ptr<IInteractable> interactable = m_detectedInteractable.lock())
         {
             // prevent further interaction, including input binding
             setCanInteract(false);
 
             m_activeInteractable = m_detectedInteractable;
             m_detectedInteractable.reset();
-            npc->onInteract();
+            interactable->onInteract();
         }
     }
 }

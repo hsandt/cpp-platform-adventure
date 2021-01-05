@@ -14,6 +14,8 @@ class NonPlayerCharacter;
 class World;
 struct Transform;
 
+struct IInteractable;
+
 class PlayerCharacter
 {
 public:
@@ -48,9 +50,9 @@ private:
     /// Can the character interact now?
     bool m_canInteract;
 
-    /// Interactable NPC currently detected nearby (cleared on interaction start)
-    std::weak_ptr<NonPlayerCharacter> m_detectedInteractable;
+    /// Interactable currently detected nearby (cleared on interaction start)
+    std::weak_ptr<IInteractable> m_detectedInteractable;
 
-    /// NPC currently interacted with (useful during interaction since m_detectedInteractable is cleared)
-    std::weak_ptr<NonPlayerCharacter> m_activeInteractable;
+    /// Interactable currently interacted with (useful during interaction since m_detectedInteractable is cleared)
+    std::weak_ptr<IInteractable> m_activeInteractable;
 };

@@ -1,9 +1,14 @@
 #pragma once
 
+// std
 #include <memory>
 
+// SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
+
+// Game
+#include "Entities/IInteractable.h"
 
 namespace sf
 {
@@ -14,7 +19,7 @@ namespace sf
 class World;
 struct Transform;
 
-class NonPlayerCharacter
+class NonPlayerCharacter : public IInteractable
 {
 public:
     NonPlayerCharacter();
@@ -25,7 +30,7 @@ public:
     void render(sf::RenderWindow& window);
 
     /// Callback for interaction
-    void onInteract();
+    virtual void onInteract() override;
 
 public:
 

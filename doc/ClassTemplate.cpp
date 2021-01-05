@@ -27,11 +27,6 @@ ClassTemplate::~ClassTemplate()
 {
 }
 
-void ClassTemplate::update(World& world, sf::Time elapsedTime)
-{
-    world.update(elapsedTime);
-}
-
 void ClassTemplate::render(sf::RenderWindow& window)
 {
 }
@@ -39,4 +34,18 @@ void ClassTemplate::render(sf::RenderWindow& window)
 void ClassTemplate::incrementHealth()
 {
     ++ms_initialHealth;
+}
+
+ChildTemplate::ChildTemplate() :
+    ClassTemplate()
+{
+}
+
+ChildTemplate::~ChildTemplate()
+{
+}
+
+void ChildTemplate::update(World& world, sf::Time elapsedTime) /* override */
+{
+    world.update(elapsedTime);
 }

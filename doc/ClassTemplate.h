@@ -30,10 +30,10 @@ public:
     ~ClassTemplate();
 
     /// Update
-    void update(World& world, sf::Time elapsedTime);
+    virtual void update(World& world, sf::Time elapsedTime) = 0;
 
     /// Render
-    void render(sf::RenderWindow& window);
+    virtual void render(sf::RenderWindow& window);
 
 private:
 
@@ -64,4 +64,13 @@ private:
 
     /// Current health
     u16 ms_initialHealth;
+};
+
+class ChildClass : public ClassTemplate
+{
+    ChildClass();
+    ~ChildClass();
+
+    /// Update
+    virtual void update(World& world, sf::Time elapsedTime) override;
 };
