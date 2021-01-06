@@ -51,8 +51,8 @@ private:
     bool m_canInteract;
 
     /// Interactable currently detected nearby (cleared on interaction start)
-    std::weak_ptr<IInteractable> m_detectedInteractable;
+    std::weak_ptr<IInteractable> ms_detectedInteractable;
 
-    /// Interactable currently interacted with (useful during interaction since m_detectedInteractable is cleared)
-    std::weak_ptr<IInteractable> m_activeInteractable;
+    /// Interactable currently interacted with (useful during interaction since ms_detectedInteractable is cleared)
+    std::weak_ptr<IInteractable> ms_activeInteractable;
 };

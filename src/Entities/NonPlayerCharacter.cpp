@@ -4,7 +4,7 @@
 #include <iostream>
 
 // SFML
-#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 // Game
 #include "Common.h"
@@ -12,10 +12,7 @@
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
 
-NonPlayerCharacter::NonPlayerCharacter() :
-    mc_transform(std::make_unique<Transform>()),
-    mc_shape(std::make_unique<sf::RectangleShape>()),
-    mp_dialogueText()
+NonPlayerCharacter::NonPlayerCharacter()
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);
@@ -43,6 +40,5 @@ void NonPlayerCharacter::render(sf::RenderWindow& window)
 
 void NonPlayerCharacter::onInteract() /* override */
 {
-    std::cout << "ON INTERACT" << std::endl;
     GameApplication::get().mc_dialogueManager->showDialogueText(mp_dialogueText);
 }

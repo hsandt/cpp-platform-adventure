@@ -11,6 +11,7 @@
 #include "Components/Transform.h"
 #include "Entities/IInteractable.h"
 #include "Entities/NonPlayerCharacter.h"
+#include "Entities/PickUpItem.h"
 #include "Input/InputManager.h"
 #include "Space/World.h"
 
@@ -76,10 +77,9 @@ void PlayerCharacter::render(sf::RenderWindow& window)
 
 void PlayerCharacter::detectInteractable(World& world)
 {
-    m_detectedInteractable.reset();
+    ms_detectedInteractable.reset();
 
-    std::shared_ptr<NonPlayerCharacter>& npc = world.getNonPlayerCharacter();
-    if (npc)
+    if (std::shared_ptr<NonPlayerCharacter>& npc = world.getNonPlayerCharacter())
     {
         // check if NPC center position is inside square centered
         // on player character with half-size (50, 50)
@@ -87,7 +87,21 @@ void PlayerCharacter::detectInteractable(World& world)
         const float maxInteractDistance = 50.f;
         if (fabs(vectorToNpc.x) < maxInteractDistance && fabs(vectorToNpc.y) < maxInteractDistance)
         {
-            m_detectedInteractable = npc;
+            ms_detectedInteractable = npc;
+        }
+    }
+
+    // std::map<Handle, Box<PickUpItem>>& pickUpItems = world.getPickUpItems();
+    std::map<Handle, std::shared_ptr<PickUpItem>>& pickUpItems = world.getPickUpItems();
+    for (const auto &[handle, item] : pickUpItems)
+    {
+        // check if item center position is inside square centered
+        // on player character with half-size (50, 50)
+        sf::Vector2f vectorToItem = item->mc_transform->position - mc_transform->position;
+        const float maxInteractDistance = 50.f;
+        if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
+        {
+            ms_detectedInteractable = item;
         }
     }
 }
@@ -106,13 +120,13 @@ void PlayerCharacter::interact()
     {
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
-        if (std::shared_ptr<IInteractable> interactable = m_detectedInteractable.lock())
+        if (std::shared_ptr<IInteractable> interactable = ms_detectedInteractable.lock())
         {
             // prevent further interaction, including input binding
             setCanInteract(false);
 
-            m_activeInteractable = m_detectedInteractable;
-            m_detectedInteractable.reset();
+            ms_activeInteractable = ms_detectedInteractable;
+            ms_detectedInteractable.reset();
             interactable->onInteract();
         }
     }

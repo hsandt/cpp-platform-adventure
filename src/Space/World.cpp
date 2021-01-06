@@ -5,6 +5,7 @@
 
 #include "Space/Terrain.h"
 #include "Entities/NonPlayerCharacter.h"
+#include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
 #include "Components/Transform.h"
 
@@ -29,6 +30,16 @@ void World::loadScene()
     nonPlayerCharacter = std::make_shared<NonPlayerCharacter>();
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
     nonPlayerCharacter->mp_dialogueText = "Hello!";
+
+
+    // const auto& [it, success] = ms_pickUpItems.emplace(0, Box<PickUpItem>());
+    const auto& [it, success] = ms_pickUpItems.emplace(0, std::make_shared<PickUpItem>());
+    if (success)
+    {
+        const auto& [handle, item] = *it;
+        item->mc_transform->position = sf::Vector2(500.f, 400.f);
+        item->mp_pickUpText = "Player picks item!";
+    }
 }
 
 void World::update(sf::Time elapsedTime)
@@ -46,4 +57,10 @@ void World::render(sf::RenderWindow& window)
     // show characters
     playerCharacter->render(window);
     nonPlayerCharacter->render(window);
+
+    // show items
+    for (const auto &[handle, item] : ms_pickUpItems)
+    {
+        item->render(window);
+    }
 }

@@ -1,30 +1,29 @@
 #pragma once
 
-// SFML
-#include <SFML/System/Time.hpp>
-
 // Game
 #include "Common.h"
 #include "Entities/IInteractable.h"
 #include "Memory/Box.hpp"
 
+// SFML
 namespace sf
 {
     class RectangleShape;
     class RenderWindow;
 }
 
-class World;
+// Game
 struct Transform;
 
-class NonPlayerCharacter : public IInteractable
+/// PickUpItem description
+class PickUpItem : public IInteractable
 {
 public:
-    NonPlayerCharacter();
-    ~NonPlayerCharacter();
+    PickUpItem();
+    ~PickUpItem();
 
-    void update(World& world, sf::Time elapsedTime);
-    void render(sf::RenderWindow& window);
+    /// Render
+    virtual void render(sf::RenderWindow& window);
 
     /// Callback for interaction
     virtual void onInteract() override;
@@ -38,6 +37,6 @@ public:
 
     /* Parameters */
 
-    /// Dialogue text. Must be set manually after construction.
-    std::string mp_dialogueText;
+    /// Text displayed when picking this item. Must be set manually after construction.
+    std::string mp_pickUpText;
 };

@@ -1,8 +1,15 @@
 #pragma once
 
+// std
+#include <map>
 #include <memory>
 
+// SFML
 #include <SFML/System/Time.hpp>
+
+// Game
+#include "Common.h"
+#include "Memory/Box.hpp"
 
 namespace sf
 {
@@ -10,6 +17,7 @@ namespace sf
 }
 
 class NonPlayerCharacter;
+class PickUpItem;
 class PlayerCharacter;
 class Terrain;
 
@@ -40,6 +48,17 @@ public:
         return playerCharacter;
     }
 
+    // we don't have Smart Handles to replace weak_ptr yet
+    // and we are already storing ms_detectedInteractable and ms_activeInteractable
+    // as std::weak_ptr<IInteractable> on character side anyway, so for now
+    // we use shared_ptr instead of Box so we can convert to weak_ptr easily in
+    // PlayerCharacter::detectInteractable
+    // std::map<Handle, Box<PickUpItem>>& getPickUpItems()
+    std::map<Handle, std::shared_ptr<PickUpItem>>& getPickUpItems()
+    {
+        return ms_pickUpItems;
+    }
+
 private:
 
     /* Components */
@@ -47,4 +66,8 @@ private:
     const std::unique_ptr<Terrain> terrain;
     std::unique_ptr<PlayerCharacter> playerCharacter;
     std::shared_ptr<NonPlayerCharacter> nonPlayerCharacter;
+
+    /// Map of owned pick up items, identified by handle
+    // std::map<Handle, Box<PickUpItem>> ms_pickUpItems;
+    std::map<Handle, std::shared_ptr<PickUpItem>> ms_pickUpItems;
 };
