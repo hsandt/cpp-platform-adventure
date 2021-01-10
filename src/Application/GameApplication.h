@@ -1,8 +1,5 @@
 #pragma once
 
-// std
-#include <memory>
-
 // SFML
 #include <SFML/System/Time.hpp>
 
@@ -39,8 +36,8 @@ public:
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
-    const Box<World>& getWorld() const { return world; }
-    const Box<UIRoot>& getUIRoot() const { return uiRoot; }
+    const Box<World>& getWorld() const { return mc_world; }
+    const Box<UIRoot>& getUIRoot() const { return mc_uiRoot; }
 
 private:
     /// Update the view and world
@@ -64,16 +61,16 @@ private:
     /* Components */
 
     /// Render window
-    Box<sf::RenderWindow> window;
+    Box<sf::RenderWindow> mc_window;
 
     /// View used to draw grass
-    Box<sf::View> view;
+    Box<sf::View> mc_view;
 
     /// Game world
-    Box<World> world;
+    Box<World> mc_world;
 
     /// Game UI
-    const Box<UIRoot> uiRoot;
+    const Box<UIRoot> mc_uiRoot;
 
 
     /* State */

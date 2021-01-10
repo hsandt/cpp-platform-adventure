@@ -17,7 +17,7 @@
 
 GameApplication::GameApplication() :
     mc_dialogueManager(*this),
-    world(*this),
+    mc_world(*this),
     m_initialized(false),
     m_time()
 {
@@ -36,18 +36,18 @@ void GameApplication::init()
     settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
     // set window size (windowed, no resize)
-    window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
+    mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
 
     // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
     // doing this disables vsync
-    window->setFramerateLimit(windowConfig.framerateLimit);
+    mc_window->setFramerateLimit(windowConfig.framerateLimit);
 
     // create camera view
-    view->setCenter(sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f));
-    view->setSize(sf::Vector2f(1280.f, 720.f));
+    mc_view->setCenter(sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f));
+    mc_view->setSize(sf::Vector2f(1280.f, 720.f));
 
     // load initial scene
-    world->loadScene();
+    mc_world->loadScene();
 
     // set initial input context to Platforming
     mc_inputManager->pushInputContext(InputContext::Platforming);
@@ -78,7 +78,7 @@ void GameApplication::run()
 
         // Event handling
         sf::Event event;
-        while (window->pollEvent(event))
+        while (mc_window->pollEvent(event))
         {
             if (event.type == sf::Event::EventType::Closed ||
                 (event.type == sf::Event::EventType::KeyPressed && event.key.code == sf::Keyboard::Key::Escape))
@@ -99,7 +99,7 @@ void GameApplication::run()
         }
     }
 
-    window->close();
+    mc_window->close();
 }
 
 void GameApplication::update(sf::Time elapsedTime)
@@ -110,29 +110,29 @@ void GameApplication::update(sf::Time elapsedTime)
     mc_dialogueManager->handleInput();
 
     // update characters
-    world->update(elapsedTime);
+    mc_world->update(elapsedTime);
 
     // move camera
-    view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
+    mc_view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
 }
 
 void GameApplication::render()
 {
     // clear sky
-    window->clear(sf::Color::Cyan);
+    mc_window->clear(sf::Color::Cyan);
 
     // set view from moving camera
-    window->setView(*view);
+    mc_window->setView(*mc_view);
 
     // render world
-    world->render(*window);
+    mc_world->render(*mc_window);
 
     // set view back to default view so UI has fixed position on screen
-    window->setView(window->getDefaultView());
+    mc_window->setView(mc_window->getDefaultView());
 
     // render UI
-    uiRoot->render(*window);
+    mc_uiRoot->render(*mc_window);
 
     // flip
-    window->display();
+    mc_window->display();
 }
