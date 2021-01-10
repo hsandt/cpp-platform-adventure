@@ -34,7 +34,7 @@ void World::loadScene()
 
 
     // const auto& [it, success] = ms_pickUpItems.emplace(0, Box<PickUpItem>());
-    const auto& [it, success] = ms_pickUpItems.emplace(0, std::make_shared<PickUpItem>());
+    const auto& [it, success] = ms_pickUpItems.emplace(0, std::make_shared<PickUpItem>(mo_gameApp));
     if (success)
     {
         const auto& [handle, item] = *it;

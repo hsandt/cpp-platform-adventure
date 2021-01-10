@@ -14,7 +14,8 @@
 #include "Dialogue/DialogueManager.h"
 #include "Space/World.h"
 
-PickUpItem::PickUpItem()
+PickUpItem::PickUpItem(GameApplication& gameApp) :
+    ApplicationObject(gameApp)
 {
     // item rectangle
     mc_shape->setPosition(0.f, 0.f);
@@ -36,5 +37,5 @@ void PickUpItem::render(sf::RenderWindow& window)
 
 void PickUpItem::onInteract() /* override */
 {
-    GameApplication::get().mc_dialogueManager->showDialogueText(mp_pickUpText);
+    mo_gameApp.mc_dialogueManager->showDialogueText(mp_pickUpText);
 }

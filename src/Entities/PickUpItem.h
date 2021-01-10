@@ -2,6 +2,7 @@
 
 // Game
 #include "Common.h"
+#include "Application/ApplicationObject.h"
 #include "Entities/IInteractable.h"
 #include "Memory/Box.hpp"
 
@@ -16,10 +17,10 @@ namespace sf
 struct Transform;
 
 /// PickUpItem description
-class PickUpItem : public IInteractable
+class PickUpItem : protected ApplicationObject, public IInteractable
 {
 public:
-    PickUpItem();
+    PickUpItem(GameApplication& gameApp);
     virtual ~PickUpItem();
 
     /// Render

@@ -19,7 +19,8 @@
 #include "UI/UIWidgetRectangle.h"
 #include "UI/UIWidgetText.h"
 
-DialogueManager::DialogueManager() :
+DialogueManager::DialogueManager(GameApplication& gameApp) :
+    ApplicationObject(gameApp),
     ms_oDialogueBoxHandle()
 {
 }
@@ -31,9 +32,9 @@ DialogueManager::~DialogueManager()
 void DialogueManager::handleInput()
 {
     if (ms_oDialogueBoxHandle &&
-        GameApplication::get().mc_inputManager->getCurrentInputContext() == InputContext::Dialogue)
+        mo_gameApp.mc_inputManager->getCurrentInputContext() == InputContext::Dialogue)
     {
-        if (GameApplication::get().mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
+        if (mo_gameApp.mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
         {
             closeDialogue();
         }
@@ -48,14 +49,14 @@ void DialogueManager::showDialogueText(const std::string& text)
     // dialogBox->mc_shape->setOrigin(sf::Vector2f(350.f, 50.f));
     dialogBox->mc_shape->setSize(sf::Vector2f(700.f, 100.f));
     dialogBox->mc_shape->setFillColor(sf::Color::Blue);
-    ms_oDialogueBoxHandle = GameApplication::get().getUIRoot()->addWidget(std::move(dialogBox));
+    ms_oDialogueBoxHandle = mo_gameApp.getUIRoot()->addWidget(std::move(dialogBox));
 
     auto dialogText = std::make_unique<UIWidgetText>();
     dialogText->mc_transform->position = sf::Vector2f(150.f, 520.f);
     dialogText->mp_text = text;
-    ms_oDialogueTextHandle = GameApplication::get().getUIRoot()->addWidget(std::move(dialogText));
+    ms_oDialogueTextHandle = mo_gameApp.getUIRoot()->addWidget(std::move(dialogText));
 
-    GameApplication::get().mc_inputManager->pushInputContext(InputContext::Dialogue);
+    mo_gameApp.mc_inputManager->pushInputContext(InputContext::Dialogue);
 }
 
 void DialogueManager::closeDialogue()
@@ -63,10 +64,10 @@ void DialogueManager::closeDialogue()
     assert(ms_oDialogueBoxHandle);
     assert(ms_oDialogueTextHandle);
 
-    GameApplication::get().getUIRoot()->removeWidget(ms_oDialogueBoxHandle);
-    GameApplication::get().getUIRoot()->removeWidget(ms_oDialogueTextHandle);
+    mo_gameApp.getUIRoot()->removeWidget(ms_oDialogueBoxHandle);
+    mo_gameApp.getUIRoot()->removeWidget(ms_oDialogueTextHandle);
 
-    GameApplication::get().mc_inputManager->popInputContext(InputContext::Dialogue);
+    mo_gameApp.mc_inputManager->popInputContext(InputContext::Dialogue);
 
     // allow player character to interact again
     // (only one binding is allowed at a time, so we need to unassignSpacePressedAction
@@ -75,7 +76,7 @@ void DialogueManager::closeDialogue()
     // so character will be able to detect that Space was pressed *this frame*
     // and reuse the Close input to Re-interact with the NPC on the same frame!
     // Make sure to consume inputs only once
-    GameApplication::get().getWorld()->getPlayerCharacter()->setCanInteract(true);
+    mo_gameApp.getWorld()->getPlayerCharacter()->setCanInteract(true);
 }
 
 void DialogueManager::interact()

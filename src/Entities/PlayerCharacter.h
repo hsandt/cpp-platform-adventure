@@ -23,7 +23,7 @@ struct Transform;
 
 struct IInteractable;
 
-class PlayerCharacter : ApplicationObject
+class PlayerCharacter : protected ApplicationObject
 {
 public:
     PlayerCharacter(GameApplication& gameApp);

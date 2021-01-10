@@ -6,11 +6,12 @@
 
 // Game
 #include "Common.h"
+#include "Application/ApplicationObject.h"
 
-class DialogueManager
+class DialogueManager : protected ApplicationObject
 {
 public:
-    DialogueManager();
+    DialogueManager(GameApplication& gameApp);
     ~DialogueManager();
 
 public:

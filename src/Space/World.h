@@ -22,7 +22,7 @@ class PickUpItem;
 class PlayerCharacter;
 class Terrain;
 
-class World : ApplicationObject
+class World : protected ApplicationObject
 {
 public:
     World(GameApplication& gameApp);

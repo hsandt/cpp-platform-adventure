@@ -18,7 +18,7 @@ namespace sf
 class World;
 struct Transform;
 
-class NonPlayerCharacter : public ApplicationObject, public IInteractable
+class NonPlayerCharacter : protected ApplicationObject, public IInteractable
 {
 public:
     NonPlayerCharacter(GameApplication& gameApp);
