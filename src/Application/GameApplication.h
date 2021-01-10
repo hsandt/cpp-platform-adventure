@@ -33,12 +33,6 @@ public:
 
 public:
 
-    /// Return reference to singleton instance
-    /// UB unless a GameApplication has been constructed
-    /// which should always be the case unless calling during
-    /// GameApplication construction or destruction itself
-    static GameApplication& get();
-
     /// Initialize game application.
     void init();
 
@@ -66,12 +60,6 @@ public:
     const Box<DialogueManager> mc_dialogueManager;
 
 private:
-
-    /* Singleton */
-
-    /// Singleton instance
-    static GameApplication* singletonInstance;
-
 
     /* Components */
 

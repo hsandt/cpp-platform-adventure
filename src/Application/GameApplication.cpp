@@ -15,43 +15,15 @@
 #include "UI/UIRoot.h"
 #include "Space/World.h"
 
-/* static */ GameApplication* GameApplication::singletonInstance = nullptr;
-
 GameApplication::GameApplication() :
+    mc_dialogueManager(*this),
     m_initialized(false),
     m_time()
 {
-    // initialize as little as you can before setting singleton instance
-    // to avoid risk of other objects trying to access this instance too early
-    if (singletonInstance == nullptr)
-    {
-        singletonInstance = this;
-    }
-    else
-    {
-        throw std::runtime_error("GameApplication singleton instance already registered, cannot register further constructed instances");
-    }
 }
 
 GameApplication::~GameApplication()
 {
-    // members will be destroyed automatically *after* this implementation
-    // some of the world objects will unregister from GameApplication::get()
-    // (which throws if singletonInstance is nullptr) in their own destructor,
-    // so to be safe, clear the world now
-    world.reset();
-
-    singletonInstance = nullptr;
-}
-
-/* static */ GameApplication& GameApplication::get()
-{
-    if (singletonInstance == nullptr)
-    {
-        throw std::runtime_error("GameApplication singletonInstance not set, cannot get()");
-    }
-
-    return *singletonInstance;
 }
 
 void GameApplication::init()
