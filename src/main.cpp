@@ -1,6 +1,7 @@
+// Game
 #include "Application/GameApplication.h"
 
-int main(int argc, char const *argv[])
+int main(int argc, const char* argv[])
 {
     GameApplication gameApp;
     gameApp.init();

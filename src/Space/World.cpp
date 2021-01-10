@@ -9,7 +9,8 @@
 #include "Entities/PlayerCharacter.h"
 #include "Components/Transform.h"
 
-World::World() :
+World::World(GameApplication& gameApp) :
+    ApplicationObject(gameApp),
     terrain(std::make_unique<Terrain>())
 {
 }
@@ -24,7 +25,7 @@ void World::loadScene()
 {
     // for now, we load a unique, hard-coded scene
 
-    playerCharacter = std::make_unique<PlayerCharacter>();
+    playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp);
     playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
 
     nonPlayerCharacter = std::make_shared<NonPlayerCharacter>();

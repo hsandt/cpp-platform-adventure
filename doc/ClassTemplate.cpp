@@ -18,7 +18,8 @@
     return s_staticValue;
 }
 
-ClassTemplate::ClassTemplate() :
+ClassTemplate::ClassTemplate(OwnerClass& owner) :
+    mo_owner(owner)
     mp_initialHealth(100)
 {
 }

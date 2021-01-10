@@ -15,7 +15,8 @@
 #include "Input/InputManager.h"
 #include "Space/World.h"
 
-PlayerCharacter::PlayerCharacter() :
+PlayerCharacter::PlayerCharacter(GameApplication& gameApp) :
+    ApplicationObject(gameApp),
     mc_transform(std::make_unique<Transform>()),
     mc_shape(std::make_unique<sf::RectangleShape>()),
     m_canInteract(false)  // so setCanInteract works

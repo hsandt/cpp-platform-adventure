@@ -79,7 +79,7 @@ void GameApplication::init()
     );
 
     // create world
-    world = std::make_unique<World>();
+    world = std::make_unique<World>(*this);
 
     // load initial scene
     world->loadScene();

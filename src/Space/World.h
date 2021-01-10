@@ -9,6 +9,7 @@
 
 // Game
 #include "Common.h"
+#include "Application/ApplicationObject.h"
 #include "Memory/Box.hpp"
 
 namespace sf
@@ -21,10 +22,10 @@ class PickUpItem;
 class PlayerCharacter;
 class Terrain;
 
-class World
+class World : ApplicationObject
 {
 public:
-    World();
+    World(GameApplication& gameApp);
     ~World();
 
 public:

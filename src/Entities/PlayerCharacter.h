@@ -1,25 +1,32 @@
 #pragma once
 
+// std
 #include <memory>
 
+// SFML
 #include <SFML/System/Time.hpp>
 
+// Game
+#include "Application/ApplicationObject.h"
+
+// SFML
 namespace sf
 {
     class RectangleShape;
     class RenderWindow;
 }
 
+// Game
 class NonPlayerCharacter;
 class World;
 struct Transform;
 
 struct IInteractable;
 
-class PlayerCharacter
+class PlayerCharacter : ApplicationObject
 {
 public:
-    PlayerCharacter();
+    PlayerCharacter(GameApplication& gameApp);
     ~PlayerCharacter();
 
 public:

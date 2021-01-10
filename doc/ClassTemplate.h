@@ -1,7 +1,7 @@
 #pragma once
 
 // std
-#include <memory>
+#include <Memory/Box.hpp>
 
 // SFML
 #include <SFML/System/Time.hpp>
@@ -16,6 +16,7 @@ namespace sf
 }
 
 // Game
+class OwnerClass;
 struct Transform;
 class World;
 
@@ -26,7 +27,7 @@ public:
     /// Return the static value
     static int getStaticValue();
 
-    ClassTemplate();
+    ClassTemplate(OwnerClass&);
     ~ClassTemplate();
 
     /// Update
@@ -50,7 +51,7 @@ public:
 
     /* Components */
 
-    const std::unique_ptr<Transform> mc_transform;
+    const Box<Transform> mc_transform;
 
 
     /* Parameters */
@@ -58,7 +59,15 @@ public:
     /// Initial health
     u16 mp_initialHealth;
 
-private:
+protected:
+
+    /* (In)direct owners */
+
+    /// Direct or indirect owner is guaranteed to live as long as this object,
+    /// and when it dies, this object will die
+    OwnerClass& mo_owner;
+
+public:
 
     /* State */
 
