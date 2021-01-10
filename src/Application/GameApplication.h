@@ -39,7 +39,7 @@ public:
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
-    const std::unique_ptr<World>& getWorld() const { return world; }
+    const Box<World>& getWorld() const { return world; }
     const Box<UIRoot>& getUIRoot() const { return uiRoot; }
 
 private:
@@ -64,13 +64,13 @@ private:
     /* Components */
 
     /// Render window
-    std::unique_ptr<sf::RenderWindow> window;
+    Box<sf::RenderWindow> window;
 
     /// View used to draw grass
-    std::unique_ptr<sf::View> view;
+    Box<sf::View> view;
 
     /// Game world
-    std::unique_ptr<World> world;
+    Box<World> world;
 
     /// Game UI
     const Box<UIRoot> uiRoot;

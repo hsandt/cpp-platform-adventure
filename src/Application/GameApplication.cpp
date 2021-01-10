@@ -17,6 +17,7 @@
 
 GameApplication::GameApplication() :
     mc_dialogueManager(*this),
+    world(*this),
     m_initialized(false),
     m_time()
 {
@@ -34,9 +35,6 @@ void GameApplication::init()
     sf::ContextSettings settings;
     settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
-    // create window
-    window = std::make_unique<sf::RenderWindow>();
-
     // set window size (windowed, no resize)
     window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
 
@@ -45,13 +43,8 @@ void GameApplication::init()
     window->setFramerateLimit(windowConfig.framerateLimit);
 
     // create camera view
-    view = std::make_unique<sf::View>(
-        sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f),
-        sf::Vector2f(1280.f, 720.f)
-    );
-
-    // create world
-    world = std::make_unique<World>(*this);
+    view->setCenter(sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f));
+    view->setSize(sf::Vector2f(1280.f, 720.f));
 
     // load initial scene
     world->loadScene();
