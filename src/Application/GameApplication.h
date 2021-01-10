@@ -25,9 +25,6 @@ public:
     GameApplication();
     virtual ~GameApplication();
 
-    GameApplication(const GameApplication&) = delete;
-    GameApplication& operator=(const GameApplication&) = delete;
-
 public:
 
     /// Initialize game application.
@@ -61,13 +58,13 @@ private:
     /* Components */
 
     /// Render window
-    Box<sf::RenderWindow> mc_window;
+    const Box<sf::RenderWindow> mc_window;
 
     /// View used to draw grass
-    Box<sf::View> mc_view;
+    const Box<sf::View> mc_view;
 
     /// Game world
-    Box<World> mc_world;
+    const Box<World> mc_world;
 
     /// Game UI
     const Box<UIRoot> mc_uiRoot;
