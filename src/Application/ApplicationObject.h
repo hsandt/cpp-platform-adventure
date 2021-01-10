@@ -12,7 +12,7 @@ class ApplicationObject
 {
 public:
     ApplicationObject(GameApplication& gameApp);
-    ~ApplicationObject();
+    virtual ~ApplicationObject();
 
 protected:
 

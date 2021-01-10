@@ -20,7 +20,7 @@ class PickUpItem : public IInteractable
 {
 public:
     PickUpItem();
-    ~PickUpItem();
+    virtual ~PickUpItem();
 
     /// Render
     virtual void render(sf::RenderWindow& window);

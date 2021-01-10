@@ -21,7 +21,7 @@ class NonPlayerCharacter : public IInteractable
 {
 public:
     NonPlayerCharacter();
-    ~NonPlayerCharacter();
+    virtual ~NonPlayerCharacter();
 
     void update(World& world, sf::Time elapsedTime);
     void render(sf::RenderWindow& window);

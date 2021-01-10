@@ -26,7 +26,7 @@ class World : ApplicationObject
 {
 public:
     World(GameApplication& gameApp);
-    ~World();
+    virtual ~World();
 
 public:
 

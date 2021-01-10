@@ -27,7 +27,7 @@ class PlayerCharacter : ApplicationObject
 {
 public:
     PlayerCharacter(GameApplication& gameApp);
-    ~PlayerCharacter();
+    virtual ~PlayerCharacter();
 
 public:
     void update(World& world, sf::Time elapsedTime);
