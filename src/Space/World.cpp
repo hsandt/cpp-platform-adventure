@@ -28,7 +28,7 @@ void World::loadScene()
     playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp);
     playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
 
-    nonPlayerCharacter = std::make_shared<NonPlayerCharacter>();
+    nonPlayerCharacter = std::make_shared<NonPlayerCharacter>(mo_gameApp);
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
     nonPlayerCharacter->mp_dialogueText = "Hello!";
 

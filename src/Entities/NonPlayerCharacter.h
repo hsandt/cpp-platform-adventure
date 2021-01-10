@@ -5,6 +5,7 @@
 
 // Game
 #include "Common.h"
+#include "Application/ApplicationObject.h"
 #include "Entities/IInteractable.h"
 #include "Memory/Box.hpp"
 
@@ -17,10 +18,10 @@ namespace sf
 class World;
 struct Transform;
 
-class NonPlayerCharacter : public IInteractable
+class NonPlayerCharacter : public ApplicationObject, public IInteractable
 {
 public:
-    NonPlayerCharacter();
+    NonPlayerCharacter(GameApplication& gameApp);
     virtual ~NonPlayerCharacter();
 
     void update(World& world, sf::Time elapsedTime);

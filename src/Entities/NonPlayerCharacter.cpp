@@ -12,7 +12,8 @@
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
 
-NonPlayerCharacter::NonPlayerCharacter()
+NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp) :
+    ApplicationObject(gameApp)
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);
@@ -40,5 +41,5 @@ void NonPlayerCharacter::render(sf::RenderWindow& window)
 
 void NonPlayerCharacter::onInteract() /* override */
 {
-    GameApplication::get().mc_dialogueManager->showDialogueText(mp_dialogueText);
+    mo_gameApp.mc_dialogueManager->showDialogueText(mp_dialogueText);
 }
