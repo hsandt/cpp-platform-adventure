@@ -17,14 +17,14 @@ template<typename T>
 class Box
 {
 public:
-
+    /// Construct Box<T> with arguments forwarded to T constructor
     template<typename... Args>
     Box(Args&&... args);
 
-    ~Box();
+    /// Construct Box<T> from moved unique_ptr<T>
+    Box(std::unique_ptr<T>&& data);
 
-    Box(Box<T>&& other);
-    Box<T>& operator=(Box<T>&& other);
+    ~Box();
 
     // allow access to non-const internal value, keeping const Box
 
@@ -33,10 +33,10 @@ public:
 
 private:
 
-    /* Components (exceptionally private to require usage of * and -> directly) */
+    /* Components */
 
     /// Unique pointer to internal data
-    std::unique_ptr<T> mc_data;
+    const std::unique_ptr<T> mc_data;
 };
 
 template<typename T>
@@ -47,23 +47,12 @@ Box<T>::Box(Args&&... args) :
 }
 
 template<typename T>
+Box<T>::Box(std::unique_ptr<T>&& data) :
+    mc_data(std::move(data))
+{
+}
+
+template<typename T>
 Box<T>::~Box()
 {
-}
-
-template<typename T>
-Box<T>::Box(Box<T>&& other)
-{
-    mc_data = std::move(other.mc_data);
-}
-
-template<typename T>
-Box<T>& Box<T>::operator=(Box<T>&& other)
-{
-    if (this != &other)
-    {
-        mc_data = std::move(other.mc_data);
-    }
-
-    return *this;
 }
