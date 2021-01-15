@@ -33,9 +33,6 @@ public:
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
-    const Box<World>& getWorld() const { return mc_world; }
-    const Box<UIRoot>& getUIRoot() const { return mc_uiRoot; }
-
 private:
     /// Update the view and world
     void update(sf::Time elapsedTime);
@@ -53,7 +50,6 @@ public:
     /// Dialogue manager
     const Box<DialogueManager> mc_dialogueManager;
 
-private:
 
     /* Components */
 
@@ -69,6 +65,7 @@ private:
     /// Game UI
     const Box<UIRoot> mc_uiRoot;
 
+private:
 
     /* State */
 

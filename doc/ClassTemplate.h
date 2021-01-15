@@ -61,7 +61,7 @@ public:
 
 protected:
 
-    /* (In)direct owners */
+    /* References to objects with guaranteed lifetime */
 
     /// Direct or indirect owner is guaranteed to live as long as this object,
     /// and when it dies, this object will die

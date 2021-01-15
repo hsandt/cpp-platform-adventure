@@ -16,7 +16,7 @@ public:
 
 protected:
 
-    /* (In)direct owners */
+    /* References to objects with guaranteed lifetime */
 
     /// Game Application
     GameApplication& mo_gameApp;
