@@ -28,13 +28,16 @@ public:
 public:
 
     /// Initialize and run game application
+    /// Only method made public for safety.
     void init_and_run();
 
 private:
+
     /// Initialize game application
     void init();
 
-    /// Run game loop. Returns when the loop is over, i.e. the window is closed.
+    /// Run game loop
+    /// Returns when the loop is over, i.e. the window is closed.
     void run();
 
     /// Update the game

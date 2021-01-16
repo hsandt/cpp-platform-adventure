@@ -5,7 +5,9 @@
 #include <optional>
 #include <map>
 
+// Game
 #include "Common.h"
+#include "Application/ApplicationObject.h"
 
 namespace sf
 {
@@ -14,10 +16,10 @@ namespace sf
 
 class UIWidget;
 
-class UICanvas
+class UICanvas : protected ApplicationObject
 {
 public:
-    UICanvas();
+    UICanvas(GameApplication& gameApp);
     ~UICanvas();
 
 public:

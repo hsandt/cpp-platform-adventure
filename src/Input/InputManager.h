@@ -11,15 +11,16 @@
 
 // Game
 #include "Common.h"
+#include "Application/ApplicationObject.h"
 #include "Input/KeyDynamicState.h"  // KeyDynamicState
 #include "Input/InputContext.h"     // InputContext
 
 /// Handles game input state update and access
 /// Devices supported: Keyboard
-class InputManager
+class InputManager : protected ApplicationObject
 {
 public:
-    InputManager();
+    InputManager(GameApplication& gameApp);
     ~InputManager();
 
     /// Process a key event. Other event types are ignored.

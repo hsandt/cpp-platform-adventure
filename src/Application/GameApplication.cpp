@@ -15,6 +15,8 @@
 
 GameApplication::GameApplication() :
     mc_world(*this),
+    mc_uiCanvas(*this),
+    mc_inputManager(*this),
     mc_dialogueManager(*this),
     m_time()
 {

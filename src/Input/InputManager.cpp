@@ -9,7 +9,8 @@
 // SFML
 #include <SFML/Window.hpp>
 
-InputManager::InputManager()
+InputManager::InputManager(GameApplication& gameApp) :
+    ApplicationObject(gameApp)
 {
 }
 

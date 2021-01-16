@@ -9,7 +9,8 @@
 // Game
 #include "UI/UIWidget.h"
 
-UICanvas::UICanvas() :
+UICanvas::UICanvas(GameApplication& gameApp) :
+    ApplicationObject(gameApp),
     m_nextInsertHandle(0)
 {
 }

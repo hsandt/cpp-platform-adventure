@@ -24,6 +24,7 @@ class World;
 class ClassTemplate
 {
 public:
+
     /// Return the static value
     static int getStaticValue();
 
