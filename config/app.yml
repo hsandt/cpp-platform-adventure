@@ -1,2 +1,6 @@
 # Game FPS (used for physics and rendering)
 fps: 60
+
+# Up to how many updates can be done at once if elapsed time >= 2 frame durations
+# Beyond this value, the game will start slowing down instead of dropping frames
+maxUpdatesPerRender: 3

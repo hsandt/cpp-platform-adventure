@@ -1,11 +1,12 @@
-# windowed 720p
+# Window dimensions
 width: 1280
 height: 720
 
-# 60 FPS, no vsync
+# Framerate limit. Vsync will be disabled.
 framerateLimit: 60
 
-# no aliasing
+# Anti-aliasing level (0 for no anti-aliasing)
 antialiasingLevel: 0
 
+# Window title
 title: "C++ Platform Adventure"

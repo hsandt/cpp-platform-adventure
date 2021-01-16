@@ -74,6 +74,11 @@ public:
     /// Frame duration
     sf::Time mp_frameDuration;
 
+    /// Maximum number of updates done before a render. There are 2 updates or more so physics can
+    /// catch up during lag. When reaching more than the max, the game slows down instead of
+    /// dropping frames.
+    u8 mp_maxUpdatesPerRender;
+
 private:
 
     /* State */

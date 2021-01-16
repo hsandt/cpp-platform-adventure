@@ -17,6 +17,7 @@
         // https://github.com/jbeder/yaml-cpp/commit/4dbfeb0bbccac8164ab8f8686307867c0729d8c1
         // but v0.6.3 is behind so for now, just parse as int.
         try_set_from_key<int>(appConfig.fps, "fps", appConfigFile);
+        try_set_from_key<int>(appConfig.maxUpdatesPerRender, "maxUpdatesPerRender", appConfigFile);
     }
     catch(const YAML::BadFile& e)
     {

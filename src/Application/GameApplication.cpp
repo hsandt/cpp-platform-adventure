@@ -36,6 +36,7 @@ void GameApplication::init()
 {
     AppConfig appConfig = AppConfig::from_file("config/app.yml");
     mp_frameDuration = sf::seconds(1.f / appConfig.fps);
+    mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
     WindowConfig windowConfig = WindowConfig::from_file("config/window.yml");
 
@@ -93,7 +94,14 @@ void GameApplication::run()
 
         if (shouldRun)
         {
-            while (cumulatedElapsedTime >= mp_frameDuration)
+            // Count updates to avoid catching up too much
+            // Normal CPU lag will make program catch up 1 or 2 physics frames
+            // but freezing or breaking into code for debug will produce a huge
+            // cumulatedElapsedTime, and we don't want to catch up many frames.
+            u8 updatesCount = 0;
+
+            while (cumulatedElapsedTime >= mp_frameDuration &&
+                updatesCount < mp_maxUpdatesPerRender)
             {
                 cumulatedElapsedTime -= mp_frameDuration;
                 m_applicationTime += mp_frameDuration;
@@ -105,6 +113,16 @@ void GameApplication::run()
                 }
 
                 update(mp_frameDuration);
+                ++updatesCount;
+            }
+
+            if (cumulatedElapsedTime >= mp_frameDuration)
+            {
+                // There were still frames to catch up but we hit the max updates limit.
+                // Still clear the cumulated elapsed time so we start afresh after a freeze,
+                // instead of continuously trying to catchup as much as possible every frame,
+                // which would cause the game to accelerate.
+                cumulatedElapsedTime = sf::Time::Zero;
             }
 
             render();
