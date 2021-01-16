@@ -4,8 +4,7 @@
 int main(int argc, const char* argv[])
 {
     GameApplication gameApp;
-    gameApp.init();
-    gameApp.run();
+    gameApp.init_and_run();
 
     return 0;
 }

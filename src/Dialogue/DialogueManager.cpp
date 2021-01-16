@@ -15,7 +15,7 @@
 #include "Entities/PlayerCharacter.h"
 #include "Input/InputManager.h"
 #include "Space/World.h"
-#include "UI/UIRoot.h"
+#include "UI/UICanvas.h"
 #include "UI/UIWidgetRectangle.h"
 #include "UI/UIWidgetText.h"
 
@@ -49,12 +49,12 @@ void DialogueManager::showDialogueText(const std::string& text)
     // dialogBox->mc_shape->setOrigin(sf::Vector2f(350.f, 50.f));
     dialogBox->mc_shape->setSize(sf::Vector2f(700.f, 100.f));
     dialogBox->mc_shape->setFillColor(sf::Color::Blue);
-    ms_oDialogueBoxHandle = mo_gameApp.mc_uiRoot->addWidget(std::move(dialogBox));
+    ms_oDialogueBoxHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogBox));
 
     auto dialogText = std::make_unique<UIWidgetText>();
     dialogText->mc_transform->position = sf::Vector2f(150.f, 520.f);
     dialogText->mp_text = text;
-    ms_oDialogueTextHandle = mo_gameApp.mc_uiRoot->addWidget(std::move(dialogText));
+    ms_oDialogueTextHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogText));
 
     mo_gameApp.mc_inputManager->pushInputContext(InputContext::Dialogue);
 }
@@ -64,8 +64,8 @@ void DialogueManager::closeDialogue()
     assert(ms_oDialogueBoxHandle);
     assert(ms_oDialogueTextHandle);
 
-    mo_gameApp.mc_uiRoot->removeWidget(ms_oDialogueBoxHandle);
-    mo_gameApp.mc_uiRoot->removeWidget(ms_oDialogueTextHandle);
+    mo_gameApp.mc_uiCanvas->removeWidget(ms_oDialogueBoxHandle);
+    mo_gameApp.mc_uiCanvas->removeWidget(ms_oDialogueTextHandle);
 
     mo_gameApp.mc_inputManager->popInputContext(InputContext::Dialogue);
 

@@ -1,9 +1,7 @@
 #include "Application/GameApplication.h"
 
 // std
-#include <cassert>
 #include <cmath>
-#include <stdexcept>
 
 // SFML
 #include <SFML/Graphics.hpp>
@@ -12,19 +10,24 @@
 #include "Application/WindowConfig.h"
 #include "Dialogue/DialogueManager.h"
 #include "Input/InputManager.h"
-#include "UI/UIRoot.h"
+#include "UI/UICanvas.h"
 #include "Space/World.h"
 
 GameApplication::GameApplication() :
-    mc_dialogueManager(*this),
     mc_world(*this),
-    m_initialized(false),
+    mc_dialogueManager(*this),
     m_time()
 {
 }
 
 GameApplication::~GameApplication()
 {
+}
+
+void GameApplication::init_and_run()
+{
+    init();
+    run();
 }
 
 void GameApplication::init()
@@ -51,15 +54,10 @@ void GameApplication::init()
 
     // set initial input context to Platforming
     mc_inputManager->pushInputContext(InputContext::Platforming);
-
-    // confirm initialization
-    m_initialized = true;
 }
 
 void GameApplication::run()
 {
-    assert(m_initialized);
-
     // time management
     sf::Clock clock;
 
@@ -131,7 +129,7 @@ void GameApplication::render()
     mc_window->setView(mc_window->getDefaultView());
 
     // render UI
-    mc_uiRoot->render(*mc_window);
+    mc_uiCanvas->render(*mc_window);
 
     // flip
     mc_window->display();

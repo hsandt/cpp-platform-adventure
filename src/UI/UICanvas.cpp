@@ -1,4 +1,4 @@
-#include "UI/UIRoot.h"
+#include "UI/UICanvas.h"
 
 // std
 #include <stdexcept>
@@ -9,18 +9,18 @@
 // Game
 #include "UI/UIWidget.h"
 
-UIRoot::UIRoot() :
+UICanvas::UICanvas() :
     m_nextInsertHandle(0)
 {
 }
 
 // Even empty, destructor definition in .cpp required if only class-forwarding
 // some smart pointer contained types in .h
-UIRoot::~UIRoot()
+UICanvas::~UICanvas()
 {
 }
 
-void UIRoot::render(sf::RenderWindow& window)
+void UICanvas::render(sf::RenderWindow& window)
 {
     for (const auto& [handle, widget] : m_widgets)
     {
@@ -28,26 +28,26 @@ void UIRoot::render(sf::RenderWindow& window)
     }
 }
 
-Handle UIRoot::addWidget(std::unique_ptr<UIWidget> widget)
+Handle UICanvas::addWidget(std::unique_ptr<UIWidget> widget)
 {
     m_widgets.insert({m_nextInsertHandle, std::move(widget)});
     return m_nextInsertHandle++;
 }
 
-std::optional<std::reference_wrapper<UIWidget>> UIRoot::getWidget(Handle widgetHandle) const
+std::optional<std::reference_wrapper<UIWidget>> UICanvas::getWidget(Handle widgetHandle) const
 {
     auto it = m_widgets.find(widgetHandle);
     return it != m_widgets.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
 }
 
-void UIRoot::removeWidget(std::optional<Handle>& oWidgetHandle)
+void UICanvas::removeWidget(std::optional<Handle>& oWidgetHandle)
 {
     size_t erasedCount = m_widgets.erase(*oWidgetHandle);
 
     if (erasedCount == 0)
     {
         throw std::runtime_error(fmt::format(
-            "No widget with handle {} found in UIRoot::m_widgets, could not remove.",
+            "No widget with handle {} found in UICanvas::m_widgets, could not remove.",
             *oWidgetHandle
         ));
     }

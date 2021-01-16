@@ -14,11 +14,11 @@ namespace sf
 
 class UIWidget;
 
-class UIRoot
+class UICanvas
 {
 public:
-    UIRoot();
-    ~UIRoot();
+    UICanvas();
+    ~UICanvas();
 
 public:
 

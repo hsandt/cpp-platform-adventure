@@ -15,10 +15,10 @@ namespace sf
 
 class DialogueManager;
 class InputManager;
-class UIRoot;
+class UICanvas;
 class World;
 
-/// Game Application. Handles game loop.
+/// Game Application. Handles window and game loop.
 class GameApplication
 {
 public:
@@ -27,51 +27,47 @@ public:
 
 public:
 
-    /// Initialize game application.
+    /// Initialize and run game application
+    void init_and_run();
+
+private:
+    /// Initialize game application
     void init();
 
     /// Run game loop. Returns when the loop is over, i.e. the window is closed.
     void run();
 
-private:
-    /// Update the view and world
+    /// Update the game
     void update(sf::Time elapsedTime);
 
-    /// Render the world and HUD
+    /// Render the game
     void render();
 
 public:
 
     /* Components */
 
-    /// Game world
-    const Box<InputManager> mc_inputManager;
-
-    /// Dialogue manager
-    const Box<DialogueManager> mc_dialogueManager;
-
-
-    /* Components */
-
     /// Render window
     const Box<sf::RenderWindow> mc_window;
 
-    /// View used to draw grass
+    /// View used to draw in window
     const Box<sf::View> mc_view;
 
     /// Game world
     const Box<World> mc_world;
 
     /// Game UI
-    const Box<UIRoot> mc_uiRoot;
+    const Box<UICanvas> mc_uiCanvas;
+
+    /// Input manager
+    const Box<InputManager> mc_inputManager;
+
+    /// Dialogue manager
+    const Box<DialogueManager> mc_dialogueManager;
 
 private:
 
     /* State */
-
-    /// Has the app been initialized?
-    /// (currently used in debug only, consider #if DEBUG)
-    bool m_initialized;
 
     /// Time elapsed since application start
     sf::Time m_time;
