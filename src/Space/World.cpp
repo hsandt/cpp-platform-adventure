@@ -43,11 +43,11 @@ void World::loadScene()
     }
 }
 
-void World::update(sf::Time elapsedTime)
+void World::update(sf::Time deltaTime)
 {
     // update characters
-    playerCharacter->update(*this, elapsedTime);
-    nonPlayerCharacter->update(*this, elapsedTime);
+    playerCharacter->update(*this, deltaTime);
+    nonPlayerCharacter->update(*this, deltaTime);
 }
 
 void World::render(sf::RenderWindow& window)

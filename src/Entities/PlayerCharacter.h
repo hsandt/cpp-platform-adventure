@@ -30,7 +30,7 @@ public:
     virtual ~PlayerCharacter();
 
 public:
-    void update(World& world, sf::Time elapsedTime);
+    void update(World& world, sf::Time deltaTime);
     void render(sf::RenderWindow& window);
 
     /// Set whether this character can interact, and updating input bindings

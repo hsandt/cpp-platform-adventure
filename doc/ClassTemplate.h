@@ -32,7 +32,7 @@ public:
     ~ClassTemplate();
 
     /// Update
-    virtual void update(World& world, sf::Time elapsedTime) = 0;
+    virtual void update(World& world, sf::Time deltaTime) = 0;
 
     /// Render
     virtual void render(sf::RenderWindow& window);
@@ -82,5 +82,5 @@ class ChildClass : public ClassTemplate
     ~ChildClass();
 
     /// Update
-    virtual void update(World& world, sf::Time elapsedTime) override;
+    virtual void update(World& world, sf::Time deltaTime) override;
 };

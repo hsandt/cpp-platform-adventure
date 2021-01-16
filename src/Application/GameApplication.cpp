@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 // Game
+#include "Application/AppConfig.h"
 #include "Application/WindowConfig.h"
 #include "Dialogue/DialogueManager.h"
 #include "Input/InputManager.h"
@@ -17,8 +18,7 @@ GameApplication::GameApplication() :
     mc_world(*this),
     mc_uiCanvas(*this),
     mc_inputManager(*this),
-    mc_dialogueManager(*this),
-    m_time()
+    mc_dialogueManager(*this)
 {
 }
 
@@ -34,6 +34,9 @@ void GameApplication::init_and_run()
 
 void GameApplication::init()
 {
+    AppConfig appConfig = AppConfig::from_file("config/app.yml");
+    mp_frameDuration = sf::seconds(1.f / appConfig.fps);
+
     WindowConfig windowConfig = WindowConfig::from_file("config/window.yml");
 
     // set aliasing
@@ -62,6 +65,7 @@ void GameApplication::run()
 {
     // time management
     sf::Clock clock;
+    sf::Time cumulatedElapsedTime;
 
     bool shouldRun = true;
 
@@ -69,12 +73,7 @@ void GameApplication::run()
     {
         // Time check
         sf::Time elapsedTime = clock.restart();
-        m_time += elapsedTime;
-        // anti-overflow (brutal)
-        if (m_time.asSeconds() > 1000 * 1000)
-        {
-            m_time = sf::Time::Zero;
-        }
+        cumulatedElapsedTime += elapsedTime;
 
         // Event handling
         sf::Event event;
@@ -94,7 +93,20 @@ void GameApplication::run()
 
         if (shouldRun)
         {
-            update(elapsedTime);
+            while (cumulatedElapsedTime >= mp_frameDuration)
+            {
+                cumulatedElapsedTime -= mp_frameDuration;
+                m_applicationTime += mp_frameDuration;
+
+                // anti-overflow (brutal)
+                if (m_applicationTime.asSeconds() > 1000 * 1000)
+                {
+                    m_applicationTime = sf::Time::Zero;
+                }
+
+                update(mp_frameDuration);
+            }
+
             render();
         }
     }
@@ -102,7 +114,7 @@ void GameApplication::run()
     mc_window->close();
 }
 
-void GameApplication::update(sf::Time elapsedTime)
+void GameApplication::update(sf::Time deltaTime)
 {
     // update input
     mc_inputManager->update();
@@ -110,10 +122,10 @@ void GameApplication::update(sf::Time elapsedTime)
     mc_dialogueManager->handleInput();
 
     // update characters
-    mc_world->update(elapsedTime);
+    mc_world->update(deltaTime);
 
     // move camera
-    mc_view->move(0.f, std::sin(m_time.asSeconds()) * 50.f * elapsedTime.asSeconds());
+    mc_view->move(0.f, std::sin(m_applicationTime.asSeconds()) * 50.f * deltaTime.asSeconds());
 }
 
 void GameApplication::render()

@@ -1,8 +1,5 @@
 #include "WindowConfig.h"
 
-#include <iostream>
-#include <string>
-#include <sstream>
 #include <stdexcept>
 
 #include "fmt/format.h"
@@ -57,5 +54,4 @@ WindowConfig::WindowConfig() :
     // Generic title
     title("Game")
 {
-
 }

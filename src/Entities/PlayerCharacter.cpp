@@ -35,7 +35,7 @@ PlayerCharacter::~PlayerCharacter()
     setCanInteract(false);
 }
 
-void PlayerCharacter::update(World& world, sf::Time elapsedTime)
+void PlayerCharacter::update(World& world, sf::Time deltaTime)
 {
     // Move character based on input
 
@@ -52,7 +52,7 @@ void PlayerCharacter::update(World& world, sf::Time elapsedTime)
 
     // apply character speed in px/s
     const float characterSpeedX = 32.f * 10;
-    mc_transform->position.x += characterSpeedX * elapsedTime.asSeconds() * moveIntentionX;
+    mc_transform->position.x += characterSpeedX * deltaTime.asSeconds() * moveIntentionX;
 
     // Detect interactable elements around character
     detectInteractable(world);

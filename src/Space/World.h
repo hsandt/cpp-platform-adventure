@@ -34,7 +34,7 @@ public:
     void loadScene();
 
     /// Update all world elements
-    void update(sf::Time elapsedTime);
+    void update(sf::Time deltaTime);
 
     /// Render all world elements
     void render(sf::RenderWindow& window);

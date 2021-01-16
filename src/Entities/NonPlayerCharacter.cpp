@@ -27,7 +27,7 @@ NonPlayerCharacter::~NonPlayerCharacter()
 {
 }
 
-void NonPlayerCharacter::update(World& world, sf::Time elapsedTime)
+void NonPlayerCharacter::update(World& world, sf::Time deltaTime)
 {
 }
 

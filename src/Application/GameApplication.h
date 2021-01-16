@@ -41,7 +41,7 @@ private:
     void run();
 
     /// Update the game
-    void update(sf::Time elapsedTime);
+    void update(sf::Time deltaTime);
 
     /// Render the game
     void render();
@@ -68,10 +68,18 @@ public:
     /// Dialogue manager
     const Box<DialogueManager> mc_dialogueManager;
 
+
+    /* Parameters */
+
+    /// Frame duration
+    sf::Time mp_frameDuration;
+
 private:
 
     /* State */
 
-    /// Time elapsed since application start
-    sf::Time m_time;
+    /// Time elapsed in application since start
+    /// Unlike real time, it only cumulates confirmed update delta times,
+    /// not raw elapsed times, and is therefore a multiple a frame duration
+    sf::Time m_applicationTime;
 };

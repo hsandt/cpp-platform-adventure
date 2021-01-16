@@ -24,7 +24,7 @@ public:
     NonPlayerCharacter(GameApplication& gameApp);
     virtual ~NonPlayerCharacter();
 
-    void update(World& world, sf::Time elapsedTime);
+    void update(World& world, sf::Time deltaTime);
     void render(sf::RenderWindow& window);
 
     /// Callback for interaction
