@@ -44,6 +44,7 @@ requires std::convertible_to<YAMLValue, Var>
 }
 
 AppConfig::AppConfig() :
-    fps(60)
+    fps(60),
+    maxUpdatesPerRender(3)
 {
 }
