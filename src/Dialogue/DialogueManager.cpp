@@ -76,7 +76,11 @@ void DialogueManager::closeDialogue()
     // so character will be able to detect that Space was pressed *this frame*
     // and reuse the Close input to Re-interact with the NPC on the same frame!
     // Make sure to consume inputs only once
-    mo_gameApp.mc_world->getPlayerCharacter()->setCanInteract(true);
+    auto oPlayerCharacter = mo_gameApp.mc_world->getPlayerCharacter();
+    if (oPlayerCharacter)
+    {
+        oPlayerCharacter->get().setCanInteract(true);
+    }
 }
 
 void DialogueManager::interact()

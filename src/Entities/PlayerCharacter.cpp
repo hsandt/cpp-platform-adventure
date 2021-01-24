@@ -18,7 +18,7 @@
 #include "Space/World.h"
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp) :
-    ApplicationObject(gameApp),
+    SpatialObject(gameApp),
     mc_transform(std::make_unique<Transform>()),
     mc_shape(std::make_unique<sf::RectangleShape>()),
     m_canInteract(false)  // so setCanInteract works
@@ -112,7 +112,7 @@ void PlayerCharacter::interact()
 {
     if (m_canInteract && ms_oDetectedInteractable)
     {
-        std::optional<std::reference_wrapper<SpatialObject>> oDetectedInteractable = ms_oDetectedInteractable->get();
+        std::optional<std::reference_wrapper<SpatialObject>> oDetectedInteractable = ms_oDetectedInteractable->findObject();
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
         if (oDetectedInteractable)

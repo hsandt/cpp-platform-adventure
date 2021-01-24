@@ -12,6 +12,7 @@
 #include "Application/ApplicationObject.h"
 #include "Memory/Box.hpp"
 #include "Space/SpatialObject.h"
+#include "Space/SpatialObjectHandle.h"
 
 namespace sf
 {
@@ -41,10 +42,7 @@ public:
     /// Render all world elements
     void render(sf::RenderWindow& window);
 
-    std::unique_ptr<PlayerCharacter>& getPlayerCharacter()
-    {
-        return playerCharacter;
-    }
+    std::optional<std::reference_wrapper<PlayerCharacter>> getPlayerCharacter() const;
 
     const std::map<Handle, Box<SpatialObject>>& getSpatialObjects() const
     {
@@ -58,8 +56,13 @@ private:
     /* Components */
 
     const std::unique_ptr<Terrain> terrain;
-    std::unique_ptr<PlayerCharacter> playerCharacter;
 
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;
+
+
+    /* References to objects that may not always exist */
+
+    /// Handle to player character
+    SpatialObjectHandle ms_playerCharacterHandle;
 };

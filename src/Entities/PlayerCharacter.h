@@ -8,7 +8,7 @@
 #include <SFML/System/Time.hpp>
 
 // Game
-#include "Application/ApplicationObject.h"
+#include "Space/SpatialObject.h"
 #include "Space/SpatialObjectHandle.h"
 
 // SFML
@@ -24,7 +24,7 @@ struct Transform;
 
 struct IInteractable;
 
-class PlayerCharacter : protected ApplicationObject
+class PlayerCharacter : public SpatialObject
 {
 public:
     explicit PlayerCharacter(GameApplication& gameApp);

@@ -17,17 +17,34 @@ class World;
 class SpatialObjectHandle
 {
 public:
+    /// Constructor for unset handle (leaves handle uninitialized)
+    explicit SpatialObjectHandle(World& world);
+
+    /// Constructor for set handle
     SpatialObjectHandle(World& world, Handle handle);
 
+    /// Destructor
     ~SpatialObjectHandle();
 
-    SpatialObjectHandle(const SpatialObjectHandle&) = default;
-    SpatialObjectHandle& operator=(const SpatialObjectHandle&) = default;
+    /// Return true if handle is set
+    explicit operator bool() const noexcept
+    {
+        return ms_isSet;
+    }
+
+    /// Set handle, replacing any existing value
+    /// This doesn't check that the target object exists right now, it is up to the user to check.
+    void set(Handle handle);
 
     /// Return optional reference to target SpatialObject
+    /// If handle is unset, always return nullopt.
+    /// If user needs to know whether handle is set to do extra processing (e.g. warn or clean up
+    /// when handle has just been unset or the target object has been destroyed), they must check
+    /// it on their own.
+    /// This way, users who don't care about the reason why nullopt is returned only need one call.
     /// Unlike std::weak_ptr, there is no locking mechanic.
     /// Instead, we must guarantee that objects are never destroyed on parallel threads.
-    std::optional<std::reference_wrapper<SpatialObject>> get() const;
+    std::optional<std::reference_wrapper<SpatialObject>> findObject() const;
 
 private:
 
@@ -38,8 +55,15 @@ private:
     std::reference_wrapper<World> mo_world;
 
 
-    /* Parameters */
+    /* State */
 
-    /// Handle to spatial object. Key of spatial object map in World.
-    Handle mp_handle;
+    /// True iff the handle is set
+    /// If false, ms_handle is ignored.
+    /// If true, it still doesn't guarantee that the handle is valid,
+    /// as the target object may have been destroyed.
+    bool ms_isSet;
+
+    /// Handle to spatial object
+    /// Key of spatial object map in World.
+    Handle ms_handle;
 };

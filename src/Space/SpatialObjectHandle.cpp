@@ -3,9 +3,16 @@
 // Game
 #include "Space/World.h"
 
+SpatialObjectHandle::SpatialObjectHandle(World& world) :
+    mo_world(world),
+    ms_isSet(false)
+{
+}
+
 SpatialObjectHandle::SpatialObjectHandle(World& world, Handle handle) :
     mo_world(world),
-    mp_handle(handle)
+    ms_isSet(true),
+    ms_handle(handle)
 {
 }
 
@@ -13,7 +20,13 @@ SpatialObjectHandle::~SpatialObjectHandle()
 {
 }
 
-std::optional<std::reference_wrapper<SpatialObject>> SpatialObjectHandle::get() const
+void SpatialObjectHandle::set(Handle handle)
 {
-    return mo_world.get().findSpatialObject(mp_handle);
+    ms_isSet = true;
+    ms_handle = handle;
+}
+
+std::optional<std::reference_wrapper<SpatialObject>> SpatialObjectHandle::findObject() const
+{
+    return ms_isSet ? mo_world.get().findSpatialObject(ms_handle) : std::nullopt;
 }
