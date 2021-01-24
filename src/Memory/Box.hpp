@@ -10,15 +10,14 @@
 /// If T has a default constructor, the box also defines a default constructor relying on it.
 /// Otherwise, you need to explicitly construct your Box by passing the same arguments as you
 /// would to construct an object of type T (arguments are forwarded to std::make_unique<T>).
-/// own default-constructed value, and is guaranteed to contain non-nullptr data.
 /// Box supports move semantics.
 template<typename T>
-// we don't `requires std::is_default_constructible_v<T>` which would
-// require any user of Box<T> to include T's header, even inside a header
 class Box
 {
 public:
     /// Construct Box<T> with arguments forwarded to T constructor
+    // we don't `requires std::constructible_from<T, Args...>` as it would
+    // require any user of Box<T> to include T's header, even inside a header
     template<typename... Args>
     Box(Args&&... args);
 

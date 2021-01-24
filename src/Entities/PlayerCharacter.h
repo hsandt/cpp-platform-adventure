@@ -18,7 +18,6 @@ namespace sf
 }
 
 // Game
-class NonPlayerCharacter;
 class World;
 struct Transform;
 

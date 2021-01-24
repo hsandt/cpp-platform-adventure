@@ -12,7 +12,7 @@
 #include "Dialogue/DialogueManager.h"
 
 NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp) :
-    ApplicationObject(gameApp)
+    SpatialObject(gameApp)
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);

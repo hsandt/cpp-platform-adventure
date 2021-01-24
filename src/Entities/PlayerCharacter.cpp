@@ -83,27 +83,15 @@ void PlayerCharacter::detectInteractable(World& world)
     // ms_detectedInteractable.reset();
     ms_detectedInteractable = 999;  // unfortunately potentially VALID!
 
-    if (std::shared_ptr<NonPlayerCharacter>& npc = world.getNonPlayerCharacter())
-    {
-        // check if NPC center position is inside square centered
-        // on player character with half-size (50, 50)
-        sf::Vector2f vectorToNpc = npc->mc_transform->position - mc_transform->position;
-        const float maxInteractDistance = 50.f;
-        if (fabs(vectorToNpc.x) < maxInteractDistance && fabs(vectorToNpc.y) < maxInteractDistance)
-        {
-            // ms_detectedInteractable = npc;
-        }
-    }
-
     const std::map<Handle, Box<SpatialObject>>& spatialObjects = world.getSpatialObjects();
     for (const auto &[handle, spatialObject] : spatialObjects)
     {
-        // check if it's a pick up item
-        if (const PickUpItem* pickUpItem = dynamic_cast<const PickUpItem*>(&*spatialObject))
+        // check if it's an interactable item
+        if ([[maybe_unused]] const IInteractable* interactable = dynamic_cast<const IInteractable*>(&*spatialObject))
         {
             // check if item center position is inside square centered
             // on player character with half-size (50, 50)
-            sf::Vector2f vectorToItem = pickUpItem->mc_transform->position - mc_transform->position;
+            sf::Vector2f vectorToItem = spatialObject->mc_transform->position - mc_transform->position;
             const float maxInteractDistance = 50.f;
             if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
             {

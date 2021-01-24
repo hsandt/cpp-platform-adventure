@@ -5,9 +5,9 @@
 
 // Game
 #include "Common.h"
-#include "Application/ApplicationObject.h"
 #include "Entities/IInteractable.h"
 #include "Memory/Box.hpp"
+#include "Space/SpatialObject.h"
 
 namespace sf
 {
@@ -18,14 +18,17 @@ namespace sf
 class World;
 struct Transform;
 
-class NonPlayerCharacter : protected ApplicationObject, public IInteractable
+class NonPlayerCharacter : public SpatialObject, public IInteractable
 {
 public:
     explicit NonPlayerCharacter(GameApplication& gameApp);
     virtual ~NonPlayerCharacter();
 
-    void update(World& world, sf::Time deltaTime);
-    void render(sf::RenderWindow& window);
+    /// Update
+    virtual void update(World& world, sf::Time deltaTime) override;
+
+    /// Render
+    virtual void render(sf::RenderWindow& window) override;
 
     /// Callback for interaction
     virtual void onInteract() override;
@@ -34,7 +37,6 @@ public:
 
     /* Components */
 
-    const Box<Transform> mc_transform;
     const Box<sf::RectangleShape> mc_shape;
 
     /* Parameters */

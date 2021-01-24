@@ -28,26 +28,26 @@ void World::loadScene()
     playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp);
     playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
 
-    nonPlayerCharacter = std::make_shared<NonPlayerCharacter>(mo_gameApp);
+    auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp);
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
     nonPlayerCharacter->mp_dialogueText = "Hello!";
+    ms_spatialObjects.emplace(0, std::move(nonPlayerCharacter));
 
     auto item = std::make_unique<PickUpItem>(mo_gameApp);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
     item->mp_pickUpText = "Player picks item!";
-    ms_spatialObjects.emplace(0, std::move(item));
+    ms_spatialObjects.emplace(1, std::move(item));
 }
 
 void World::update(sf::Time deltaTime)
 {
     // update characters
     playerCharacter->update(*this, deltaTime);
-    nonPlayerCharacter->update(*this, deltaTime);
 
-    // items items
-    for (const auto &[handle, item] : ms_spatialObjects)
+    // update spatial objects
+    for (const auto &[handle, spatialObject] : ms_spatialObjects)
     {
-        item->update(*this, deltaTime);
+        spatialObject->update(*this, deltaTime);
     }
 }
 
@@ -58,12 +58,11 @@ void World::render(sf::RenderWindow& window)
 
     // show characters
     playerCharacter->render(window);
-    nonPlayerCharacter->render(window);
 
-    // show items
-    for (const auto &[handle, item] : ms_spatialObjects)
+    // show spatial objects
+    for (const auto &[handle, spatialObject] : ms_spatialObjects)
     {
-        item->render(window);
+        spatialObject->render(window);
     }
 }
 

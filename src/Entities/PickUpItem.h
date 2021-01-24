@@ -33,7 +33,6 @@ public:
 
     /* Components */
 
-    const Box<Transform> mc_transform;
     const Box<sf::RectangleShape> mc_shape;
 
     /* Parameters */

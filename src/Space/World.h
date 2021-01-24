@@ -11,6 +11,7 @@
 #include "Common.h"
 #include "Application/ApplicationObject.h"
 #include "Memory/Box.hpp"
+#include "Memory/PolymorphicBox.hpp"
 #include "Space/SpatialObject.h"
 
 namespace sf
@@ -41,11 +42,6 @@ public:
     /// Render all world elements
     void render(sf::RenderWindow& window);
 
-    std::shared_ptr<NonPlayerCharacter>& getNonPlayerCharacter()
-    {
-        return nonPlayerCharacter;
-    }
-
     std::unique_ptr<PlayerCharacter>& getPlayerCharacter()
     {
         return playerCharacter;
@@ -64,7 +60,6 @@ private:
 
     const std::unique_ptr<Terrain> terrain;
     std::unique_ptr<PlayerCharacter> playerCharacter;
-    std::shared_ptr<NonPlayerCharacter> nonPlayerCharacter;
 
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;
