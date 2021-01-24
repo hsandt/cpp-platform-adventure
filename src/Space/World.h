@@ -11,6 +11,7 @@
 #include "Common.h"
 #include "Application/ApplicationObject.h"
 #include "Memory/Box.hpp"
+#include "Space/SpatialObject.h"
 
 namespace sf
 {
@@ -22,10 +23,11 @@ class PickUpItem;
 class PlayerCharacter;
 class Terrain;
 
+/// The world contains all spatial objects currently loaded in the game
 class World : protected ApplicationObject
 {
 public:
-    World(GameApplication& gameApp);
+    explicit World(GameApplication& gameApp);
     virtual ~World();
 
 public:
@@ -49,16 +51,12 @@ public:
         return playerCharacter;
     }
 
-    // we don't have Smart Handles to replace weak_ptr yet
-    // and we are already storing ms_detectedInteractable and ms_activeInteractable
-    // as std::weak_ptr<IInteractable> on character side anyway, so for now
-    // we use shared_ptr instead of Box so we can convert to weak_ptr easily in
-    // PlayerCharacter::detectInteractable
-    // std::map<Handle, Box<PickUpItem>>& getPickUpItems()
-    std::map<Handle, std::shared_ptr<PickUpItem>>& getPickUpItems()
+    const std::map<Handle, Box<SpatialObject>>& getSpatialObjects() const
     {
-        return ms_pickUpItems;
+        return ms_spatialObjects;
     }
+
+    std::optional<std::reference_wrapper<SpatialObject>> findSpatialObject(Handle handle) const;
 
 private:
 
@@ -68,7 +66,6 @@ private:
     std::unique_ptr<PlayerCharacter> playerCharacter;
     std::shared_ptr<NonPlayerCharacter> nonPlayerCharacter;
 
-    /// Map of owned pick up items, identified by handle
-    // std::map<Handle, Box<PickUpItem>> ms_pickUpItems;
-    std::map<Handle, std::shared_ptr<PickUpItem>> ms_pickUpItems;
+    /// Map of spatial objects, identified by handle
+    std::map<Handle, Box<SpatialObject>> ms_spatialObjects;
 };

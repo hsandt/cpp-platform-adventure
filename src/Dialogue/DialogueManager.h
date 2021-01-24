@@ -11,7 +11,7 @@
 class DialogueManager : protected ApplicationObject
 {
 public:
-    DialogueManager(GameApplication& gameApp);
+    explicit DialogueManager(GameApplication& gameApp);
     ~DialogueManager();
 
 public:

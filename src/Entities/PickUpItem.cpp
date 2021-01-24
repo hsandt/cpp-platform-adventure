@@ -15,7 +15,7 @@
 #include "Space/World.h"
 
 PickUpItem::PickUpItem(GameApplication& gameApp) :
-    ApplicationObject(gameApp)
+    SpatialObject(gameApp)
 {
     // item rectangle
     mc_shape->setPosition(0.f, 0.f);

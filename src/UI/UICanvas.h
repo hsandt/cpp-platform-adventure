@@ -19,7 +19,7 @@ class UIWidget;
 class UICanvas : protected ApplicationObject
 {
 public:
-    UICanvas(GameApplication& gameApp);
+    explicit UICanvas(GameApplication& gameApp);
     ~UICanvas();
 
 public:

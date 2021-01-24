@@ -11,7 +11,7 @@ class GameApplication;
 class ApplicationObject
 {
 public:
-    ApplicationObject(GameApplication& gameApp);
+    explicit ApplicationObject(GameApplication& gameApp);
     virtual ~ApplicationObject();
 
 protected:

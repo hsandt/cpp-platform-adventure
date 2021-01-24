@@ -8,6 +8,7 @@
 
 // Game
 #include "Application/ApplicationObject.h"
+#include "Space/SpatialObjectHandle.h"
 
 // SFML
 namespace sf
@@ -26,7 +27,7 @@ struct IInteractable;
 class PlayerCharacter : protected ApplicationObject
 {
 public:
-    PlayerCharacter(GameApplication& gameApp);
+    explicit PlayerCharacter(GameApplication& gameApp);
     virtual ~PlayerCharacter();
 
 public:
@@ -58,8 +59,10 @@ private:
     bool m_canInteract;
 
     /// Interactable currently detected nearby (cleared on interaction start)
-    std::weak_ptr<IInteractable> ms_detectedInteractable;
+    // SpatialObjectHandle ms_detectedInteractable;
+    Handle ms_detectedInteractable;
 
     /// Interactable currently interacted with (useful during interaction since ms_detectedInteractable is cleared)
-    std::weak_ptr<IInteractable> ms_activeInteractable;
+    // std::weak_ptr<IInteractable> ms_activeInteractable;
+    Handle ms_activeInteractable;
 };

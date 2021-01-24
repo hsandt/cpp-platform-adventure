@@ -32,15 +32,10 @@ void World::loadScene()
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
     nonPlayerCharacter->mp_dialogueText = "Hello!";
 
-
-    // const auto& [it, success] = ms_pickUpItems.emplace(0, Box<PickUpItem>());
-    const auto& [it, success] = ms_pickUpItems.emplace(0, std::make_shared<PickUpItem>(mo_gameApp));
-    if (success)
-    {
-        const auto& [handle, item] = *it;
-        item->mc_transform->position = sf::Vector2(500.f, 400.f);
-        item->mp_pickUpText = "Player picks item!";
-    }
+    auto item = std::make_unique<PickUpItem>(mo_gameApp);
+    item->mc_transform->position = sf::Vector2(500.f, 400.f);
+    item->mp_pickUpText = "Player picks item!";
+    ms_spatialObjects.emplace(0, std::move(item));
 }
 
 void World::update(sf::Time deltaTime)
@@ -48,6 +43,12 @@ void World::update(sf::Time deltaTime)
     // update characters
     playerCharacter->update(*this, deltaTime);
     nonPlayerCharacter->update(*this, deltaTime);
+
+    // items items
+    for (const auto &[handle, item] : ms_spatialObjects)
+    {
+        item->update(*this, deltaTime);
+    }
 }
 
 void World::render(sf::RenderWindow& window)
@@ -60,8 +61,14 @@ void World::render(sf::RenderWindow& window)
     nonPlayerCharacter->render(window);
 
     // show items
-    for (const auto &[handle, item] : ms_pickUpItems)
+    for (const auto &[handle, item] : ms_spatialObjects)
     {
         item->render(window);
     }
+}
+
+std::optional<std::reference_wrapper<SpatialObject>> World::findSpatialObject(Handle handle) const
+{
+    auto it = ms_spatialObjects.find(handle);
+    return it != ms_spatialObjects.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
 }

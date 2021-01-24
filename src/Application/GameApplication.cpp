@@ -134,9 +134,8 @@ void GameApplication::run()
 
 void GameApplication::update(sf::Time deltaTime)
 {
-    // update input
+    // update managers
     mc_inputManager->update();
-
     mc_dialogueManager->handleInput();
 
     // update characters

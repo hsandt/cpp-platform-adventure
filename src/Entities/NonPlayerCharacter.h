@@ -21,7 +21,7 @@ struct Transform;
 class NonPlayerCharacter : protected ApplicationObject, public IInteractable
 {
 public:
-    NonPlayerCharacter(GameApplication& gameApp);
+    explicit NonPlayerCharacter(GameApplication& gameApp);
     virtual ~NonPlayerCharacter();
 
     void update(World& world, sf::Time deltaTime);

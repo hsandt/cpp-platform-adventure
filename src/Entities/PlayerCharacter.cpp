@@ -7,12 +7,14 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
+// Game
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Entities/IInteractable.h"
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
 #include "Input/InputManager.h"
+#include "Memory/Box.hpp"
 #include "Space/World.h"
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp) :
@@ -78,7 +80,8 @@ void PlayerCharacter::render(sf::RenderWindow& window)
 
 void PlayerCharacter::detectInteractable(World& world)
 {
-    ms_detectedInteractable.reset();
+    // ms_detectedInteractable.reset();
+    ms_detectedInteractable = 999;  // unfortunately potentially VALID!
 
     if (std::shared_ptr<NonPlayerCharacter>& npc = world.getNonPlayerCharacter())
     {
@@ -88,21 +91,25 @@ void PlayerCharacter::detectInteractable(World& world)
         const float maxInteractDistance = 50.f;
         if (fabs(vectorToNpc.x) < maxInteractDistance && fabs(vectorToNpc.y) < maxInteractDistance)
         {
-            ms_detectedInteractable = npc;
+            // ms_detectedInteractable = npc;
         }
     }
 
-    // std::map<Handle, Box<PickUpItem>>& pickUpItems = world.getPickUpItems();
-    std::map<Handle, std::shared_ptr<PickUpItem>>& pickUpItems = world.getPickUpItems();
-    for (const auto &[handle, item] : pickUpItems)
+    const std::map<Handle, Box<SpatialObject>>& spatialObjects = world.getSpatialObjects();
+    for (const auto &[handle, spatialObject] : spatialObjects)
     {
-        // check if item center position is inside square centered
-        // on player character with half-size (50, 50)
-        sf::Vector2f vectorToItem = item->mc_transform->position - mc_transform->position;
-        const float maxInteractDistance = 50.f;
-        if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
+        // check if it's a pick up item
+        if (const PickUpItem* pickUpItem = dynamic_cast<const PickUpItem*>(&*spatialObject))
         {
-            ms_detectedInteractable = item;
+            // check if item center position is inside square centered
+            // on player character with half-size (50, 50)
+            sf::Vector2f vectorToItem = pickUpItem->mc_transform->position - mc_transform->position;
+            const float maxInteractDistance = 50.f;
+            if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
+            {
+                // ms_detectedInteractable = std::move(SpatialObjectHandle(*mo_gameApp.mc_world, handle));
+                ms_detectedInteractable = handle;
+            }
         }
     }
 }
@@ -121,14 +128,20 @@ void PlayerCharacter::interact()
     {
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
-        if (std::shared_ptr<IInteractable> interactable = ms_detectedInteractable.lock())
+        // if (std::shared_ptr<IInteractable> interactable = ms_detectedInteractable.lock())
+        if (auto oInteractable = mo_gameApp.mc_world->findSpatialObject(ms_detectedInteractable))
         {
             // prevent further interaction, including input binding
             setCanInteract(false);
 
             ms_activeInteractable = ms_detectedInteractable;
-            ms_detectedInteractable.reset();
-            interactable->onInteract();
+            // ms_detectedInteractable.reset();
+            ms_detectedInteractable = 999;
+            // interactable->onInteract();
+            if (IInteractable* interactable = dynamic_cast<IInteractable*>(&oInteractable->get()))
+            {
+                interactable->onInteract();
+            }
         }
     }
 }

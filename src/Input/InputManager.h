@@ -20,7 +20,7 @@
 class InputManager : protected ApplicationObject
 {
 public:
-    InputManager(GameApplication& gameApp);
+    explicit InputManager(GameApplication& gameApp);
     ~InputManager();
 
     /// Process a key event. Other event types are ignored.

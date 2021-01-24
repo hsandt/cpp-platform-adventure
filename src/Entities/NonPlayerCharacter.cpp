@@ -7,7 +7,6 @@
 #include <SFML/Graphics.hpp>
 
 // Game
-#include "Common.h"
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"

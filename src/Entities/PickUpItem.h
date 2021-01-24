@@ -2,9 +2,9 @@
 
 // Game
 #include "Common.h"
-#include "Application/ApplicationObject.h"
 #include "Entities/IInteractable.h"
 #include "Memory/Box.hpp"
+#include "Space/SpatialObject.h"
 
 // SFML
 namespace sf
@@ -17,14 +17,14 @@ namespace sf
 struct Transform;
 
 /// PickUpItem description
-class PickUpItem : protected ApplicationObject, public IInteractable
+class PickUpItem : public SpatialObject, public IInteractable
 {
 public:
-    PickUpItem(GameApplication& gameApp);
+    explicit PickUpItem(GameApplication& gameApp);
     virtual ~PickUpItem();
 
     /// Render
-    virtual void render(sf::RenderWindow& window);
+    virtual void render(sf::RenderWindow& window) override;
 
     /// Callback for interaction
     virtual void onInteract() override;
