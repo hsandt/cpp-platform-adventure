@@ -129,3 +129,13 @@ The game executable will be created at build/bin/Release/Game.
 ## Coding conventions
 
 Class headers and sources follow [ClassTemplate.h](doc/ClassTemplate.h) and [ClassTemplate.cpp](doc/ClassTemplate.cpp) respectively.
+
+### Variable naming
+
+We do not use Hungarian notation. Members have their own prefixes depending on their roles:
+
+- mo\_ for owning objects (directly or via a chain of owners). They are guaranteed to live,
+so they are stored as references.
+- mc\_ for components
+- mp\_ for parameters (not pointers)
+- ms\_ for state variables (static members are just s\_)
