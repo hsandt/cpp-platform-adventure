@@ -21,24 +21,25 @@ public:
 
     ~SpatialObjectHandle();
 
-    SpatialObjectHandle(SpatialObjectHandle&&) = default;
-    SpatialObjectHandle& operator=(SpatialObjectHandle&&) = default;
+    SpatialObjectHandle(const SpatialObjectHandle&) = default;
+    SpatialObjectHandle& operator=(const SpatialObjectHandle&) = default;
 
     /// Return optional reference to target SpatialObject
     /// Unlike std::weak_ptr, there is no locking mechanic.
     /// Instead, we must guarantee that objects are never destroyed on parallel threads.
-    std::optional<std::reference_wrapper<SpatialObject>> get(Handle handle) const;
+    std::optional<std::reference_wrapper<SpatialObject>> get() const;
 
 private:
 
     /* References to objects with guaranteed lifetime */
 
-    /// Game Application
-    World& mo_world;
+    /// World
+    /// Reference wrapper allows class to be copyable
+    std::reference_wrapper<World> mo_world;
 
 
     /* Parameters */
 
     /// Handle to spatial object. Key of spatial object map in World.
-    const Handle mp_handle;
+    Handle mp_handle;
 };

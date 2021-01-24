@@ -13,7 +13,7 @@ SpatialObjectHandle::~SpatialObjectHandle()
 {
 }
 
-std::optional<std::reference_wrapper<SpatialObject>> SpatialObjectHandle::get(Handle handle) const
+std::optional<std::reference_wrapper<SpatialObject>> SpatialObjectHandle::get() const
 {
-    return mo_world.findSpatialObject(handle);
+    return mo_world.get().findSpatialObject(mp_handle);
 }

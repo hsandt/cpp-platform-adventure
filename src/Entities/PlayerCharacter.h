@@ -2,6 +2,7 @@
 
 // std
 #include <memory>
+#include <optional>
 
 // SFML
 #include <SFML/System/Time.hpp>
@@ -58,10 +59,8 @@ private:
     bool m_canInteract;
 
     /// Interactable currently detected nearby (cleared on interaction start)
-    // SpatialObjectHandle ms_detectedInteractable;
-    Handle ms_detectedInteractable;
+    std::optional<SpatialObjectHandle> ms_oDetectedInteractable;
 
-    /// Interactable currently interacted with (useful during interaction since ms_detectedInteractable is cleared)
-    // std::weak_ptr<IInteractable> ms_activeInteractable;
-    Handle ms_activeInteractable;
+    /// Interactable currently interacted with (useful during interaction since ms_oDetectedInteractable is cleared)
+    std::optional<SpatialObjectHandle> ms_oActiveInteractable;
 };

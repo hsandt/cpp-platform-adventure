@@ -80,8 +80,7 @@ void PlayerCharacter::render(sf::RenderWindow& window)
 
 void PlayerCharacter::detectInteractable(World& world)
 {
-    // ms_detectedInteractable.reset();
-    ms_detectedInteractable = 999;  // unfortunately potentially VALID!
+    ms_oDetectedInteractable.reset();
 
     const std::map<Handle, Box<SpatialObject>>& spatialObjects = world.getSpatialObjects();
     for (const auto &[handle, spatialObject] : spatialObjects)
@@ -95,8 +94,7 @@ void PlayerCharacter::detectInteractable(World& world)
             const float maxInteractDistance = 50.f;
             if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
             {
-                // ms_detectedInteractable = std::move(SpatialObjectHandle(*mo_gameApp.mc_world, handle));
-                ms_detectedInteractable = handle;
+                ms_oDetectedInteractable = std::make_optional(SpatialObjectHandle(*mo_gameApp.mc_world, handle));
             }
         }
     }
@@ -112,21 +110,20 @@ void PlayerCharacter::setCanInteract(bool value)
 
 void PlayerCharacter::interact()
 {
-    if (m_canInteract)
+    if (m_canInteract && ms_oDetectedInteractable)
     {
+        std::optional<std::reference_wrapper<SpatialObject>> oDetectedInteractable = ms_oDetectedInteractable->get();
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
-        // if (std::shared_ptr<IInteractable> interactable = ms_detectedInteractable.lock())
-        if (auto oInteractable = mo_gameApp.mc_world->findSpatialObject(ms_detectedInteractable))
+        if (oDetectedInteractable)
         {
             // prevent further interaction, including input binding
             setCanInteract(false);
 
-            ms_activeInteractable = ms_detectedInteractable;
-            // ms_detectedInteractable.reset();
-            ms_detectedInteractable = 999;
-            // interactable->onInteract();
-            if (IInteractable* interactable = dynamic_cast<IInteractable*>(&oInteractable->get()))
+            std::optional<SpatialObjectHandle> a = ms_oDetectedInteractable;
+            ms_oActiveInteractable = ms_oDetectedInteractable;
+            ms_oDetectedInteractable.reset();
+            if (IInteractable* interactable = dynamic_cast<IInteractable*>(&oDetectedInteractable->get()))
             {
                 interactable->onInteract();
             }
