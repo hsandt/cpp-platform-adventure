@@ -19,8 +19,8 @@
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp) :
     SpatialObject(gameApp),
-    mc_transform(std::make_unique<Transform>()),
-    mc_shape(std::make_unique<sf::RectangleShape>()),
+    mc_transform(),
+    mc_shape(),
     m_canInteract(false)  // so setCanInteract works
 {
     // character rectangle

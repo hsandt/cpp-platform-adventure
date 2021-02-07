@@ -1,13 +1,13 @@
 #pragma once
 
 // std
-#include <memory>
 #include <optional>
 
 // SFML
 #include <SFML/System/Time.hpp>
 
 // Game
+#include "Memory/Box.hpp"
 #include "Space/SpatialObject.h"
 #include "Space/SpatialObjectHandle.h"
 
@@ -48,8 +48,8 @@ public:
 
     /* Components */
 
-    const std::unique_ptr<Transform> mc_transform;
-    const std::unique_ptr<sf::RectangleShape> mc_shape;
+    const Box<Transform> mc_transform;
+    const Box<sf::RectangleShape> mc_shape;
 
 private:
 
