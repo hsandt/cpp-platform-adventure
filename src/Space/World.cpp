@@ -36,12 +36,12 @@ void World::loadScene()
 
     auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp);
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
-    nonPlayerCharacter->mp_dialogueText = "Hello!";
+    nonPlayerCharacter->mp_dialogueText = "Hello! Can you bring me the flag over here?";
     ms_spatialObjects.emplace(1, std::move(nonPlayerCharacter));
 
     auto item = std::make_unique<PickUpItem>(mo_gameApp);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
-    item->mp_pickUpText = "Player picks item!";
+    item->mp_pickUpText = "Player picks flag!";
     ms_spatialObjects.emplace(2, std::move(item));
 }
 

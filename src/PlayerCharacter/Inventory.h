@@ -14,7 +14,10 @@ public:
     /// Is flag item is in the inventory?
     bool hasFlag() const { return ms_hasFlag; }
 
-public:
+    /// Set whether flag item is in the inventory
+    void setHasFlag(bool value) { ms_hasFlag = value; }
+
+private:
 
     /* State */
 

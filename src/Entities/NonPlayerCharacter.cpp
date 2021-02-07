@@ -38,7 +38,7 @@ void NonPlayerCharacter::render(sf::RenderWindow& window)
     window.draw(*mc_shape, sfTransform);
 }
 
-void NonPlayerCharacter::onInteract() /* override */
+void NonPlayerCharacter::onInteract(PlayerCharacter& playerCharacter) /* override */
 {
     mo_gameApp.mc_dialogueManager->showDialogueText(mp_dialogueText);
 }

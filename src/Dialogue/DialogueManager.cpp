@@ -70,12 +70,6 @@ void DialogueManager::closeDialogue()
     mo_gameApp.mc_inputManager->popInputContext(InputContext::Dialogue);
 
     // allow player character to interact again
-    // (only one binding is allowed at a time, so we need to unassignSpacePressedAction
-    // before; although in this case, the line below will overwrite the action anyway)
-    // FIXME: with the new input manager, inputs are constantly checked
-    // so character will be able to detect that Space was pressed *this frame*
-    // and reuse the Close input to Re-interact with the NPC on the same frame!
-    // Make sure to consume inputs only once
     auto oPlayerCharacter = mo_gameApp.mc_world->getPlayerCharacter();
     if (oPlayerCharacter)
     {

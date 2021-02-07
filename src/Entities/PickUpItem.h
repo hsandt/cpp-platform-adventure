@@ -14,6 +14,7 @@ namespace sf
 }
 
 // Game
+struct PlayerCharacter;
 struct Transform;
 
 /// PickUpItem description
@@ -27,7 +28,7 @@ public:
     virtual void render(sf::RenderWindow& window) override;
 
     /// Callback for interaction
-    virtual void onInteract() override;
+    virtual void onInteract(PlayerCharacter& playerCharacter) override;
 
 public:
 

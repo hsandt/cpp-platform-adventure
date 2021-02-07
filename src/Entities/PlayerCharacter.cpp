@@ -69,7 +69,6 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
             interact();
         }
     }
-
 }
 
 void PlayerCharacter::render(sf::RenderWindow& window)
@@ -78,6 +77,19 @@ void PlayerCharacter::render(sf::RenderWindow& window)
     sf::Transform sfTransform;
     sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
     window.draw(*mc_shape, sfTransform);
+}
+
+void PlayerCharacter::setCanInteract(bool value)
+{
+    if (m_canInteract != value)
+    {
+        m_canInteract = value;
+    }
+}
+
+void PlayerCharacter::addToInventory(const PickUpItem& pickUpItem)
+{
+    mc_inventory->setHasFlag(true);
 }
 
 void PlayerCharacter::detectInteractable(World& world)
@@ -102,14 +114,6 @@ void PlayerCharacter::detectInteractable(World& world)
     }
 }
 
-void PlayerCharacter::setCanInteract(bool value)
-{
-    if (m_canInteract != value)
-    {
-        m_canInteract = value;
-    }
-}
-
 void PlayerCharacter::interact()
 {
     if (m_canInteract && ms_oDetectedInteractable)
@@ -127,7 +131,7 @@ void PlayerCharacter::interact()
             ms_oDetectedInteractable.reset();
             if (IInteractable* interactable = dynamic_cast<IInteractable*>(&oDetectedInteractable->get()))
             {
-                interactable->onInteract();
+                interactable->onInteract(*this);
             }
         }
     }

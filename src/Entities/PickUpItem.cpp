@@ -12,6 +12,7 @@
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
+#include "Entities/PlayerCharacter.h"
 #include "Space/World.h"
 
 PickUpItem::PickUpItem(GameApplication& gameApp) :
@@ -35,7 +36,8 @@ void PickUpItem::render(sf::RenderWindow& window)
     window.draw(*mc_shape, sfTransform);
 }
 
-void PickUpItem::onInteract() /* override */
+void PickUpItem::onInteract(PlayerCharacter& playerCharacter) /* override */
 {
+    playerCharacter.addToInventory(*this);
     mo_gameApp.mc_dialogueManager->showDialogueText(mp_pickUpText);
 }

@@ -20,6 +20,7 @@ namespace sf
 
 // Game
 class Inventory;
+class PickUpItem;
 class World;
 struct Transform;
 
@@ -37,6 +38,9 @@ public:
 
     /// Set whether this character can interact, and updating input bindings
     void setCanInteract(bool value);
+
+    /// Add item to inventory
+    void addToInventory(const PickUpItem& pickUpItem);
 
 private:
     /// Detect nearby interactable element
