@@ -9,7 +9,6 @@
 #include <SFML/System.hpp>
 
 // Game
-#include "Common.h"
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Entities/PlayerCharacter.h"

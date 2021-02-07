@@ -22,8 +22,9 @@ class World;
 class GameApplication
 {
 public:
+
     GameApplication();
-    virtual ~GameApplication();
+    ~GameApplication();
 
 public:
 
