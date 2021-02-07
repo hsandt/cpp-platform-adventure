@@ -15,12 +15,14 @@
 #include "Entities/PickUpItem.h"
 #include "Input/InputManager.h"
 #include "Memory/Box.hpp"
+#include "PlayerCharacter/Inventory.h"
 #include "Space/World.h"
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp) :
     SpatialObject(gameApp),
     mc_transform(),
     mc_shape(),
+    mc_inventory(),
     m_canInteract(false)  // so setCanInteract works
 {
     // character rectangle

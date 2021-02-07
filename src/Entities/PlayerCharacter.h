@@ -19,6 +19,7 @@ namespace sf
 }
 
 // Game
+class Inventory;
 class World;
 struct Transform;
 
@@ -50,6 +51,7 @@ public:
 
     const Box<Transform> mc_transform;
     const Box<sf::RectangleShape> mc_shape;
+    const Box<Inventory> mc_inventory;
 
 private:
 
