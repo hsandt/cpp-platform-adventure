@@ -14,6 +14,7 @@ namespace sf
 }
 
 // Game
+class DialogueTree;
 struct PlayerCharacter;
 struct Transform;
 
@@ -38,6 +39,6 @@ public:
 
     /* Parameters */
 
-    /// Text displayed when picking this item. Must be set manually after construction.
-    std::string mp_pickUpText;
+    /// Dialogue tree displayed when picking this item. Must be set manually after construction.
+    const Box<DialogueTree> mp_pickUpDialogueTree;
 };

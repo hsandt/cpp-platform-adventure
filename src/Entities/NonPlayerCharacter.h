@@ -9,12 +9,15 @@
 #include "Memory/Box.hpp"
 #include "Space/SpatialObject.h"
 
+// SFML
 namespace sf
 {
     class RectangleShape;
     class RenderWindow;
 }
 
+// Game
+class DialogueTree;
 class PlayerCharacter;
 class World;
 struct Transform;
@@ -42,6 +45,6 @@ public:
 
     /* Parameters */
 
-    /// Dialogue text. Must be set manually after construction.
-    std::string mp_dialogueText;
+    /// Dialogue tree. Must be set manually after construction.
+    const Box<DialogueTree> mp_dialogueTree;
 };

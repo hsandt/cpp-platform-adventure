@@ -12,11 +12,13 @@
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
+#include "Dialogue/DialogueTree.h"
 #include "Entities/PlayerCharacter.h"
 #include "Space/World.h"
 
 PickUpItem::PickUpItem(GameApplication& gameApp) :
-    SpatialObject(gameApp)
+    SpatialObject(gameApp),
+    mp_pickUpDialogueTree(gameApp)
 {
     // item rectangle
     mc_shape->setPosition(0.f, 0.f);
@@ -38,6 +40,8 @@ void PickUpItem::render(sf::RenderWindow& window)
 
 void PickUpItem::onInteract(PlayerCharacter& playerCharacter) /* override */
 {
+    mo_gameApp.mc_dialogueManager->startDialogueTree(*mp_pickUpDialogueTree);
+
+    // adding item to inventory after dialogue, in case dialogue checks inventory
     playerCharacter.addToInventory(*this);
-    mo_gameApp.mc_dialogueManager->showDialogueText(mp_pickUpText);
 }

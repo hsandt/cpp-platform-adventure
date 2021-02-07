@@ -6,6 +6,8 @@
 #include "PlayerCharacter/Inventory.h"
 #include "Space/World.h"
 
+const std::string DialogueTree::s_fallbackText = "NO PLAYER FOUND";
+
 DialogueTree::DialogueTree(GameApplication& gameApp) :
     ApplicationObject(gameApp)
 {
@@ -29,6 +31,7 @@ const std::string& DialogueTree::getTextFromContext() const
         {
             return mp_dialogueTextWithoutItem;
         }
-
     }
+
+    return s_fallbackText;
 }

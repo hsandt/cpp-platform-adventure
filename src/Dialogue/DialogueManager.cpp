@@ -11,6 +11,7 @@
 // Game
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
+#include "Dialogue/DialogueTree.h"
 #include "Entities/PlayerCharacter.h"
 #include "Input/InputManager.h"
 #include "Space/World.h"
@@ -40,6 +41,13 @@ void DialogueManager::handleInput()
     }
 }
 
+void DialogueManager::startDialogueTree(const DialogueTree& dialogueTree)
+{
+    mo_gameApp.mc_inputManager->pushInputContext(InputContext::Dialogue);
+
+    showDialogueText(dialogueTree.getTextFromContext());
+}
+
 void DialogueManager::showDialogueText(const std::string& text)
 {
     auto dialogBox = std::make_unique<UIWidgetRectangle>();
@@ -54,8 +62,6 @@ void DialogueManager::showDialogueText(const std::string& text)
     dialogText->mc_transform->position = sf::Vector2f(150.f, 520.f);
     dialogText->mp_text = text;
     ms_oDialogueTextHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogText));
-
-    mo_gameApp.mc_inputManager->pushInputContext(InputContext::Dialogue);
 }
 
 void DialogueManager::closeDialogue()

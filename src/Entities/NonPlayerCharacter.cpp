@@ -10,9 +10,12 @@
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
+#include "Dialogue/DialogueTree.h"
 
 NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp) :
-    SpatialObject(gameApp)
+    SpatialObject(gameApp),
+    mc_shape(),
+    mp_dialogueTree(gameApp)
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);
@@ -40,5 +43,5 @@ void NonPlayerCharacter::render(sf::RenderWindow& window)
 
 void NonPlayerCharacter::onInteract(PlayerCharacter& playerCharacter) /* override */
 {
-    mo_gameApp.mc_dialogueManager->showDialogueText(mp_dialogueText);
+    mo_gameApp.mc_dialogueManager->startDialogueTree(*mp_dialogueTree);
 }

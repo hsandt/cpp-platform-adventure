@@ -8,6 +8,7 @@
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
 #include "Components/Transform.h"
+#include "Dialogue/DialogueTree.h"
 
 World::World(GameApplication& gameApp) :
     ApplicationObject(gameApp),
@@ -36,12 +37,17 @@ void World::loadScene()
 
     auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp);
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
-    nonPlayerCharacter->mp_dialogueText = "Hello! Can you bring me the flag over here?";
+    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = "Wow, you brought me the flag. Thanks!";
+    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = "Hello! Can you bring me the flag over here?";
     ms_spatialObjects.emplace(1, std::move(nonPlayerCharacter));
 
     auto item = std::make_unique<PickUpItem>(mo_gameApp);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
-    item->mp_pickUpText = "Player picks flag!";
+    // currently dialogue trees all check for item, but it doesn't make sense for picking an item
+    // but since we don't have item destruction/hiding yet, it's not a bad idea to still have some
+    // feedback for having picked the item
+    item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = "Player has already picked flag!";
+    item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = "Player picks flag!";
     ms_spatialObjects.emplace(2, std::move(item));
 }
 
