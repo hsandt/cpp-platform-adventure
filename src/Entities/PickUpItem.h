@@ -22,7 +22,7 @@ struct Transform;
 class PickUpItem : public SpatialObject, public IInteractable
 {
 public:
-    explicit PickUpItem(GameApplication& gameApp);
+    explicit PickUpItem(GameApplication& gameApp, Handle id);
     virtual ~PickUpItem();
 
     /// Render

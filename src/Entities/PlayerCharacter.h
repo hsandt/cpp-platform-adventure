@@ -29,7 +29,7 @@ struct IInteractable;
 class PlayerCharacter : public SpatialObject
 {
 public:
-    explicit PlayerCharacter(GameApplication& gameApp);
+    explicit PlayerCharacter(GameApplication& gameApp, Handle id);
     virtual ~PlayerCharacter();
 
 public:

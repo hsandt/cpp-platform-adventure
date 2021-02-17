@@ -27,7 +27,7 @@ void World::loadScene()
 {
     // for now, we load a unique, hard-coded scene
 
-    auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp);
+    auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp, 0);
     playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
     const auto& [it, success] = ms_spatialObjects.emplace(0, std::move(playerCharacter));
     if (success)
@@ -35,13 +35,13 @@ void World::loadScene()
         ms_playerCharacterHandle.set(0);
     }
 
-    auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp);
+    auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp, 1);
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = "Wow, you brought me the flag. Thanks!";
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = "Hello! Can you bring me the flag over here?";
     ms_spatialObjects.emplace(1, std::move(nonPlayerCharacter));
 
-    auto item = std::make_unique<PickUpItem>(mo_gameApp);
+    auto item = std::make_unique<PickUpItem>(mo_gameApp, 2);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
     // but since we don't have item destruction/hiding yet, it's not a bad idea to still have some
@@ -57,6 +57,19 @@ void World::update(sf::Time deltaTime)
     for (const auto &[handle, spatialObject] : ms_spatialObjects)
     {
         spatialObject->update(*this, deltaTime);
+    }
+
+    // clean objects to destroy at the end of the update, so behavior updates can safely complete
+    // note that this is called multiple times if game application is catching up frames
+    cleanObjectsToDestroy();
+}
+
+void World::cleanObjectsToDestroy()
+{
+    for (Handle handle : ms_spatialObjectHandlesFlaggedForDestruction)
+    {
+        // we assume handle is valid, but nothing happens if invalid besides returning 0
+        ms_spatialObjects.erase(handle);
     }
 }
 
@@ -89,4 +102,9 @@ std::optional<std::reference_wrapper<SpatialObject>> World::findSpatialObject(Ha
 {
     auto it = ms_spatialObjects.find(handle);
     return it != ms_spatialObjects.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
+}
+
+void World::flagForDestruction(Handle handle)
+{
+    ms_spatialObjectHandlesFlaggedForDestruction.insert(handle);
 }

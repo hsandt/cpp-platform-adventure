@@ -3,6 +3,7 @@
 // std
 #include <map>
 #include <memory>
+#include <set>
 
 // SFML
 #include <SFML/System/Time.hpp>
@@ -51,14 +52,29 @@ public:
 
     std::optional<std::reference_wrapper<SpatialObject>> findSpatialObject(Handle handle) const;
 
+    /// Flag spatial object for destruction at the end of the frame.
+    /// If already flagged, does nothing. Does not check if handle is valid.
+    /// Make sure to set destruction flag on object when calling this, so it stops
+    /// receiving queries.
+    void flagForDestruction(Handle handle);
+
 private:
+
+    /// Destroy all spatial objects flagged for destruction
+    void cleanObjectsToDestroy();
 
     /* Components */
 
     const std::unique_ptr<Terrain> terrain;
 
+
+    /* State */
+
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;
+
+    /// Set of objects flagged for destruction at the end of the frame
+    std::set<Handle> ms_spatialObjectHandlesFlaggedForDestruction;
 
 
     /* References to objects that may not always exist */

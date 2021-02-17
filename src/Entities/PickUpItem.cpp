@@ -16,8 +16,8 @@
 #include "Entities/PlayerCharacter.h"
 #include "Space/World.h"
 
-PickUpItem::PickUpItem(GameApplication& gameApp) :
-    SpatialObject(gameApp),
+PickUpItem::PickUpItem(GameApplication& gameApp, Handle id) :
+    SpatialObject(gameApp, id),
     mp_pickUpDialogueTree(gameApp)
 {
     // item rectangle
@@ -42,6 +42,7 @@ void PickUpItem::onInteract(PlayerCharacter& playerCharacter) /* override */
 {
     mo_gameApp.mc_dialogueManager->startDialogueTree(*mp_pickUpDialogueTree);
 
-    // adding item to inventory after dialogue, in case dialogue checks inventory
+    // destroy and add item to inventory after dialogue, in case dialogue checks inventory
+    destroy();
     playerCharacter.addToInventory(*this);
 }

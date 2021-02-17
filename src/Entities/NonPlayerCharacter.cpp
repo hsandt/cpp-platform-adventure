@@ -12,8 +12,8 @@
 #include "Dialogue/DialogueManager.h"
 #include "Dialogue/DialogueTree.h"
 
-NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp) :
-    SpatialObject(gameApp),
+NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
+    SpatialObject(gameApp, id),
     mc_shape(),
     mp_dialogueTree(gameApp)
 {

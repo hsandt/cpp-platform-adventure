@@ -18,8 +18,8 @@
 #include "PlayerCharacter/Inventory.h"
 #include "Space/World.h"
 
-PlayerCharacter::PlayerCharacter(GameApplication& gameApp) :
-    SpatialObject(gameApp),
+PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
+    SpatialObject(gameApp, id),
     mc_transform(),
     mc_shape(),
     mc_inventory(),
@@ -99,16 +99,19 @@ void PlayerCharacter::detectInteractable(World& world)
     const std::map<Handle, Box<SpatialObject>>& spatialObjects = world.getSpatialObjects();
     for (const auto &[handle, spatialObject] : spatialObjects)
     {
-        // check if it's an interactable item
-        if ([[maybe_unused]] const IInteractable* interactable = dynamic_cast<const IInteractable*>(&*spatialObject))
+        if (!spatialObject->getDestructionFlag())
         {
-            // check if item center position is inside square centered
-            // on player character with half-size (50, 50)
-            sf::Vector2f vectorToItem = spatialObject->mc_transform->position - mc_transform->position;
-            const float maxInteractDistance = 50.f;
-            if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
+            // check if it's an interactable item
+            if ([[maybe_unused]] const IInteractable* interactable = dynamic_cast<const IInteractable*>(&*spatialObject))
             {
-                ms_oDetectedInteractable = std::make_optional(SpatialObjectHandle(*mo_gameApp.mc_world, handle));
+                // check if item center position is inside square centered
+                // on player character with half-size (50, 50)
+                sf::Vector2f vectorToItem = spatialObject->mc_transform->position - mc_transform->position;
+                const float maxInteractDistance = 50.f;
+                if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
+                {
+                    ms_oDetectedInteractable = std::make_optional(SpatialObjectHandle(*mo_gameApp.mc_world, handle));
+                }
             }
         }
     }

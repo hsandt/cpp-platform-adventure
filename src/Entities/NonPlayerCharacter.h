@@ -25,7 +25,7 @@ struct Transform;
 class NonPlayerCharacter : public SpatialObject, public IInteractable
 {
 public:
-    explicit NonPlayerCharacter(GameApplication& gameApp);
+    explicit NonPlayerCharacter(GameApplication& gameApp, Handle id);
     virtual ~NonPlayerCharacter();
 
     /// Update
