@@ -16,8 +16,9 @@
 #include "Entities/PlayerCharacter.h"
 #include "Space/World.h"
 
-PickUpItem::PickUpItem(GameApplication& gameApp, Handle id) :
+PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
     SpatialObject(gameApp, id),
+    dataID(dataID),
     mp_pickUpDialogueTree(gameApp)
 {
     // item rectangle

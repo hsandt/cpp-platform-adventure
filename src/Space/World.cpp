@@ -3,12 +3,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include "Space/Terrain.h"
+#include "Components/Transform.h"
+#include "Data/ItemDataID.h"
+#include "Dialogue/DialogueTree.h"
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
-#include "Components/Transform.h"
-#include "Dialogue/DialogueTree.h"
+#include "Space/Terrain.h"
 
 World::World(GameApplication& gameApp) :
     ApplicationObject(gameApp),
@@ -41,14 +42,24 @@ void World::loadScene()
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = "Hello! Can you bring me the flag over here?";
     ms_spatialObjects.emplace(1, std::move(nonPlayerCharacter));
 
-    auto item = std::make_unique<PickUpItem>(mo_gameApp, 2);
+    auto item = std::make_unique<PickUpItem>(mo_gameApp, 2, ItemDataID::Flag);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
     // but since we don't have item destruction/hiding yet, it's not a bad idea to still have some
     // feedback for having picked the item
+    item->mc_shape->setSize(sf::Vector2(10.f, 20.f));
+    item->mc_shape->setFillColor(sf::Color::Red);
     item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = "Player has already picked flag!";
     item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = "Player picks flag!";
     ms_spatialObjects.emplace(2, std::move(item));
+
+    auto itemBox = std::make_unique<PickUpItem>(mo_gameApp, 3, ItemDataID::Box);
+    itemBox->mc_transform->position = sf::Vector2(700.f, 400.f);
+    itemBox->mc_shape->setSize(sf::Vector2(60.f, 30.f));
+    itemBox->mc_shape->setFillColor(sf::Color::Yellow);
+    itemBox->mp_pickUpDialogueTree->mp_dialogueTextWithItem = "Player has already picked box!";
+    itemBox->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = "Player picks box!";
+    ms_spatialObjects.emplace(3, std::move(itemBox));
 }
 
 void World::update(sf::Time deltaTime)

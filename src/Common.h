@@ -16,3 +16,6 @@ using u64 = uint64_t;
 
 // Handle alias is used for container index or key
 using Handle = u16;
+
+// DataID is used for data entries and do not need be contiguous
+using DataID = u16;

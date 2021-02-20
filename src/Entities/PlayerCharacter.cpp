@@ -89,7 +89,7 @@ void PlayerCharacter::setCanInteract(bool value)
 
 void PlayerCharacter::addToInventory(const PickUpItem& pickUpItem)
 {
-    mc_inventory->setHasFlag(true);
+    mc_inventory->addItem(pickUpItem.dataID);
 }
 
 void PlayerCharacter::detectInteractable(World& world)

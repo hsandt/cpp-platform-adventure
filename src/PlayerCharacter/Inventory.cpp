@@ -1,7 +1,7 @@
 #include "PlayerCharacter/Inventory.h"
 
 Inventory::Inventory() :
-    ms_hasFlag(false)
+    ms_possessedItemDataIDs()
 {
 }
 

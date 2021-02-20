@@ -22,7 +22,7 @@ struct Transform;
 class PickUpItem : public SpatialObject, public IInteractable
 {
 public:
-    explicit PickUpItem(GameApplication& gameApp, Handle id);
+    explicit PickUpItem(GameApplication& gameApp, Handle id, DataID dataID);
     virtual ~PickUpItem();
 
     /// Render
@@ -38,6 +38,9 @@ public:
     const Box<sf::RectangleShape> mc_shape;
 
     /* Parameters */
+
+    /// Item Data ID
+    const DataID dataID;
 
     /// Dialogue tree displayed when picking this item. Must be set manually after construction.
     const Box<DialogueTree> mp_pickUpDialogueTree;
