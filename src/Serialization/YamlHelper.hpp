@@ -18,7 +18,7 @@ namespace YamlHelper
     /// YAMLKey type can be deduced from the node argument, so just pass <YAMLValue> on call
     /// (int, std::string, etc.)
     template<typename YAMLValue, typename YAMLKey>
-    inline YAMLValue get(const YAMLKey& key, const YAML::Node& node)
+    inline YAMLValue get(const YAML::Node& node, const YAMLKey& key)
     {
         // count on as<> to throw if key is invalid
         // return node[key].as<YAMLValue>();
@@ -33,7 +33,6 @@ namespace YamlHelper
         // This requires key to be formattable to strings
         // but we only use string keys, so this should be fine.
         throw std::runtime_error(fmt::format("YamlHelper::get: no key '{}' found on node", key));
-
     }
 
     /// Try to get the value at key in node and store it in var
@@ -45,13 +44,13 @@ namespace YamlHelper
     /// (int, std::string, etc.)
     template<typename YAMLValue, typename Var, typename YAMLKey>
     requires std::convertible_to<YAMLValue, Var>
-    inline bool tryGet(Var& var, const YAMLKey& key, const YAML::Node& node)
+    inline bool tryGet(const YAML::Node& node, const YAMLKey& key, Var& outVar)
     {
         YAML::Node childNode = node[key];
         if (childNode.IsDefined())
         {
             // implicit conversion from Value to Out type may happen here
-            var = childNode.as<YAMLValue>();
+            outVar = childNode.as<YAMLValue>();
             return true;
         }
 
@@ -62,8 +61,8 @@ namespace YamlHelper
     /// UB unless node contains 2 sequential elements
     inline sf::Vector2f asVector2f(const YAML::Node& node)
     {
-        float x = YamlHelper::get<float>("x", node);
-        float y = YamlHelper::get<float>("y", node);
+        float x = YamlHelper::get<float>(node, "x");
+        float y = YamlHelper::get<float>(node, "y");
         return sf::Vector2f(x, y);
     }
 }

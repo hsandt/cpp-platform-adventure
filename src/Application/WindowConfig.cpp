@@ -20,11 +20,11 @@
     {
         YAML::Node windowConfigFile = YAML::LoadFile(filename);
 
-        YamlHelper::tryGet<int>(windowConfig.width, "width", windowConfigFile);
-        YamlHelper::tryGet<int>(windowConfig.height, "height", windowConfigFile);
-        YamlHelper::tryGet<int>(windowConfig.framerateLimit, "framerateLimit", windowConfigFile);
-        YamlHelper::tryGet<int>(windowConfig.antialiasingLevel, "antialiasingLevel", windowConfigFile);
-        YamlHelper::tryGet<std::string>(windowConfig.title, "title", windowConfigFile);
+        YamlHelper::tryGet<int>(windowConfigFile, "width", windowConfig.width);
+        YamlHelper::tryGet<int>(windowConfigFile, "height", windowConfig.height);
+        YamlHelper::tryGet<int>(windowConfigFile, "framerateLimit", windowConfig.framerateLimit);
+        YamlHelper::tryGet<int>(windowConfigFile, "antialiasingLevel", windowConfig.antialiasingLevel);
+        YamlHelper::tryGet<std::string>(windowConfigFile, "title", windowConfig.title);
     }
     catch(const YAML::BadFile& e)
     {

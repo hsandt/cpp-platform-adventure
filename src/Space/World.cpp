@@ -68,8 +68,8 @@ void World::loadSceneFromYAML(const std::string& filename)
         YAML::Node sceneAsset = YAML::LoadFile(filename);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
-            std::string type = YamlHelper::get<std::string>("type", spatialObjectNode);
-            Handle id = YamlHelper::get<Handle>("id", spatialObjectNode);
+            std::string type = YamlHelper::get<std::string>(spatialObjectNode, "type");
+            Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
             if (type == "PlayerCharacter")
             {
                 auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp, id);
@@ -84,9 +84,9 @@ void World::loadSceneFromYAML(const std::string& filename)
                 nonPlayerCharacter->mc_transform->position = position;
 
                 const YAML::Node& dialogueTree = spatialObjectNode["dialogueTree"];
-                std::string dialogueTextWithItem = YamlHelper::get<std::string>("dialogueTextWithItem", dialogueTree);
+                std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithItem");
                 nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
-                std::string dialogueTextWithoutItem = YamlHelper::get<std::string>("dialogueTextWithoutItem", dialogueTree);
+                std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithoutItem");
                 nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
                 addSpatialObject(std::move(nonPlayerCharacter));
             }
@@ -97,7 +97,7 @@ void World::loadSceneFromYAML(const std::string& filename)
 
             // Check tag for special behaviours
             std::string tag;
-            if (YamlHelper::tryGet<std::string>(tag, "tag", spatialObjectNode))
+            if (YamlHelper::tryGet<std::string>(spatialObjectNode, "tag", tag))
             {
                 if (tag == "PlayerCharacter")
                 {
