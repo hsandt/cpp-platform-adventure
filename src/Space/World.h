@@ -12,7 +12,6 @@
 #include "Common.h"
 #include "Application/ApplicationObject.h"
 #include "Memory/Box.hpp"
-#include "Space/SpatialObject.h"
 #include "Space/SpatialObjectHandle.h"
 
 namespace sf
@@ -23,6 +22,7 @@ namespace sf
 class NonPlayerCharacter;
 class PickUpItem;
 class PlayerCharacter;
+class SpatialObject;
 class Terrain;
 
 /// The world contains all spatial objects currently loaded in the game
@@ -59,6 +59,9 @@ public:
     void flagForDestruction(Handle handle);
 
 private:
+
+    /// Add spatial object from unique pointer. Return true iff operation succeeded.
+    bool addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
 
     /// Destroy all spatial objects flagged for destruction
     void cleanObjectsToDestroy();

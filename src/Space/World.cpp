@@ -9,6 +9,7 @@
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
+#include "Space/SpatialObject.h"
 #include "Space/Terrain.h"
 
 World::World(GameApplication& gameApp) :
@@ -30,7 +31,7 @@ void World::loadScene()
 
     auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp, 0);
     playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
-    const auto& [it, success] = ms_spatialObjects.emplace(0, std::move(playerCharacter));
+    bool success = addSpatialObject(std::move(playerCharacter));
     if (success)
     {
         ms_playerCharacterHandle.set(0);
@@ -40,7 +41,7 @@ void World::loadScene()
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = "Wow, you brought me the flag. Thanks!";
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = "Hello! Can you bring me the flag over here?";
-    ms_spatialObjects.emplace(1, std::move(nonPlayerCharacter));
+    addSpatialObject(std::move(nonPlayerCharacter));
 
     auto item = std::make_unique<PickUpItem>(mo_gameApp, 2, ItemDataID::Flag);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
@@ -51,7 +52,7 @@ void World::loadScene()
     item->mc_shape->setFillColor(sf::Color::Red);
     item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = "Player has already picked flag!";
     item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = "Player picks flag!";
-    ms_spatialObjects.emplace(2, std::move(item));
+    addSpatialObject(std::move(item));
 
     auto itemBox = std::make_unique<PickUpItem>(mo_gameApp, 3, ItemDataID::Box);
     itemBox->mc_transform->position = sf::Vector2(700.f, 400.f);
@@ -59,7 +60,7 @@ void World::loadScene()
     itemBox->mc_shape->setFillColor(sf::Color::Yellow);
     itemBox->mp_pickUpDialogueTree->mp_dialogueTextWithItem = "Player has already picked box!";
     itemBox->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = "Player picks box!";
-    ms_spatialObjects.emplace(3, std::move(itemBox));
+    addSpatialObject(std::move(itemBox));
 }
 
 void World::update(sf::Time deltaTime)
@@ -73,6 +74,12 @@ void World::update(sf::Time deltaTime)
     // clean objects to destroy at the end of the update, so behavior updates can safely complete
     // note that this is called multiple times if game application is catching up frames
     cleanObjectsToDestroy();
+}
+
+bool World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
+{
+    const auto& [_it, success] = ms_spatialObjects.emplace(spatialObject->mp_id, std::move(spatialObject));
+    return success;
 }
 
 void World::cleanObjectsToDestroy()
