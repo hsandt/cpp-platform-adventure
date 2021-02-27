@@ -15,7 +15,7 @@ namespace sf
 
 // Game
 class DialogueTree;
-struct PlayerCharacter;
+class PlayerCharacter;
 struct Transform;
 
 /// PickUpItem description
