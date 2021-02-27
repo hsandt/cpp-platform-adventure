@@ -34,7 +34,7 @@ World::~World()
 {
 }
 
-void World::loadScene()
+void World::loadFirstScene()
 {
     // load as much as you can from asset file
     loadSceneFromYAML("assets/scenes/scene1.yml");
