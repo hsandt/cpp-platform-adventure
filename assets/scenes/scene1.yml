@@ -1,0 +1,36 @@
+- type: PlayerCharacter
+  id: 0
+  tag: PlayerCharacter
+  transform:
+    position: {x: 550, y: 400}
+- type: NonPlayerCharacter
+  id: 1
+  transform:
+    position: {x: 600, y: 400}
+  dialogueTree:
+    dialogueTextWithItem: "Wow, you brought me the flag. Thanks!"
+    dialogueTextWithoutItem: "Hello! Can you bring me the flag over here?"
+- type: PickUpItem
+  id: 2
+  dataID: 0
+  transform:
+    position: {x: 500, y: 400}
+  shape:
+    size: {x: 10, y: 20}
+  shape:
+    fillColor: {r: 255, g: 0, b: 0}
+  pickUpDialogueTree:
+    dialogueTextWithItem: "Player has already picked flag!"
+    dialogueTextWithoutItem: "Player picks flag!"
+- type: PickUpItem
+  id: 3
+  dataID: 1
+  transform:
+    position: {x: 700, y: 400}
+  shape:
+    size: {x: 60, y: 30}
+  shape:
+    fillColor: {r: 255, g: 255, b: 0}
+  pickUpDialogueTree:
+    dialogueTextWithItem: "Player has already picked box!"
+    dialogueTextWithoutItem: "Player picks box!"

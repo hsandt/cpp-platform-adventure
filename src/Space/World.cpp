@@ -1,14 +1,23 @@
 #include "Space/World.h"
 
+// SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+// fmt
+#include "fmt/format.h"
+
+// yaml-cpp
+#include "yaml-cpp/yaml.h"
+
+// Game
 #include "Components/Transform.h"
 #include "Data/ItemDataID.h"
 #include "Dialogue/DialogueTree.h"
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
+#include "Serialization/YamlHelper.hpp"
 #include "Space/SpatialObject.h"
 #include "Space/Terrain.h"
 
@@ -27,15 +36,10 @@ World::~World()
 
 void World::loadScene()
 {
-    // for now, we load a unique, hard-coded scene
+    // load as much as you can from asset file
+    loadSceneFromYAML("assets/scenes/scene1.yml");
 
-    auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp, 0);
-    playerCharacter->mc_transform->position = sf::Vector2(550.f, 400.f);
-    bool success = addSpatialObject(std::move(playerCharacter));
-    if (success)
-    {
-        ms_playerCharacterHandle.set(0);
-    }
+    // load the rest hard-coded for now
 
     auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp, 1);
     nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
@@ -63,6 +67,46 @@ void World::loadScene()
     addSpatialObject(std::move(itemBox));
 }
 
+void World::loadSceneFromYAML(const std::string& filename)
+{
+    try
+    {
+        YAML::Node sceneAsset = YAML::LoadFile(filename);
+        for (const YAML::Node& spatialObjectNode : sceneAsset)
+        {
+            std::string type = YamlHelper::get<std::string>("type", spatialObjectNode);
+            Handle id = YamlHelper::get<Handle>("id", spatialObjectNode);
+            if (type == "PlayerCharacter")
+            {
+                auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp, id);
+                sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+                playerCharacter->mc_transform->position = position;
+                addSpatialObject(std::move(playerCharacter));
+            }
+            else
+            {
+                // throw std::runtime_error(fmt::format("Unsupported type {}", type));
+            }
+
+            // Check tag for special behaviours
+            std::string tag;
+            if (YamlHelper::tryGet<std::string>(tag, "tag", spatialObjectNode))
+            {
+                if (tag == "PlayerCharacter")
+                {
+                    // register as Player Character
+                    ms_playerCharacterHandle.set(id);
+                }
+            }
+        }
+    }
+    catch(const YAML::BadFile& e)
+    {
+        // what() just contains "bad file", so prefer custom error message
+        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename));
+    }
+}
+
 void World::update(sf::Time deltaTime)
 {
     // update spatial objects
@@ -76,10 +120,16 @@ void World::update(sf::Time deltaTime)
     cleanObjectsToDestroy();
 }
 
-bool World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
+void World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
 {
     const auto& [_it, success] = ms_spatialObjects.emplace(spatialObject->mp_id, std::move(spatialObject));
-    return success;
+
+    if (!success)
+    {
+        throw std::runtime_error(fmt::format(
+            "World::addSpatialObject: there is already an object with id {}, "
+            "cannot add another object with same id", spatialObject->mp_id));
+    }
 }
 
 void World::cleanObjectsToDestroy()

@@ -62,7 +62,8 @@
         "chrono": "cpp",
         "ratio": "cpp",
         "variant": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "complex": "cpp"
     },
     "cmake.configureOnOpen": false
 }

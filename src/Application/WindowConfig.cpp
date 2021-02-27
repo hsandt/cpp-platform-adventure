@@ -1,9 +1,16 @@
 #include "WindowConfig.h"
 
+// std
 #include <stdexcept>
 
+// fmt
 #include "fmt/format.h"
+
+// yaml-cpp
 #include "yaml-cpp/yaml.h"
+
+// Game
+#include "Serialization/YamlHelper.hpp"
 
 /* static */ WindowConfig WindowConfig::from_file(const std::string& filename)
 {
@@ -13,11 +20,11 @@
     {
         YAML::Node windowConfigFile = YAML::LoadFile(filename);
 
-        try_set_from_key<int>(windowConfig.width, "width", windowConfigFile);
-        try_set_from_key<int>(windowConfig.height, "height", windowConfigFile);
-        try_set_from_key<int>(windowConfig.framerateLimit, "framerateLimit", windowConfigFile);
-        try_set_from_key<int>(windowConfig.antialiasingLevel, "antialiasingLevel", windowConfigFile);
-        try_set_from_key<std::string>(windowConfig.title, "title", windowConfigFile);
+        YamlHelper::tryGet<int>(windowConfig.width, "width", windowConfigFile);
+        YamlHelper::tryGet<int>(windowConfig.height, "height", windowConfigFile);
+        YamlHelper::tryGet<int>(windowConfig.framerateLimit, "framerateLimit", windowConfigFile);
+        YamlHelper::tryGet<int>(windowConfig.antialiasingLevel, "antialiasingLevel", windowConfigFile);
+        YamlHelper::tryGet<std::string>(windowConfig.title, "title", windowConfigFile);
     }
     catch(const YAML::BadFile& e)
     {
@@ -26,21 +33,6 @@
     }
 
     return windowConfig;
-}
-
-template<typename YAMLValue, typename Var, typename YAMLKey>
-requires std::convertible_to<YAMLValue, Var>
-/* static */ bool WindowConfig::try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& windowConfigFile)
-{
-    YAML::Node node = windowConfigFile[key];
-    if (node.IsDefined())
-    {
-        // implicit conversion from Value to Out type may happen here
-        var = node.as<YAMLValue>();
-        return true;
-    }
-
-    return false;
 }
 
 WindowConfig::WindowConfig() :

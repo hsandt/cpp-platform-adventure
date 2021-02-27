@@ -37,6 +37,9 @@ public:
     /// Load scene content
     void loadScene();
 
+    /// Load scene content from YAML scene asset
+    void loadSceneFromYAML(const std::string& filename);
+
     /// Update all world elements
     void update(sf::Time deltaTime);
 
@@ -60,8 +63,8 @@ public:
 
 private:
 
-    /// Add spatial object from unique pointer. Return true iff operation succeeded.
-    bool addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
+    /// Add spatial object from unique pointer
+    void addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
 
     /// Destroy all spatial objects flagged for destruction
     void cleanObjectsToDestroy();
@@ -72,6 +75,9 @@ private:
 
 
     /* State */
+
+    /// Scene data: deserialized form of scene YAML asset
+    // SceneData ms_currentSceneData;
 
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;
