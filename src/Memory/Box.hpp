@@ -21,14 +21,14 @@ public:
     template<typename... Args>
     Box(Args&&... args);
 
-    /// Construct Box<T> from moved unique_ptr<U>
+    /// Construct Box<T> from moved unique_ptr<U>. Transfers ownership of U instance to the box.
     /// U can be T itself, or a convertible type. std::unique_ptr has its own private concept
     /// __safe_conversion_up which is more advanced and checks array types, but we use our own
     /// `requires` to guide user and have a slightly better error message (unfortunately it doesn't
     /// mention convertible_to, but is much shorter than the error message without)
     template<typename U>
         requires std::convertible_to<U*, T*>
-    explicit Box(std::unique_ptr<U>&& data);
+    explicit Box(std::unique_ptr<U> data);
 
     ~Box();
 
@@ -55,7 +55,7 @@ Box<T>::Box(Args&&... args) :
 template<typename T>
 template<typename U>
     requires std::convertible_to<U*, T*>
-Box<T>::Box(std::unique_ptr<U>&& data) :
+Box<T>::Box(std::unique_ptr<U> data) :
     mc_data(std::move(data))
 {
 }
