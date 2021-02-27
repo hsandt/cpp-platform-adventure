@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Project: Added submodule {fmt} used for error messages
 - App: Added WindowConfig, which can be set with _config/window.yml_
-- World: World class with Terrain (existing grass), PlayerCharacter (new), NonPlayerCharacter (new)
-- Input: Added InputManager to handle dynamic keyboard inputs
+- World: World class with Terrain (existing grass) and Spatial Objects: PlayerCharacter (new), NonPlayerCharacter (new), PickUpItem (new). Spatial Objects are accessed via weak Handles.
+- Input: Added InputManager to handle dynamic keyboard inputs with input context
 - UI: Added DialogueManager to show dialogue box with Dialogue input context, closed on Space press
 - PC: Hold Left/Right keys to move
-- NPC: (WIP) Press Space to interact: show dialogue box with text
+- Item: Added flag and box items: press Space to pick them with feedback text
+- Inventory: PC has an inventory to remember which items it picked
+- NPC: Press Space to interact: show dialogue box with text depending on whether flag item was picked
+
+### Changed
+- Access GameApplication via owner reference instead of singleton
 
 ## [0.0.4] - 2020-07-15
 ### Added
