@@ -7,6 +7,7 @@
 #
 # dir_path     path to directory to delete
 
+import os
 import sys
 import argparse
 import shutil
@@ -20,16 +21,20 @@ if sys.version_info.minor < 6:
     sys.exit(1)
 
 
-def try_delete_dir(dir_path: str):
+def try_delete_dir_content(dir_path: str):
     """
     If directory exists at `dir_path`, delete it recursively and return True.
     Else, return False.
-    
+
     """
     path = Path(dir_path)
     if path.exists():
         if path.is_dir():
-            shutil.rmtree(path)
+            for root, dirs, files in os.walk(dir_path):
+                for f in files:
+                    os.remove(os.path.join(root, f))
+                for d in dirs:
+                    shutil.rmtree(os.path.join(root, d))
             return True
         else:
             logging.error(f"path {dir_path} exists, but is not a dir")
@@ -41,13 +46,13 @@ def try_delete_dir(dir_path: str):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
-    parser = argparse.ArgumentParser(description='Delete any directory recursively.')
+    parser = argparse.ArgumentParser(description='Delete any directory content recursively, preserving the directory itself.')
     parser.add_argument('dir_path', type=str, help='path of directory to delete')
     args = parser.parse_args()
-    
+
     logging.info(f"Trying to delete directory: {args.dir_path}...")
-    deleted_dir = try_delete_dir(args.dir_path)
+    deleted_dir = try_delete_dir_content(args.dir_path)
     if deleted_dir:
-        logging.info("Deleted directory.")
+        logging.info("Deleted directory content.")
     else:
         logging.info("No directory found, did nothing.")
