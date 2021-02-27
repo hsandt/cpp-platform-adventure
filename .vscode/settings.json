@@ -53,6 +53,16 @@
         "streambuf": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "iomanip": "cpp"
-    }
+        "iomanip": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "format": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "variant": "cpp",
+        "cassert": "cpp"
+    },
+    "cmake.configureOnOpen": false
 }

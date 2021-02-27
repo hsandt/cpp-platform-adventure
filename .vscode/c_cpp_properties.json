@@ -3,11 +3,14 @@
         {
             "name": "Linux",
             "includePath": [
-                "engine/third-party/SFML/include"
+                "src",
+                "engine/third-party/fmt/include",
+                "engine/third-party/SFML/include",
+                "engine/third-party/yaml-cpp/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++-10",
-            "cStandard": "c18",
+            "cStandard": "c17",
             "cppStandard": "c++20",
             "intelliSenseMode": "gcc-x64"
         }

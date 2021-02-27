@@ -1,10 +1,5 @@
-# Reference:
-# https://github.com/Microsoft/GSL/blob/master/.travis.yml
-
-# Do not trigger Travis if any of these are true:
-# - we are working on the appveyor branch (mostly modifying appveyor.yml only)
-# - the commit message contains "(WIP)" or "#no_travis" (case-insensitive)
-if: NOT branch = feature/appveyor AND commit_message !~ /(\(WIP\)|#no_travis)/
+# Do not trigger Travis if the commit message contains "(WIP)" or "#no_travis" (case-insensitive)
+if: commit_message !~ /(\(WIP\)|#no_travis)/
 
 language: cpp
 
@@ -30,25 +25,27 @@ addons:
 
 jobs:
   include:
-    # For OSX, use 10.15.4 with Xcode 11.6 to have clang++-11 and premake5 for correct architecture
-    - os: osx
-      osx_image: xcode11.6
-      env:
-        - COMPILER=clang++  # osx simply names "clang++" the latest clang installed with Xcode toolchain
-        - PREMAKE_GENERATOR=gmake
-        # There are two OSX builds deployed, here is the gmake build
-        - DEPLOY=true
-        - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_OSX.zip
-      compiler: clang++
-    - os: osx
-      osx_image: xcode11.6
-      env:
-        - COMPILER=clang++
-        - PREMAKE_GENERATOR=xcode4
-        # There are two OSX builds deployed, here is the Xcode build
-        - DEPLOY=true
-        - DEPLOY_FILE=build/macosx_xcode4_Release/bin/Game.app.zip
-      compiler: clang++
+    # Disable OSX since we know OSX clang doesn't support <concepts>
+    # # For OSX, use 10.15.7 with Xcode 12.2 to have OSX clang 12.0.0
+    # - os: osx
+    #   osx_image: xcode12.2
+    #   env:
+    #     # osx simply names "clang++" the latest clang installed with Xcode toolchain
+    #     - COMPILER=clang++
+    #     - PREMAKE_GENERATOR=gmake
+    #     # There are two OSX builds deployed, here is the gmake build
+    #     - DEPLOY=true
+    #     - DEPLOY_FILE=build/macosx_gmake_Release/bin/Game_gmake.app.zip
+    #   compiler: clang++
+    # - os: osx
+    #   osx_image: xcode12.2
+    #   env:
+    #     - COMPILER=clang++
+    #     - PREMAKE_GENERATOR=xcode4
+    #     # There are two OSX builds deployed, here is the Xcode build
+    #     - DEPLOY=true
+    #     - DEPLOY_FILE=build/macosx_xcode4_Release/bin/Game.app.zip
+    #   compiler: clang++
     - os: linux
       env:
         - COMPILER=g++-10
@@ -64,18 +61,22 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
     - os: linux
-      # On Linux we stick to 10 which is LLVM's latest stable
       env:
-        - COMPILER=clang++-10
+        - COMPILER=clang++-11
         - PREMAKE_GENERATOR=gmake
         - DEPLOY=false
       addons:
         apt:
           packages:
             - *linux_packages
-            - clang-10
+            # g++-10 is only to install C++20 headers/libraries to be used by clang
+            - g++-10
+            - clang-11
           sources:
-            - llvm-toolchain-bionic-10
+            # ubuntu-toolchain-r-test is only to install g++-10
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       compiler: clang++
 
 install:
@@ -85,7 +86,7 @@ install:
   - export CXX=${COMPILER}
   - ${CXX} --version
 
-  # Dependencies required by the CI are installed in ${TRAVIS_BUILD_DIR}/deps/
+  # Dependencies required by the CI are installed in DEPS_DIR
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir -p "${DEPS_DIR}"
   - pushd "${DEPS_DIR}"
@@ -107,41 +108,17 @@ install:
 
       popd
     fi
+
   # Install premake in ~/bin
   - mkdir -p "$HOME/bin"
   - cp "premake-${PREMAKE_VERSION}/premake5" "$HOME/bin/premake5"
-
-  # Commenting out block below in case it's actually causing "/usr/bin/ld: cannot find -lc++" instead of fixing it
-
-  ############################################################################
-  # [linux]: Install the right version of libc++ (required for e.g. C++20, when using clang only)
-  ############################################################################
-  # always use (cd ... && ...) to avoid changing directory in the main prompt
-  # - |
-  #   LLVM_INSTALL=${DEPS_DIR}/llvm/install
-  #   if [[ "${TRAVIS_OS_NAME}" == "linux" && "${CXX%%+*}" == "clang" && ( ! -d "${LLVM_INSTALL}" || -z "$(ls -A ${LLVM_INSTALL})" ) ]]; then
-  #     LLVM_VERSION="10.0.0"
-  #     LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
-  #     LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
-  #     LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
-  #     mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
-  #     travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
-  #     travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx
-  #     travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi
-  #     (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL})
-  #     (cd llvm/build/projects/libcxx && make install -j2)
-  #     (cd llvm/build/projects/libcxxabi && make install -j2)
-  #     export CXXFLAGS="-isystem ${LLVM_INSTALL}/include/c++/v1"
-  #     export LDFLAGS="-L ${LLVM_INSTALL}/lib -l c++ -l c++abi"
-  #     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_INSTALL}/lib"
-  #   fi
 
   # leave DEPS_DIR
   - popd
 
 before_script:
   # Build dependencies
-  - engine/third-party/build_sfml.py
+  - engine/build_deps.py
   # Premake
   - premake5 "${PREMAKE_GENERATOR}"
 
@@ -150,35 +127,31 @@ script:
   - pushd build
   - |
     if [[ "${PREMAKE_GENERATOR}" == "gmake"* ]]; then
-      if [[ $TRAVIS_OS_NAME == "linux" ]]; then
-        export JOBS="$(sysctl -n hw.ncpu)"  # should be 2
-      elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
-        export JOBS="$(nproc)"              # should be ~2
-      fi
-      config=release make -j${JOBS}
+      export JOBS="$(nproc)"              # should be ~2
+      config=release make -j${JOBS} --debug=v
     elif [[ "${PREMAKE_GENERATOR}" == "xcode"* ]]; then
       xcodebuild -project Game.xcodeproj -target Game -configuration Release
     fi
   - popd
 
 before_deploy:
-  # Linux/OSX gmake doesn't need to be archived to be deployed,
-  # but it allows us to preserve execution permissions.
-  # OSX .app folder needs archiving for deployment of a single file
-  # We pushd to avoid archiving the whole folder hierarchy into the zip
+  # Archive the whole bin content to make sure to have the executable, assets and config.
+  # On OSX, we will eventually put everything in the .app, but the zip command should still work.
+  # Archiving also allows us to preserve execution permissions on Unix systems.
+  # We pushd to avoid archiving the whole folder hierarchy into the zip.
   - |
     if [[ $TRAVIS_OS_NAME == "linux" ]]; then
       pushd build/linux_${PREMAKE_GENERATOR}_Release/bin
-      zip -r Game_Linux.zip Game_Linux
+      zip -r Game_Linux.zip .
       popd
     elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
       if [[ $PREMAKE_GENERATOR == "gmake"* ]]; then
         pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
-        zip -r Game_OSX.zip Game_OSX
+        zip -r Game_gmake.app.zip .
         popd
       else
         pushd build/macosx_${PREMAKE_GENERATOR}_Release/bin
-        zip -r Game.app.zip Game.app
+        zip -r Game.app.zip .
         popd
       fi
     fi

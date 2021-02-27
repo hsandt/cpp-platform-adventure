@@ -6,7 +6,7 @@
         {
             "label": "build dependencies (g++)",
             "type": "shell",
-            "command": "python3 engine/third-party/build_sfml.py",
+            "command": "python3 engine/build_deps.py",
             "options": {
                 "env": {"CXX": "g++-10"}
             },
@@ -16,7 +16,7 @@
         {
             "label": "build dependencies (clang++)",
             "type": "shell",
-            "command": "python3 engine/third-party/build_sfml.py",
+            "command": "python3 engine/build_deps.py",
             "options": {
                 "env": {"CXX": "clang++-10", "CC": "clang-10"}
             },
@@ -87,6 +87,7 @@
             "label": "make (g++, debug)",
             "type": "shell",
             "command": "make",
+            "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
                 "env": {"CXX": "g++-10", "config": "debug"}
@@ -104,6 +105,7 @@
             "label": "quick make (g++, debug)",
             "type": "shell",
             "command": "make",
+            "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
                 "env": {"CXX": "g++-10", "config": "debug"}
@@ -118,6 +120,7 @@
             "label": "make (g++, release)",
             "type": "shell",
             "command": "make",
+            "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
                 "env": {"CXX": "g++-10", "config": "release"}
@@ -130,9 +133,27 @@
             "dependsOn": ["premake5 gmake", "build dependencies (g++)"]
         },
         {
+            // alternative version without checking deps at all
+            // run it when you're sure deps have been built to gain 1s
+            "label": "quick make (g++, release)",
+            "type": "shell",
+            "command": "make",
+            "args": ["-j", "$nproc"],
+            "options": {
+                "cwd": "build",
+                "env": {"CXX": "g++-10", "config": "release"}
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "make (clang++, debug)",
             "type": "shell",
             "command": "make",
+            "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
                 "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "debug"}
@@ -158,6 +179,7 @@
             "label": "make (clang++, release)",
             "type": "shell",
             "command": "make",
+            "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
                 "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "release"}
