@@ -4,10 +4,13 @@
 #include <concepts>
 
 // SFML
+#include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
+
+#include <iostream>
 
 namespace YamlHelper
 {
@@ -23,16 +26,8 @@ namespace YamlHelper
         // count on as<> to throw if key is invalid
         // return node[key].as<YAMLValue>();
 
-        YAML::Node childNode = node[key];
-        if (childNode.IsDefined())
-        {
-            // implicit conversion from Value to Out type may happen here
-            return childNode.as<YAMLValue>();
-        }
-
-        // This requires key to be formattable to strings
-        // but we only use string keys, so this should be fine.
-        throw std::runtime_error(fmt::format("YamlHelper::get: no key '{}' found on node", key));
+        const YAML::Node& childNode = node[key];
+        return childNode.as<YAMLValue>();
     }
 
     /// Try to get the value at key in node and store it in var
@@ -58,11 +53,10 @@ namespace YamlHelper
     }
 
     /// Return YAML node as a Vector2f
-    /// UB unless node contains 2 sequential elements
-    inline sf::Vector2f asVector2f(const YAML::Node& node)
-    {
-        float x = YamlHelper::get<float>(node, "x");
-        float y = YamlHelper::get<float>(node, "y");
-        return sf::Vector2f(x, y);
-    }
+    /// UB unless node contains x and y values as float
+    sf::Vector2f asVector2f(const YAML::Node& node);
+
+    /// Return YAML node as a Color with max opacity
+    /// UB unless node contains r, g and b as float
+    sf::Color asColor(const YAML::Node& node);
 }
