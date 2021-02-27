@@ -41,12 +41,6 @@ void World::loadScene()
 
     // load the rest hard-coded for now
 
-    auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp, 1);
-    nonPlayerCharacter->mc_transform->position = sf::Vector2(600.f, 400.f);
-    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = "Wow, you brought me the flag. Thanks!";
-    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = "Hello! Can you bring me the flag over here?";
-    addSpatialObject(std::move(nonPlayerCharacter));
-
     auto item = std::make_unique<PickUpItem>(mo_gameApp, 2, ItemDataID::Flag);
     item->mc_transform->position = sf::Vector2(500.f, 400.f);
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
@@ -82,6 +76,19 @@ void World::loadSceneFromYAML(const std::string& filename)
                 sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
                 playerCharacter->mc_transform->position = position;
                 addSpatialObject(std::move(playerCharacter));
+            }
+            if (type == "NonPlayerCharacter")
+            {
+                auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp, id);
+                sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+                nonPlayerCharacter->mc_transform->position = position;
+
+                const YAML::Node& dialogueTree = spatialObjectNode["dialogueTree"];
+                std::string dialogueTextWithItem = YamlHelper::get<std::string>("dialogueTextWithItem", dialogueTree);
+                nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
+                std::string dialogueTextWithoutItem = YamlHelper::get<std::string>("dialogueTextWithoutItem", dialogueTree);
+                nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
+                addSpatialObject(std::move(nonPlayerCharacter));
             }
             else
             {
