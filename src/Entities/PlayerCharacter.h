@@ -18,6 +18,12 @@ namespace sf
     class RenderWindow;
 }
 
+// yaml-cpp
+namespace YAML
+{
+    class Node;
+}
+
 // Game
 class Inventory;
 class PickUpItem;
@@ -32,7 +38,9 @@ public:
     explicit PlayerCharacter(GameApplication& gameApp, Handle id);
     virtual ~PlayerCharacter();
 
-public:
+    /// Create and return object from YAML node
+    static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
+
     void update(World& world, sf::Time deltaTime);
     void render(sf::RenderWindow& window);
 

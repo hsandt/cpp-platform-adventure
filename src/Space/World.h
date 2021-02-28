@@ -35,7 +35,7 @@ public:
 public:
 
     /// Load scene content
-    void loadScene();
+    void loadFirstScene();
 
     /// Load scene content from YAML scene asset
     void loadSceneFromYAML(const std::string& filename);
@@ -64,7 +64,7 @@ public:
 private:
 
     /// Add spatial object from unique pointer
-    void addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
+    SpatialObject& addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
 
     /// Destroy all spatial objects flagged for destruction
     void cleanObjectsToDestroy();

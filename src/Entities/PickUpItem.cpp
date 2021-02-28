@@ -8,12 +8,16 @@
 // SFML
 #include <SFML/Graphics.hpp>
 
+// yaml-cpp
+#include "yaml-cpp/yaml.h"
+
 // Game
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
 #include "Dialogue/DialogueTree.h"
 #include "Entities/PlayerCharacter.h"
+#include "Serialization/YamlHelper.h"
 #include "Space/World.h"
 
 PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
@@ -29,6 +33,31 @@ PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
 
 PickUpItem::~PickUpItem()
 {
+}
+
+/* static */ std::unique_ptr<SpatialObject> PickUpItem::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
+{
+    Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
+    DataID dataID = YamlHelper::get<DataID>(spatialObjectNode, "dataID");
+    auto item = std::make_unique<PickUpItem>(gameApp, id, dataID);
+
+    sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+    item->mc_transform->position = position;
+
+    const YAML::Node& shapeNode = spatialObjectNode["shape"];
+    sf::Vector2 size = YamlHelper::asVector2f(shapeNode["size"]);
+    item->mc_shape->setSize(size);
+    sf::Color color = YamlHelper::asColor(shapeNode["fillColor"]);
+    item->mc_shape->setFillColor(color);
+
+    // currently dialogue trees all check for item, but it doesn't make sense for picking an item
+    const YAML::Node& dialogueTree = spatialObjectNode["pickUpDialogueTree"];
+    std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithItem");
+    item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
+    std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithoutItem");
+    item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
+
+    return item;
 }
 
 void PickUpItem::render(sf::RenderWindow& window)

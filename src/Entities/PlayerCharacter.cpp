@@ -1,11 +1,15 @@
 #include "Entities/PlayerCharacter.h"
 
+// std
 #include <cmath>
-#include <iostream>
 
+// SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+
+// yaml-cpp
+#include "yaml-cpp/yaml.h"
 
 // Game
 #include "Application/GameApplication.h"
@@ -16,6 +20,7 @@
 #include "Input/InputManager.h"
 #include "Memory/Box.hpp"
 #include "PlayerCharacter/Inventory.h"
+#include "Serialization/YamlHelper.h"
 #include "Space/World.h"
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
@@ -37,6 +42,17 @@ PlayerCharacter::~PlayerCharacter()
 {
     // important to remove input bindings
     setCanInteract(false);
+}
+
+/* static */ std::unique_ptr<SpatialObject> PlayerCharacter::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
+{
+    Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
+    auto playerCharacter = std::make_unique<PlayerCharacter>(gameApp, id);
+
+    sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+    playerCharacter->mc_transform->position = position;
+
+    return playerCharacter;
 }
 
 void PlayerCharacter::update(World& world, sf::Time deltaTime)

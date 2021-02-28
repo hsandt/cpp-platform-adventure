@@ -16,6 +16,12 @@ namespace sf
     class RenderWindow;
 }
 
+// yaml-cpp
+namespace YAML
+{
+    class Node;
+}
+
 // Game
 class DialogueTree;
 class PlayerCharacter;
@@ -27,6 +33,9 @@ class NonPlayerCharacter : public SpatialObject, public IInteractable
 public:
     explicit NonPlayerCharacter(GameApplication& gameApp, Handle id);
     virtual ~NonPlayerCharacter();
+
+    /// Create and return object from YAML node
+    static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
 
     /// Update
     virtual void update(World& world, sf::Time deltaTime) override;

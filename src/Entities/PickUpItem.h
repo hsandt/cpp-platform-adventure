@@ -13,6 +13,12 @@ namespace sf
     class RenderWindow;
 }
 
+// yaml-cpp
+namespace YAML
+{
+    class Node;
+}
+
 // Game
 class DialogueTree;
 class PlayerCharacter;
@@ -24,6 +30,9 @@ class PickUpItem : public SpatialObject, public IInteractable
 public:
     explicit PickUpItem(GameApplication& gameApp, Handle id, DataID dataID);
     virtual ~PickUpItem();
+
+    /// Create and return object from YAML node
+    static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
 
     /// Render
     virtual void render(sf::RenderWindow& window) override;

@@ -6,11 +6,15 @@
 // SFML
 #include <SFML/Graphics.hpp>
 
+// yaml-cpp
+#include "yaml-cpp/yaml.h"
+
 // Game
 #include "Application/GameApplication.h"
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
 #include "Dialogue/DialogueTree.h"
+#include "Serialization/YamlHelper.h"
 
 NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
     SpatialObject(gameApp, id),
@@ -27,6 +31,23 @@ NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
 // some smart pointer contained types in .h
 NonPlayerCharacter::~NonPlayerCharacter()
 {
+}
+
+/* static */ std::unique_ptr<SpatialObject> NonPlayerCharacter::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
+{
+    Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
+    auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(gameApp, id);
+
+    sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+    nonPlayerCharacter->mc_transform->position = position;
+
+    const YAML::Node& dialogueTreeNode = spatialObjectNode["dialogueTree"];
+    std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithItem");
+    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
+    std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithoutItem");
+    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
+
+    return nonPlayerCharacter;
 }
 
 void NonPlayerCharacter::update(World& world, sf::Time deltaTime)

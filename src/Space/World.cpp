@@ -17,6 +17,7 @@
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
+#include "Serialization/Deserialization.h"
 #include "Serialization/YamlHelper.h"
 #include "Space/SpatialObject.h"
 #include "Space/Terrain.h"
@@ -47,58 +48,7 @@ void World::loadSceneFromYAML(const std::string& filename)
         YAML::Node sceneAsset = YAML::LoadFile(filename);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
-            std::string type = YamlHelper::get<std::string>(spatialObjectNode, "type");
-            Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
-            if (type == "PlayerCharacter")
-            {
-                auto playerCharacter = std::make_unique<PlayerCharacter>(mo_gameApp, id);
-
-                sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
-                playerCharacter->mc_transform->position = position;
-
-                addSpatialObject(std::move(playerCharacter));
-            }
-            else if (type == "NonPlayerCharacter")
-            {
-                auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(mo_gameApp, id);
-
-                sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
-                nonPlayerCharacter->mc_transform->position = position;
-
-                const YAML::Node& dialogueTreeNode = spatialObjectNode["dialogueTree"];
-                std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithItem");
-                nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
-                std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithoutItem");
-                nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
-
-                addSpatialObject(std::move(nonPlayerCharacter));
-            }
-            else if (type == "PickUpItem")
-            {
-                DataID dataID = YamlHelper::get<DataID>(spatialObjectNode, "dataID");
-                auto item = std::make_unique<PickUpItem>(mo_gameApp, id, dataID);
-
-                sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
-                item->mc_transform->position = position;
-
-                const YAML::Node& shapeNode = spatialObjectNode["shape"];
-                sf::Vector2 size = YamlHelper::asVector2f(shapeNode["size"]);
-                item->mc_shape->setSize(size);
-                sf::Color color = YamlHelper::asColor(shapeNode["fillColor"]);
-                item->mc_shape->setFillColor(color);
-
-                // currently dialogue trees all check for item, but it doesn't make sense for picking an item
-                const YAML::Node& dialogueTree = spatialObjectNode["pickUpDialogueTree"];
-                std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithItem");
-                item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
-                std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithoutItem");
-                item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
-                addSpatialObject(std::move(item));
-            }
-            else
-            {
-                throw std::runtime_error(fmt::format("Unsupported type {}", type));
-            }
+            SpatialObject& spatialObject = addSpatialObject(Deserialization::deserialize(mo_gameApp, spatialObjectNode));
 
             // Check tag for special behaviours
             std::string tag;
@@ -107,7 +57,7 @@ void World::loadSceneFromYAML(const std::string& filename)
                 if (tag == "PlayerCharacter")
                 {
                     // register as Player Character
-                    ms_playerCharacterHandle.set(id);
+                    ms_playerCharacterHandle.set(spatialObject.mp_id);
                 }
             }
         }
@@ -132,7 +82,7 @@ void World::update(sf::Time deltaTime)
     cleanObjectsToDestroy();
 }
 
-void World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
+SpatialObject& World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
 {
     const auto& [it, success] = ms_spatialObjects.emplace(spatialObject->mp_id, std::move(spatialObject));
 
@@ -143,6 +93,8 @@ void World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
             "World::addSpatialObject: there is already an object with id {}, "
             "cannot add another object with same id", it->second->mp_id));
     }
+
+    return *it->second;
 }
 
 void World::cleanObjectsToDestroy()
