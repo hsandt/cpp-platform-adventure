@@ -10,7 +10,8 @@
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
 
-#include <iostream>
+// Game
+#include "Common.h"
 
 namespace YamlHelper
 {
@@ -24,10 +25,8 @@ namespace YamlHelper
     inline YAMLValue get(const YAML::Node& node, const YAMLKey& key)
     {
         // count on as<> to throw if key is invalid
-        // return node[key].as<YAMLValue>();
-
-        const YAML::Node& childNode = node[key];
-        return childNode.as<YAMLValue>();
+        // if chaining operator[] with as<> on a single line, we need to add `template` (thx clang)
+        return node[key].template as<YAMLValue>();
     }
 
     /// Try to get the value at key in node and store it in var
