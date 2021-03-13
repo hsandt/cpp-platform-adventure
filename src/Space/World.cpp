@@ -53,8 +53,8 @@ void World::deferLoadScene(const std::string& relativeFilePathString)
 
 void World::update(sf::Time deltaTime)
 {
-    // check for next scene to load
-    // note that next scene path can be equal to current scene, it will reload the current scene
+    // Check for next scene to load
+    // Note that next scene path can be equal to current scene, it will reload the current scene.
     if (ms_oNextSceneFilePathString)
     {
         loadSceneFromYAML(*ms_oNextSceneFilePathString);
@@ -67,14 +67,16 @@ void World::update(sf::Time deltaTime)
         spatialObject->update(*this, deltaTime);
     }
 
-    // clean objects to destroy at the end of the update, so behavior updates can safely complete
-    // note that this is called multiple times if game application is catching up frames
+    // Clean objects to destroy at the end of the update, so behavior updates can safely complete
+    // Note that this is called multiple times if game application is catching up frames.
     cleanObjectsToDestroy();
 }
 
 void World::loadSceneFromYAML(const std::string& relativeFilePathString)
 {
     // clear any loaded scene
+    // this must only be called on game start and at the beginning of the frame,
+    // so objects flagged for destruction have already been destroyed and we won't try 2x destruction
     clearScene();
 
     // update current scene file path
@@ -129,6 +131,8 @@ void World::cleanObjectsToDestroy()
         // we assume handle is valid, but nothing happens if invalid besides returning 0
         ms_spatialObjects.erase(handle);
     }
+
+    ms_spatialObjectHandlesFlaggedForDestruction.clear();
 }
 
 void World::clearScene()
@@ -151,6 +155,8 @@ void World::clearScene()
         }
     }
 
+    // replace current map of spatial objects with map only containing persistent objects,
+    // effectively destroying all non-persistent objects
     ms_spatialObjects = std::move(persistentSpatialObjects);
 }
 
