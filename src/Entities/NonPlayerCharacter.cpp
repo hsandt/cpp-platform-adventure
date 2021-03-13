@@ -22,7 +22,7 @@ NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
     mp_dialogueTree(gameApp)
 {
     // character rectangle
-    mc_shape->setPosition(0.f, 0.f);
+    mc_shape->setPosition(-10.f, -19.f);
     mc_shape->setSize(sf::Vector2f(20.f, 38.f));
     mc_shape->setFillColor(sf::Color::Blue);
 }

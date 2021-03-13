@@ -1,6 +1,7 @@
 #include "Entities/PlayerCharacter.h"
 
 // std
+#include <algorithm>
 #include <cmath>
 
 // SFML
@@ -31,7 +32,7 @@ PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
     m_canInteract(false)  // so setCanInteract works
 {
     // character rectangle
-    mc_shape->setPosition(0.f, 0.f);
+    mc_shape->setPosition(-16.f, -16.f);
     mc_shape->setSize(sf::Vector2f(32.f, 32.f));
     mc_shape->setFillColor(sf::Color::Red);
 
@@ -73,6 +74,9 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     // apply character speed in px/s
     const float characterSpeedX = 32.f * 10;
     mc_transform->position.x += characterSpeedX * deltaTime.asSeconds() * moveIntentionX;
+
+    // clamp character shape edges to scene edges
+    mc_transform->position.x = std::clamp(mc_transform->position.x, 0.f - mc_shape->getPosition().x, 1280.f - (mc_shape->getPosition().x + mc_shape->getSize().x));
 
     // Detect interactable elements around character
     detectInteractable(world);

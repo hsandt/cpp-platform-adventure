@@ -26,7 +26,7 @@ PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
     mp_pickUpDialogueTree(gameApp)
 {
     // item rectangle
-    mc_shape->setPosition(0.f, 0.f);
+    mc_shape->setPosition(-5.f, -10.f);
     mc_shape->setSize(sf::Vector2f(10.f, 20.f));
     mc_shape->setFillColor(sf::Color::Yellow);
 }
