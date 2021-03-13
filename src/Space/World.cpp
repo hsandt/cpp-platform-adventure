@@ -27,6 +27,10 @@
 World::World(GameApplication& gameApp) :
     ApplicationObject(gameApp),
     terrain(std::make_unique<Terrain>()),
+    ms_oCurrentSceneFilePathString(),
+    ms_oNextSceneFilePathString(),
+    ms_spatialObjects(),
+    ms_spatialObjectHandlesFlaggedForDestruction(),
     ms_playerCharacterHandle(*this)
 {
 }
@@ -42,15 +46,43 @@ void World::loadFirstScene()
     loadSceneFromYAML("scene1.yml");
 }
 
+void World::deferLoadScene(const std::string& relativeFilePathString)
+{
+    ms_oNextSceneFilePathString = relativeFilePathString;
+}
+
+void World::update(sf::Time deltaTime)
+{
+    // check for next scene to load
+    // note that next scene path can be equal to current scene, it will reload the current scene
+    if (ms_oNextSceneFilePathString)
+    {
+        loadSceneFromYAML(*ms_oNextSceneFilePathString);
+        ms_oNextSceneFilePathString = std::nullopt;
+    }
+
+    // update spatial objects
+    for (const auto &[handle, spatialObject] : ms_spatialObjects)
+    {
+        spatialObject->update(*this, deltaTime);
+    }
+
+    // clean objects to destroy at the end of the update, so behavior updates can safely complete
+    // note that this is called multiple times if game application is catching up frames
+    cleanObjectsToDestroy();
+}
+
 void World::loadSceneFromYAML(const std::string& relativeFilePathString)
 {
-    std::filesystem::path relativeFilePath(relativeFilePathString);
-
     // clear any loaded scene
     clearScene();
 
+    // update current scene file path
+    ms_oCurrentSceneFilePathString = relativeFilePathString;
+
     try
     {
+        std::filesystem::path relativeFilePath(relativeFilePathString);
         YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / relativeFilePath);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
@@ -73,19 +105,6 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
         // what() just contains "bad file", so prefer custom error message
         throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", relativeFilePathString));
     }
-}
-
-void World::update(sf::Time deltaTime)
-{
-    // update spatial objects
-    for (const auto &[handle, spatialObject] : ms_spatialObjects)
-    {
-        spatialObject->update(*this, deltaTime);
-    }
-
-    // clean objects to destroy at the end of the update, so behavior updates can safely complete
-    // note that this is called multiple times if game application is catching up frames
-    cleanObjectsToDestroy();
 }
 
 SpatialObject& World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)

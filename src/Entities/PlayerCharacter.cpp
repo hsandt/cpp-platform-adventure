@@ -83,7 +83,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     else if (mc_transform->position.x > 1280.f)
     {
         // go to scene 2 (commented out as immediate loading causes crash)
-        // mo_gameApp.mc_world->loadSceneFromYAML("assets/scenes/scene2.yml");
+        mo_gameApp.mc_world->deferLoadScene("scene2.yml");
     }
 
     // Detect interactable elements around character

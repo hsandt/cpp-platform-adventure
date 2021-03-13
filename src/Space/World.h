@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 
 // SFML
@@ -39,9 +40,9 @@ public:
     /// Load scene content
     void loadFirstScene();
 
-    /// Load scene content from YAML scene asset file, described by filepath relative to
+    /// Order World to load scene on next frame, by passing filepath relative to
     /// assets/scenes
-    void loadSceneFromYAML(const std::string& relativeFilePathString);
+    void deferLoadScene(const std::string& relativeFilePathString);
 
     /// Update all world elements
     void update(sf::Time deltaTime);
@@ -66,6 +67,10 @@ public:
 
 private:
 
+    /// Load scene content from YAML scene asset file, described by filepath relative to
+    /// assets/scenes
+    void loadSceneFromYAML(const std::string& relativeFilePathString);
+
     /// Add spatial object from unique pointer
     SpatialObject& addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
 
@@ -82,8 +87,11 @@ private:
 
     /* State */
 
-    /// Current scene filename
-    // const std::string ms_currentSceneFilename;
+    /// File path of current scene
+    std::optional<std::string> ms_oCurrentSceneFilePathString;
+
+    /// File path of next scene to load, if any (consumed on next frame)
+    std::optional<std::string> ms_oNextSceneFilePathString;
 
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;
