@@ -37,9 +37,6 @@ public:
     explicit World(GameApplication& gameApp);
     virtual ~World();
 
-    /// Load scene content
-    void loadFirstScene();
-
     /// Order World to load scene on next frame, by passing filepath relative to
     /// assets/scenes
     void deferLoadScene(const std::string& relativeFilePathString);

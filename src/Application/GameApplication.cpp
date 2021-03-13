@@ -56,7 +56,7 @@ void GameApplication::init()
     mc_view->setSize(sf::Vector2f(1280.f, 720.f));
 
     // load initial scene
-    mc_world->loadFirstScene();
+    mc_world->deferLoadScene("scene1.yml");
 
     // set initial input context to Platforming
     mc_inputManager->pushInputContext(InputContext::Platforming);

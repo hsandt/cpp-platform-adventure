@@ -41,11 +41,6 @@ World::~World()
 {
 }
 
-void World::loadFirstScene()
-{
-    loadSceneFromYAML("scene1.yml");
-}
-
 void World::deferLoadScene(const std::string& relativeFilePathString)
 {
     ms_oNextSceneFilePathString = relativeFilePathString;
