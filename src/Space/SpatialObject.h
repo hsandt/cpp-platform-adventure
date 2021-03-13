@@ -25,7 +25,7 @@ class SpatialObject : protected ApplicationObject
 {
 public:
 
-    SpatialObject(GameApplication& gameApp, Handle id);
+    SpatialObject(GameApplication& gameApp, Handle id, bool persistentFlag = false);
     virtual ~SpatialObject();
 
     /// Is the object flagged for destruction?
@@ -52,9 +52,14 @@ public:
     /// Unique spatial object ID
     const Handle mp_id;
 
+    /// Persistent flag: if true, the object is not destroyed on scene load
+    const bool mp_persistentFlag;
+
 private:
 
     /* State */
 
+    /// Destruction flag: if true, the object will be destroyed at the end of the frame,
+    /// and should not be retrieved by spatial object queries
     bool ms_destructionFlag;
 };

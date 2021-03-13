@@ -5,9 +5,10 @@
 #include "Components/Transform.h"
 #include "Space/World.h"
 
-SpatialObject::SpatialObject(GameApplication& gameApp, Handle id) :
+SpatialObject::SpatialObject(GameApplication& gameApp, Handle id, bool persistentFlag) :
     ApplicationObject(gameApp),
     mp_id(id),
+    mp_persistentFlag(persistentFlag),
     ms_destructionFlag(false)
 {
 }

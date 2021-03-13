@@ -24,7 +24,7 @@
 #include "Space/World.h"
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
-    SpatialObject(gameApp, id),
+    SpatialObject(gameApp, id, /* persistentFlag: */ true),
     mc_transform(),
     mc_shape(),
     mc_inventory(),
@@ -82,8 +82,11 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     }
     else if (mc_transform->position.x > 1280.f)
     {
-        // go to scene 2 (commented out as immediate loading causes crash)
+        // go to scene 2 (note that scene 2 just wraps to itself)
         mo_gameApp.mc_world->deferLoadScene("scene2.yml");
+
+        // warp character to the left of scene 2
+        mc_transform->position.x = 0.f;
     }
 
     // Detect interactable elements around character

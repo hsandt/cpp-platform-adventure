@@ -133,7 +133,25 @@ void World::cleanObjectsToDestroy()
 
 void World::clearScene()
 {
-    ms_spatialObjects.clear();
+    // save the persistent objects in a temporary map
+    std::map<Handle, Box<SpatialObject>> persistentSpatialObjects;
+
+    // don't increment iterator in for loop header because we are using the erase pattern
+    // (except with extract)
+    for (auto it = ms_spatialObjects.begin(); it != ms_spatialObjects.end();)
+    {
+        const auto &[handle, spatialObject] = *it;
+        if (spatialObject->mp_persistentFlag)
+        {
+            persistentSpatialObjects.insert(ms_spatialObjects.extract(it++));
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
+    ms_spatialObjects = std::move(persistentSpatialObjects);
 }
 
 void World::render(sf::RenderWindow& window)
