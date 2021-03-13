@@ -1,7 +1,6 @@
 #include "Entities/PlayerCharacter.h"
 
 // std
-#include <algorithm>
 #include <cmath>
 
 // SFML
@@ -76,7 +75,16 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     mc_transform->position.x += characterSpeedX * deltaTime.asSeconds() * moveIntentionX;
 
     // clamp character shape edges to scene edges
-    mc_transform->position.x = std::clamp(mc_transform->position.x, 0.f - mc_shape->getPosition().x, 1280.f - (mc_shape->getPosition().x + mc_shape->getSize().x));
+    if (mc_transform->position.x < 0.f)
+    {
+        // nothing to the left, stop
+        mc_transform->position.x = 0.f;
+    }
+    else if (mc_transform->position.x > 1280.f)
+    {
+        // go to scene 2 (commented out as immediate loading causes crash)
+        // mo_gameApp.mc_world->loadSceneFromYAML("assets/scenes/scene2.yml");
+    }
 
     // Detect interactable elements around character
     detectInteractable(world);

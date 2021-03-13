@@ -1,0 +1,18 @@
+- type: NonPlayerCharacter
+  id: 1
+  transform:
+    position: {x: 300, y: 420}
+  dialogueTree:
+    dialogueTextWithItem: "Wow, you brought me the box. Thanks!"
+    dialogueTextWithoutItem: "Hello! Can you bring me the box over here?"
+- type: PickUpItem
+  id: 2
+  dataID: 1
+  transform:
+    position: {x: 700, y: 420}
+  shape:
+    size: {x: 60, y: 30}
+    fillColor: {r: 255, g: 255, b: 0}
+  pickUpDialogueTree:
+    dialogueTextWithItem: "Player has already picked box!"
+    dialogueTextWithoutItem: "Player picks box!"

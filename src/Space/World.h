@@ -1,6 +1,7 @@
 #pragma once
 
 // std
+#include <filesystem>
 #include <map>
 #include <memory>
 #include <set>
@@ -29,16 +30,18 @@ class Terrain;
 class World : protected ApplicationObject
 {
 public:
+    /// Path to scene assets directory
+    static std::filesystem::path sceneAssetsDirPath;
+
     explicit World(GameApplication& gameApp);
     virtual ~World();
-
-public:
 
     /// Load scene content
     void loadFirstScene();
 
-    /// Load scene content from YAML scene asset
-    void loadSceneFromYAML(const std::string& filename);
+    /// Load scene content from YAML scene asset file, described by filepath relative to
+    /// assets/scenes
+    void loadSceneFromYAML(const std::string& relativeFilePathString);
 
     /// Update all world elements
     void update(sf::Time deltaTime);
@@ -69,6 +72,9 @@ private:
     /// Destroy all spatial objects flagged for destruction
     void cleanObjectsToDestroy();
 
+    /// Destroy all spatial objects
+    void clearScene();
+
     /* Components */
 
     const std::unique_ptr<Terrain> terrain;
@@ -76,8 +82,8 @@ private:
 
     /* State */
 
-    /// Scene data: deserialized form of scene YAML asset
-    // SceneData ms_currentSceneData;
+    /// Current scene filename
+    // const std::string ms_currentSceneFilename;
 
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;

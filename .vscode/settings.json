@@ -63,7 +63,9 @@
         "ratio": "cpp",
         "variant": "cpp",
         "cassert": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "codecvt": "cpp",
+        "filesystem": "cpp"
     },
     "cmake.configureOnOpen": false
 }

@@ -21,14 +21,3 @@
   pickUpDialogueTree:
     dialogueTextWithItem: "Player has already picked flag!"
     dialogueTextWithoutItem: "Player picks flag!"
-- type: PickUpItem
-  id: 3
-  dataID: 1
-  transform:
-    position: {x: 700, y: 420}
-  shape:
-    size: {x: 60, y: 30}
-    fillColor: {r: 255, g: 255, b: 0}
-  pickUpDialogueTree:
-    dialogueTextWithItem: "Player has already picked box!"
-    dialogueTextWithoutItem: "Player picks box!"

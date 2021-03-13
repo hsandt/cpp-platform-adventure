@@ -22,6 +22,8 @@
 #include "Space/SpatialObject.h"
 #include "Space/Terrain.h"
 
+/* static */ std::filesystem::path World::sceneAssetsDirPath("assets/scenes");
+
 World::World(GameApplication& gameApp) :
     ApplicationObject(gameApp),
     terrain(std::make_unique<Terrain>()),
@@ -37,15 +39,19 @@ World::~World()
 
 void World::loadFirstScene()
 {
-    // load as much as you can from asset file
-    loadSceneFromYAML("assets/scenes/scene1.yml");
+    loadSceneFromYAML("scene1.yml");
 }
 
-void World::loadSceneFromYAML(const std::string& filename)
+void World::loadSceneFromYAML(const std::string& relativeFilePathString)
 {
+    std::filesystem::path relativeFilePath(relativeFilePathString);
+
+    // clear any loaded scene
+    clearScene();
+
     try
     {
-        YAML::Node sceneAsset = YAML::LoadFile(filename);
+        YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / relativeFilePath);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
             SpatialObject& spatialObject = addSpatialObject(Deserialization::deserialize(mo_gameApp, spatialObjectNode));
@@ -65,7 +71,7 @@ void World::loadSceneFromYAML(const std::string& filename)
     catch(const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer custom error message
-        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename));
+        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", relativeFilePathString));
     }
 }
 
@@ -104,6 +110,11 @@ void World::cleanObjectsToDestroy()
         // we assume handle is valid, but nothing happens if invalid besides returning 0
         ms_spatialObjects.erase(handle);
     }
+}
+
+void World::clearScene()
+{
+    ms_spatialObjects.clear();
 }
 
 void World::render(sf::RenderWindow& window)
