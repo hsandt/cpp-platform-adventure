@@ -113,7 +113,7 @@ void GameApplication::run()
             // cumulatedElapsedTime, and we don't want to catch up many frames.
             u8 updatesCount = 0;
 
-            while (cumulatedElapsedTime >= mp_frameDuration &&
+            while (cumulatedElapsedTime >= sf::Time::Zero &&
                 updatesCount < mp_maxUpdatesPerRender)
             {
                 cumulatedElapsedTime -= mp_frameDuration;
@@ -129,7 +129,7 @@ void GameApplication::run()
                 ++updatesCount;
             }
 
-            if (cumulatedElapsedTime >= mp_frameDuration)
+            if (cumulatedElapsedTime >= sf::Time::Zero)
             {
                 // There were still frames to catch up but we hit the max updates limit.
                 // Still clear the cumulated elapsed time so we start afresh after a freeze,
