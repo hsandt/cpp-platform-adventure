@@ -1,3 +1,6 @@
+- type: Gate
+  direction: left
+  targetScene: scene1
 - type: NonPlayerCharacter
   id: 1
   transform:

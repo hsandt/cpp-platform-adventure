@@ -1,3 +1,6 @@
+- type: Gate
+  direction: right
+  targetScene: scene2
 - type: PlayerCharacter
   id: 0
   tag: PlayerCharacter

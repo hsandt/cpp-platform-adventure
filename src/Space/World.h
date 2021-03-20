@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <string>
 
 // SFML
 #include <SFML/System/Time.hpp>
@@ -46,6 +47,18 @@ public:
 
     /// Render all world elements
     void render(sf::RenderWindow& window);
+
+    /// Return name of target scene of left gate, if any
+    const std::optional<std::string>& GetGateLeftTargetSceneName() const
+    {
+        return ms_oGateLeftTargetSceneName;
+    }
+
+    /// Return name of target scene of right gate, if any
+    const std::optional<std::string>& GetGateRightTargetSceneName() const
+    {
+        return ms_oGateRightTargetSceneName;
+    }
 
     std::optional<std::reference_wrapper<PlayerCharacter>> getPlayerCharacter() const;
 
@@ -89,6 +102,12 @@ private:
 
     /// File path of next scene to load, if any (consumed on next frame)
     std::optional<std::string> ms_oNextSceneFilePathString;
+
+    /// Meta-object: left gate
+    std::optional<std::string> ms_oGateLeftTargetSceneName;
+
+    /// Meta-object: right gate
+    std::optional<std::string> ms_oGateRightTargetSceneName;
 
     /// Map of spatial objects, identified by handle
     std::map<Handle, Box<SpatialObject>> ms_spatialObjects;

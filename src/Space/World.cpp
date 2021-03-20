@@ -29,6 +29,8 @@ World::World(GameApplication& gameApp) :
     terrain(std::make_unique<Terrain>()),
     ms_oCurrentSceneFilePathString(),
     ms_oNextSceneFilePathString(),
+    ms_oGateLeftTargetSceneName(),
+    ms_oGateRightTargetSceneName(),
     ms_spatialObjects(),
     ms_spatialObjectHandlesFlaggedForDestruction(),
     ms_playerCharacterHandle(*this)
@@ -74,6 +76,10 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
     // so objects flagged for destruction have already been destroyed and we won't try 2x destruction
     clearScene();
 
+    // clear meta-objects
+    ms_oGateLeftTargetSceneName = std::nullopt;
+    ms_oGateRightTargetSceneName = std::nullopt;
+
     // update current scene file path
     ms_oCurrentSceneFilePathString = relativeFilePathString;
 
@@ -83,7 +89,27 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
         YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / relativeFilePath);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
-            SpatialObject& spatialObject = addSpatialObject(Deserialization::deserialize(mo_gameApp, spatialObjectNode));
+            // Check for meta-objects like Gates first
+            // Redundant with Deserialization::deserialize...
+            std::string type = YamlHelper::get<std::string>(spatialObjectNode, "type");
+            if (type == "Gate")
+            {
+                std::string direction = YamlHelper::get<std::string>(spatialObjectNode, "direction");
+                std::string targetScene = YamlHelper::get<std::string>(spatialObjectNode, "targetScene");
+                if (direction == "left")
+                {
+                    ms_oGateLeftTargetSceneName = targetScene;
+                }
+                else if (direction == "right")
+                {
+                    ms_oGateRightTargetSceneName = targetScene;
+                }
+
+                // continue as meta-object is a valid entry, but deserialize below would assert on it
+                continue;
+            }
+
+            std::unique_ptr<SpatialObject> spatialObject = Deserialization::deserialize(mo_gameApp, spatialObjectNode);
 
             // Check tag for special behaviours
             std::string tag;
@@ -91,10 +117,21 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
             {
                 if (tag == "PlayerCharacter")
                 {
-                    // register as Player Character
-                    ms_playerCharacterHandle.set(spatialObject.mp_id);
+                    if (ms_playerCharacterHandle)
+                    {
+                        // Player character has already been spawned and registered,
+                        // so ignore this one (it's just the scene indicating a spawn point)
+                        // Performance note: we created the object for nothing. It will be destroyed
+                        // when unique_ptr goes out of scope, but it'd be better not to create it at all.
+                        continue;
+                    }
+
+                    // Player Character found for the first time, register it and add it
+                    ms_playerCharacterHandle.set(spatialObject->mp_id);
                 }
             }
+
+            addSpatialObject(std::move(spatialObject));
         }
     }
     catch(const YAML::BadFile& e)

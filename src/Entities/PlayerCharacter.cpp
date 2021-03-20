@@ -8,6 +8,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
+// fmt
+#include "fmt/format.h"
+
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
 
@@ -77,16 +80,37 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     // clamp character shape edges to scene edges
     if (mc_transform->position.x < 0.f)
     {
-        // nothing to the left, stop
-        mc_transform->position.x = 0.f;
+        if (const std::optional<std::string>& oGateLeftTargetSceneName = mo_gameApp.mc_world->GetGateLeftTargetSceneName())
+        {
+            // go to scene on the left
+            std::string sceneFilePathString = fmt::format("{}.yml", *oGateLeftTargetSceneName);
+            mo_gameApp.mc_world->deferLoadScene(sceneFilePathString);
+
+            // warp character to the right of scene on the left
+            mc_transform->position.x = 1280.f;
+        }
+        else
+        {
+            // nothing to the left, stop
+            mc_transform->position.x = 0.f;
+        }
     }
     else if (mc_transform->position.x > 1280.f)
     {
-        // go to scene 2 (note that scene 2 just wraps to itself)
-        mo_gameApp.mc_world->deferLoadScene("scene2.yml");
+        if (const std::optional<std::string>& oGateRightTargetSceneName = mo_gameApp.mc_world->GetGateRightTargetSceneName())
+        {
+            // go to scene on the right
+            std::string sceneFilePathString = fmt::format("{}.yml", *oGateRightTargetSceneName);
+            mo_gameApp.mc_world->deferLoadScene(sceneFilePathString);
 
-        // warp character to the left of scene 2
-        mc_transform->position.x = 0.f;
+            // warp character to the left of scene on the right
+            mc_transform->position.x = 0.f;
+        }
+        else
+        {
+            // nothing to the right, stop
+            mc_transform->position.x = 1280.f;
+        }
     }
 
     // Detect interactable elements around character
