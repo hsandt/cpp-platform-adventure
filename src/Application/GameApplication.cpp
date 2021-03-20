@@ -47,6 +47,10 @@ void GameApplication::init()
     // set window size (windowed, no resize)
     mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
 
+    // center window on screen by getting current desktop resolution and placing top-left accordingly
+    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+    mc_window->setPosition(sf::Vector2i((desktopMode.width - windowConfig.width) / 2, (desktopMode.height - windowConfig.height) / 2));
+
     // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
     // doing this disables vsync
     mc_window->setFramerateLimit(windowConfig.framerateLimit);
