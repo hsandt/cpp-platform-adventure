@@ -2,7 +2,12 @@
 width: 1280
 height: 720
 
-# Framerate limit. Vsync will be disabled.
+# V-sync enabling flag. If true, framerateLimit is ignored
+# V-sync is recommended to avoid screen tearing, but with some Linux graphics drivers it will
+# make the update loop run at 100% CPU.
+vsync: false
+
+# Framerate limit
 framerateLimit: 60
 
 # Anti-aliasing level (0 for no anti-aliasing)

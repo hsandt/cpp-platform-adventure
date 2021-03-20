@@ -51,9 +51,18 @@ void GameApplication::init()
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     mc_window->setPosition(sf::Vector2i((desktopMode.width - windowConfig.width) / 2, (desktopMode.height - windowConfig.height) / 2));
 
-    // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
-    // doing this disables vsync
-    mc_window->setFramerateLimit(windowConfig.framerateLimit);
+    // SFML only supports either V-sync of framerate limit, but not both.
+    // If V-sync must be enabled, do not set framerate limit.
+    if (windowConfig.vsync)
+    {
+        // enable V-sync
+        mc_window->setVerticalSyncEnabled(true);
+    }
+    else
+    {
+        // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
+        mc_window->setFramerateLimit(windowConfig.framerateLimit);
+    }
 
     // create camera view
     mc_view->setCenter(sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f));

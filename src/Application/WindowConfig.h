@@ -1,8 +1,13 @@
 #pragma once
 
+// std
 #include <string>
 
+// SFML
 #include <SFML/System/String.hpp>
+
+// Game
+#include "Common.h"
 
 struct WindowConfig
 {
@@ -13,14 +18,17 @@ struct WindowConfig
     WindowConfig();
 
     /// Window dimensions (for VideoMode)
-    unsigned int width;
-    unsigned int height;
+    u16 width;
+    u16 height;
 
-    // Framerate limit (for Window)
-    unsigned int framerateLimit;
+    /// V-sync enabling flag. If true, framerateLimit is ignored (for Window)
+    bool vsync;
+
+    /// Framerate limit (for Window)
+    u16 framerateLimit;
 
     /// Anti-aliasing level (for ContextSettings)
-    unsigned int antialiasingLevel;
+    u8 antialiasingLevel;
 
     // Window title (for Window)
     sf::String title;

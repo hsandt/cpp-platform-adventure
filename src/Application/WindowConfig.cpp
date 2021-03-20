@@ -22,6 +22,7 @@
 
         YamlHelper::tryGet<int>(windowConfigFile, "width", windowConfig.width);
         YamlHelper::tryGet<int>(windowConfigFile, "height", windowConfig.height);
+        YamlHelper::tryGet<bool>(windowConfigFile, "vsync", windowConfig.vsync);
         YamlHelper::tryGet<int>(windowConfigFile, "framerateLimit", windowConfig.framerateLimit);
         YamlHelper::tryGet<int>(windowConfigFile, "antialiasingLevel", windowConfig.antialiasingLevel);
         YamlHelper::tryGet<std::string>(windowConfigFile, "title", windowConfig.title);
@@ -39,6 +40,8 @@ WindowConfig::WindowConfig() :
     // 720p
     width(1280),
     height(720),
+    // V-sync false by default so framerate limit is used
+    vsync(false),
     // Framerate limit at 60 for roughly 60 FPS
     framerateLimit(60),
     // No anti-aliasing
