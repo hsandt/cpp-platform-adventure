@@ -51,14 +51,16 @@ void GameApplication::init()
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     mc_window->setPosition(sf::Vector2i((desktopMode.width - windowConfig.width) / 2, (desktopMode.height - windowConfig.height) / 2));
 
-    // SFML only supports either V-sync of framerate limit, but not both.
-    // If V-sync must be enabled, do not set framerate limit.
     if (windowConfig.vsync)
     {
         // enable V-sync
         mc_window->setVerticalSyncEnabled(true);
     }
-    else
+
+    // SFML only supports either V-sync of framerate limit, not both.
+    // However, an experimental option allows to combine both since we noticed it's equivalent to
+    // sleep until next frame after every render, which could also just be done in the update loop.
+    if (!windowConfig.vsync || windowConfig.allowVsyncWithFramerateLimit)
     {
         // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
         mc_window->setFramerateLimit(windowConfig.framerateLimit);

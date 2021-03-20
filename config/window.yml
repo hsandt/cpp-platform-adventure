@@ -5,10 +5,16 @@ height: 720
 # V-sync enabling flag. If true, framerateLimit is ignored
 # V-sync is recommended to avoid screen tearing, but with some Linux graphics drivers it will
 # make the update loop run at 100% CPU.
-vsync: false
+vsync: true
 
 # Framerate limit
-framerateLimit: 60
+framerateLimit: 65
+
+# Experimental: set framerate limit even when V-sync is enabled
+# This is discouraged by SFML doc, but source code shows that this is equivalent to sleeping
+# until next frame after every render. Sleeping in Window::display is done without margin
+# though, so consider setting framerateLimit slightly higher than app FPS.
+allowVsyncWithFramerateLimit: true
 
 # Anti-aliasing level (0 for no anti-aliasing)
 antialiasingLevel: 0

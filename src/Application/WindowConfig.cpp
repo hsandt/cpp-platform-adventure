@@ -24,6 +24,7 @@
         YamlHelper::tryGet<int>(windowConfigFile, "height", windowConfig.height);
         YamlHelper::tryGet<bool>(windowConfigFile, "vsync", windowConfig.vsync);
         YamlHelper::tryGet<int>(windowConfigFile, "framerateLimit", windowConfig.framerateLimit);
+        YamlHelper::tryGet<bool>(windowConfigFile, "allowVsyncWithFramerateLimit", windowConfig.allowVsyncWithFramerateLimit);
         YamlHelper::tryGet<int>(windowConfigFile, "antialiasingLevel", windowConfig.antialiasingLevel);
         YamlHelper::tryGet<std::string>(windowConfigFile, "title", windowConfig.title);
     }
@@ -44,6 +45,8 @@ WindowConfig::WindowConfig() :
     vsync(false),
     // Framerate limit at 60 for roughly 60 FPS
     framerateLimit(60),
+    // V-sync false by default, so this value will be ignored by default
+    allowVsyncWithFramerateLimit(false),
     // No anti-aliasing
     antialiasingLevel(0),
     // Generic title
