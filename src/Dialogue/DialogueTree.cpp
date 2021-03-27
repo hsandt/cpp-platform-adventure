@@ -10,7 +10,8 @@
 const std::string DialogueTree::s_fallbackText = "NO PLAYER FOUND";
 
 DialogueTree::DialogueTree(GameApplication& gameApp) :
-    ApplicationObject(gameApp)
+    ApplicationObject(gameApp),
+    mp_verifiedItemDataID(std::nullopt)
 {
 }
 
@@ -24,7 +25,7 @@ const std::string& DialogueTree::getTextFromContext() const
     if (oPlayerCharacter)
     {
         // For now, we only check for a single item, the flag
-        if (oPlayerCharacter->get().mc_inventory->hasItem(ItemDataID::Flag))
+        if (mp_verifiedItemDataID && oPlayerCharacter->get().mc_inventory->hasItem(*mp_verifiedItemDataID))
         {
             return mp_dialogueTextWithItem;
         }

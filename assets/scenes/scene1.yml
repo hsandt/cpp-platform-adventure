@@ -11,6 +11,7 @@
   transform:
     position: {x: 600, y: 420}
   dialogueTree:
+    verifiedItemDataID: 0  # Flag
     dialogueTextWithItem: "Wow, you brought me the flag. Thanks!"
     dialogueTextWithoutItem: "Hello! Can you bring me the flag over here?"
 - type: PickUpItem

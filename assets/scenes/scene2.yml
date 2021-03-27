@@ -6,6 +6,7 @@
   transform:
     position: {x: 300, y: 420}
   dialogueTree:
+    verifiedItemDataID: 1  # Box
     dialogueTextWithItem: "Wow, you brought me the box. Thanks!"
     dialogueTextWithoutItem: "Hello! Can you bring me the box over here?"
 - type: PickUpItem

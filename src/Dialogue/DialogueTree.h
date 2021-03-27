@@ -1,6 +1,7 @@
 #pragma once
 
 // std
+#include <optional>
 #include <string>
 
 // Game
@@ -30,6 +31,9 @@ public:
 public:
 
     /* Parameters */
+
+    /// Data ID of item verified to select text to show
+    std::optional<DataID> mp_verifiedItemDataID;
 
     /// Text to show when player character has item in inventory
     std::string mp_dialogueTextWithItem;

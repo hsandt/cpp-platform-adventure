@@ -42,6 +42,11 @@ NonPlayerCharacter::~NonPlayerCharacter()
     nonPlayerCharacter->mc_transform->position = position;
 
     const YAML::Node& dialogueTreeNode = spatialObjectNode["dialogueTree"];
+
+    // verifiedItemDataID is optional, but when there is one, it affects the dialogue condition checked
+    // if not present, dialogueTextWithItem is ignored
+    YamlHelper::tryGet<int>(dialogueTreeNode, "verifiedItemDataID", nonPlayerCharacter->mp_dialogueTree->mp_verifiedItemDataID);
+
     std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithItem");
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
     std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithoutItem");
