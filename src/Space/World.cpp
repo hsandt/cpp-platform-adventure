@@ -85,8 +85,7 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
 
     try
     {
-        std::filesystem::path relativeFilePath(relativeFilePathString);
-        YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / relativeFilePath);
+        YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / relativeFilePathString);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
             // Check for meta-objects like Gates first
