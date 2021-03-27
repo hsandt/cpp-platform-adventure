@@ -22,7 +22,7 @@ public:
     /// Path to BGM assets directory
     static std::filesystem::path bgmAssetsDirPath;
 
-    /// Play BGM from relative file path
+    /// Play looping BGM from relative file path
     void playBgm(const std::string& relativeFilePathString);
 
     /* State */

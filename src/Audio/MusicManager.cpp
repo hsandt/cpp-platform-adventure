@@ -32,5 +32,6 @@ void MusicManager::playBgm(const std::string& relativeFilePathString)
         throw std::runtime_error(fmt::format("Could not open bgm at file path: %s", filePath.c_str()));
     }
 
+    ms_music.setLoop(true);
     ms_music.play();
 }
