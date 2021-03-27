@@ -28,7 +28,7 @@ public:
     /// Return the static value
     static int getStaticValue();
 
-    ClassTemplate(OwnerClass&);
+    explicit ClassTemplate(OwnerClass&);
     ~ClassTemplate();
 
     /// Update
