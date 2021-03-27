@@ -15,6 +15,7 @@ namespace sf
 
 class DialogueManager;
 class InputManager;
+class MusicManager;
 class UICanvas;
 class World;
 
@@ -65,6 +66,9 @@ public:
 
     /// Input manager
     const Box<InputManager> mc_inputManager;
+
+    /// Audio manager
+    const Box<MusicManager> mc_musicManager;
 
     /// Dialogue manager
     const Box<DialogueManager> mc_dialogueManager;

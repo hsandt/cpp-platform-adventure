@@ -9,6 +9,7 @@
 // Game
 #include "Application/AppConfig.h"
 #include "Application/WindowConfig.h"
+#include "Audio/MusicManager.h"
 #include "Dialogue/DialogueManager.h"
 #include "Input/InputManager.h"
 #include "UI/UICanvas.h"
@@ -18,6 +19,7 @@ GameApplication::GameApplication() :
     mc_world(*this),
     mc_uiCanvas(*this),
     mc_inputManager(*this),
+    mc_musicManager(*this),
     mc_dialogueManager(*this)
 {
 }
@@ -72,6 +74,9 @@ void GameApplication::init()
 
     // load initial scene
     mc_world->deferLoadScene("scene1.yml");
+
+    // load initial BGM
+    mc_musicManager->playBgm("bgm1.ogg");
 
     // set initial input context to Platforming
     mc_inputManager->pushInputContext(InputContext::Platforming);

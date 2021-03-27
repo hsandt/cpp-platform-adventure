@@ -139,3 +139,9 @@ so they are stored as references.
 - mc\_ for components
 - mp\_ for parameters (not pointers)
 - ms\_ for state variables (static members are just s\_)
+
+## Credits
+
+### Free BGM
+
+- bgm1.ogg from 傾き屋根から見た景色民 (2009-03-07) by mozeen ([free music DL page](https://mozeen.com/music/free_music_dl/)). Extracted first section (0.2s - 58.784s) to make it loop. Converted to ogg with quality 0 to make it work with SFML and still be lightweight.
