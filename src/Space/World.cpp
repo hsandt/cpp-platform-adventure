@@ -1,5 +1,8 @@
 #include "Space/World.h"
 
+// std
+#include <stdexcept>
+
 // SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>

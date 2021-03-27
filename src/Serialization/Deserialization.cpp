@@ -1,6 +1,7 @@
 #include "Serialization/Deserialization.h"
 
 // std
+#include <stdexcept>
 #include <string>
 
 // fmt
