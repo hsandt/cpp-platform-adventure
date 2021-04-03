@@ -130,14 +130,14 @@ void InputManager::updateInputStates()
         if (mo_gameApp.mc_window->hasFocus() && sf::Keyboard::isKeyPressed(key) && !dynamicState.isPressed)
         {
             dynamicState.isPressed = true;
-            dynamicState.framesSinceLastStateChange = 0;
+            dynamicState.framesSinceLastStateChange = 255;
             continue;
         }
 
         if (!mo_gameApp.mc_window->hasFocus() && dynamicState.isPressed)
         {
             dynamicState.isPressed = false;
-            dynamicState.framesSinceLastStateChange = 0;
+            dynamicState.framesSinceLastStateChange = 255;
             continue;
         }
 
