@@ -16,6 +16,7 @@ namespace sf
 {
     class RectangleShape;
     class RenderWindow;
+    class Sprite;
 }
 
 // yaml-cpp
@@ -62,7 +63,7 @@ public:
     /* Components */
 
     const Box<Transform> mc_transform;
-    const Box<sf::RectangleShape> mc_shape;
+    const Box<sf::Sprite> mc_sprite;
     const Box<Inventory> mc_inventory;
 
 private:

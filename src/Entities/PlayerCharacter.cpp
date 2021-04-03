@@ -20,6 +20,7 @@
 #include "Entities/IInteractable.h"
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
+#include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
 #include "Memory/Box.hpp"
 #include "PlayerCharacter/Inventory.h"
@@ -29,14 +30,12 @@
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
     SpatialObject(gameApp, id, /* persistentFlag: */ true),
     mc_transform(),
-    mc_shape(),
+    mc_sprite(),
     mc_inventory(),
     m_canInteract(false)  // so setCanInteract works
 {
-    // character rectangle
-    mc_shape->setPosition(-16.f, -16.f);
-    mc_shape->setSize(sf::Vector2f(32.f, 32.f));
-    mc_shape->setFillColor(sf::Color::Red);
+    // sprite pivot (hardcoded for now, but should be in data)
+    mc_sprite->setPosition(-8.f, -16.f);
 
     setCanInteract(true);
 }
@@ -54,6 +53,10 @@ PlayerCharacter::~PlayerCharacter()
 
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
     playerCharacter->mc_transform->position = position;
+
+    std::string spriteTextureRelativePathString = YamlHelper::get<std::string>(spatialObjectNode, "spriteTexture");
+    const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
+    playerCharacter->mc_sprite->setTexture(texture);
 
     return playerCharacter;
 }
@@ -131,7 +134,7 @@ void PlayerCharacter::render(sf::RenderWindow& window)
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
     sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
-    window.draw(*mc_shape, sfTransform);
+    window.draw(*mc_sprite, sfTransform);
 }
 
 void PlayerCharacter::setCanInteract(bool value)

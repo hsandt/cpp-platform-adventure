@@ -11,6 +11,7 @@
 #include "Application/WindowConfig.h"
 #include "Audio/MusicManager.h"
 #include "Dialogue/DialogueManager.h"
+#include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
 #include "UI/UICanvas.h"
 #include "Space/World.h"
@@ -19,6 +20,7 @@ GameApplication::GameApplication() :
     mc_world(*this),
     mc_uiCanvas(*this),
     mc_inputManager(*this),
+    mc_textureManager(*this),
     mc_musicManager(*this),
     mc_dialogueManager(*this)
 {

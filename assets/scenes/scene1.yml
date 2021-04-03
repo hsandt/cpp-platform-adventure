@@ -6,6 +6,7 @@
   tag: PlayerCharacter
   transform:
     position: {x: 550, y: 420}
+  spriteTexture: player_character.png
 - type: NonPlayerCharacter
   id: 1
   transform:
