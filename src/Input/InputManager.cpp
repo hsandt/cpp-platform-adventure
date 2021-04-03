@@ -7,8 +7,8 @@
 #include "fmt/format.h"
 
 // SFML
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 // Game
 #include "Application/GameApplication.h"
@@ -127,18 +127,14 @@ void InputManager::updateInputStates()
     // from a "just pressed/released" state to a "held pressed/released" state)
     for (auto& [key, dynamicState] : ms_keyDynamicStateMap)
     {
-        if (mo_gameApp.mc_window->hasFocus() && sf::Keyboard::isKeyPressed(key) && !dynamicState.isPressed)
-        {
-            dynamicState.isPressed = true;
-            dynamicState.framesSinceLastStateChange = 255;
-            continue;
-        }
-
+        // Auto-release all keys when window loses focus to avoid sticky keys
+        // Note that we do not fix the reverse case: focusing window while holding key,
+        // because keys not already in map would still be ignored. So we just ignore such keys
+        // until they are actually pressed during window focus.
         if (!mo_gameApp.mc_window->hasFocus() && dynamicState.isPressed)
         {
             dynamicState.isPressed = false;
-            dynamicState.framesSinceLastStateChange = 255;
-            continue;
+            dynamicState.framesSinceLastStateChange = 0;
         }
 
         // overflow check
