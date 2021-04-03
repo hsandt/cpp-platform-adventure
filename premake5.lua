@@ -134,6 +134,7 @@ project "Game"
 
 
     -- Copy assets and config folders near executable
+    -- Delete any existing folder to cleanup old files now removed from assets and config
     -- Note that paths are relative to location "build", so we access project root with ".." (else we'd need to use project_root = os.realpath("."))
     --   (%{wks.location} and %{prj.location} are both relative to location themselves, so ".")
     -- We prefer prebuild to postbuild, simply because in case of failure, the whole process fails and next time we try to build,
@@ -142,5 +143,9 @@ project "Game"
     -- OSX note: this is not the standard way to do it, we should Copy Bundle Resources into the .app.
     prebuildcommands {
         "{MKDIR} %{cfg.targetdir}",
+        "{RMDIR} %{cfg.targetdir}/assets",
+        "{RMDIR} %{cfg.targetdir}/config",
+        -- when premake releases new version integrating https://github.com/premake/premake-core/pull/1528
+        -- replace COPY with COPYDIR for clarity and Windows compatibility
         "{COPY} ../assets ../config %{cfg.targetdir}",
     }
