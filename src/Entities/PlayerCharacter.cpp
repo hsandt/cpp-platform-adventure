@@ -37,6 +37,11 @@ PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
     // sprite pivot (hardcoded for now, but should be in data)
     mc_sprite->setPosition(-8.f, -16.f);
 
+    // default texture scaling is not smooth (nearest-neighbor), so just scale up
+    // rendering is still following screen resolution, so either round sprite rendering position
+    // to nearest scaled pixel, or work on a small texture then upscale it to become the window texture
+    mc_sprite->setScale(4.f, 4.f);
+
     setCanInteract(true);
 }
 
