@@ -64,11 +64,11 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
 
     // compute move intention on X
     float moveIntentionX = 0.f;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (mo_gameApp.mc_window->hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         moveIntentionX -= 1.f;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (mo_gameApp.mc_window->hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         moveIntentionX += 1.f;
     }
