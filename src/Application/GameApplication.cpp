@@ -49,6 +49,10 @@ void GameApplication::init()
     // set window size (windowed, no resize)
     mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
 
+    // disable key repeat (this is not part of WindowConfig because most games either don't use it
+    // or implement their own repeat detection system)
+    mc_window->setKeyRepeatEnabled(false);
+
     // center window on screen by getting current desktop resolution and placing top-left accordingly
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     mc_window->setPosition(sf::Vector2i((desktopMode.width - windowConfig.width) / 2, (desktopMode.height - windowConfig.height) / 2));

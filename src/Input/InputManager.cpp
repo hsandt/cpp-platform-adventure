@@ -8,6 +8,10 @@
 
 // SFML
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
+// Game
+#include "Application/GameApplication.h"
 
 InputManager::InputManager(GameApplication& gameApp) :
     ApplicationObject(gameApp)
@@ -123,6 +127,20 @@ void InputManager::updateInputStates()
     // from a "just pressed/released" state to a "held pressed/released" state)
     for (auto& [key, dynamicState] : ms_keyDynamicStateMap)
     {
+        if (mo_gameApp.mc_window->hasFocus() && sf::Keyboard::isKeyPressed(key) && !dynamicState.isPressed)
+        {
+            dynamicState.isPressed = true;
+            dynamicState.framesSinceLastStateChange = 0;
+            continue;
+        }
+
+        if (!mo_gameApp.mc_window->hasFocus() && dynamicState.isPressed)
+        {
+            dynamicState.isPressed = false;
+            dynamicState.framesSinceLastStateChange = 0;
+            continue;
+        }
+
         // overflow check
         if (dynamicState.framesSinceLastStateChange < 255)
         {
