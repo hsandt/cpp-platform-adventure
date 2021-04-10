@@ -20,7 +20,7 @@ namespace Deserialization
 {
     std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
     {
-        std::string type = YamlHelper::get<std::string>(spatialObjectNode, "type");
+        auto type = spatialObjectNode["type"].as<std::string>();
 
         if (type == "PlayerCharacter")
         {

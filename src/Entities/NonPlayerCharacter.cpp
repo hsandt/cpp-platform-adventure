@@ -35,7 +35,7 @@ NonPlayerCharacter::~NonPlayerCharacter()
 
 /* static */ std::unique_ptr<SpatialObject> NonPlayerCharacter::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
 {
-    Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
+    Handle id = spatialObjectNode["id"].as<Handle>();
     auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(gameApp, id);
 
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
@@ -47,9 +47,9 @@ NonPlayerCharacter::~NonPlayerCharacter()
     // if not present, dialogueTextWithItem is ignored
     YamlHelper::tryGet<int>(dialogueTreeNode, "verifiedItemDataID", nonPlayerCharacter->mp_dialogueTree->mp_verifiedItemDataID);
 
-    std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithItem");
+    auto dialogueTextWithItem = dialogueTreeNode["dialogueTextWithItem"].as<std::string>();
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
-    std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTreeNode, "dialogueTextWithoutItem");
+    auto dialogueTextWithoutItem = dialogueTreeNode["dialogueTextWithoutItem"].as<std::string>();
     nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
 
     return nonPlayerCharacter;

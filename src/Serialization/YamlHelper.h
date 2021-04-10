@@ -15,20 +15,6 @@
 
 namespace YamlHelper
 {
-    /// Return the value at key in node
-    /// UB unless key is found in node.
-    /// This is useful to avoid a manual as<T>() conversion when obtaining a leaf value,
-    /// but when just accessing another generic node from a node, getting node[key] is easier.
-    /// YAMLKey type can be deduced from the node argument, so just pass <YAMLValue> on call
-    /// (int, std::string, etc.)
-    template<typename YAMLValue, typename YAMLKey>
-    inline YAMLValue get(const YAML::Node& node, const YAMLKey& key)
-    {
-        // count on as<> to throw if key is invalid
-        // if chaining operator[] with as<> on a single line, we need to add `template` (thx clang)
-        return node[key].template as<YAMLValue>();
-    }
-
     /// Try to get the value at key in node and store it in var
     /// If key is valid, set var by reference to YAML value at key and return true.
     /// Else, return false.

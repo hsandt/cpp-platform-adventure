@@ -93,11 +93,11 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
         {
             // Check for meta-objects like Gates first
             // Redundant with Deserialization::deserialize...
-            std::string type = YamlHelper::get<std::string>(spatialObjectNode, "type");
+            auto type = spatialObjectNode["type"].as<std::string>();
             if (type == "Gate")
             {
-                std::string direction = YamlHelper::get<std::string>(spatialObjectNode, "direction");
-                std::string targetScene = YamlHelper::get<std::string>(spatialObjectNode, "targetScene");
+                auto direction = spatialObjectNode["direction"].as<std::string>();
+                auto targetScene = spatialObjectNode["targetScene"].as<std::string>();
                 if (direction == "left")
                 {
                     ms_oGateLeftTargetSceneName = targetScene;

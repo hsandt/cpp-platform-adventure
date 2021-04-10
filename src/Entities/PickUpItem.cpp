@@ -37,8 +37,8 @@ PickUpItem::~PickUpItem()
 
 /* static */ std::unique_ptr<SpatialObject> PickUpItem::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
 {
-    Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
-    DataID dataID = YamlHelper::get<DataID>(spatialObjectNode, "dataID");
+    Handle id = spatialObjectNode["id"].as<Handle>();
+    DataID dataID = spatialObjectNode["dataID"].as<DataID>();
     auto item = std::make_unique<PickUpItem>(gameApp, id, dataID);
 
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
@@ -52,9 +52,9 @@ PickUpItem::~PickUpItem()
 
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
     const YAML::Node& dialogueTree = spatialObjectNode["pickUpDialogueTree"];
-    std::string dialogueTextWithItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithItem");
+    auto dialogueTextWithItem = dialogueTree["dialogueTextWithItem"].as<std::string>();
     item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
-    std::string dialogueTextWithoutItem = YamlHelper::get<std::string>(dialogueTree, "dialogueTextWithoutItem");
+    auto dialogueTextWithoutItem = dialogueTree["dialogueTextWithoutItem"].as<std::string>();
     item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
 
     return item;

@@ -53,13 +53,13 @@ PlayerCharacter::~PlayerCharacter()
 
 /* static */ std::unique_ptr<SpatialObject> PlayerCharacter::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
 {
-    Handle id = YamlHelper::get<Handle>(spatialObjectNode, "id");
+    Handle id = spatialObjectNode["id"].as<Handle>();
     auto playerCharacter = std::make_unique<PlayerCharacter>(gameApp, id);
 
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
     playerCharacter->mc_transform->position = position;
 
-    std::string spriteTextureRelativePathString = YamlHelper::get<std::string>(spatialObjectNode, "spriteTexture");
+    auto spriteTextureRelativePathString = spatialObjectNode["spriteTexture"].as<std::string>();
     const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
     playerCharacter->mc_sprite->setTexture(texture);
 
