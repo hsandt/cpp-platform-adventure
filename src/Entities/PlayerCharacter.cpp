@@ -32,7 +32,7 @@ PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
     mc_transform(),
     mc_sprite(),
     mc_inventory(),
-    m_canInteract(false)  // so setCanInteract works
+    ms_canInteract(false)  // so setCanInteract works
 {
     // sprite pivot (hardcoded for now, but should be in data)
     mc_sprite->setPosition(-8.f, -16.f);
@@ -124,7 +124,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     // Detect interactable elements around character
     detectInteractable(world);
 
-    if (m_canInteract &&
+    if (ms_canInteract &&
         mo_gameApp.mc_inputManager->getCurrentInputContext() == InputContext::Platforming)
     {
         if (mo_gameApp.mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
@@ -144,9 +144,9 @@ void PlayerCharacter::render(sf::RenderWindow& window)
 
 void PlayerCharacter::setCanInteract(bool value)
 {
-    if (m_canInteract != value)
+    if (ms_canInteract != value)
     {
-        m_canInteract = value;
+        ms_canInteract = value;
     }
 }
 
@@ -182,7 +182,7 @@ void PlayerCharacter::detectInteractable(World& world)
 
 void PlayerCharacter::interact()
 {
-    if (m_canInteract && ms_oDetectedInteractable)
+    if (ms_canInteract && ms_oDetectedInteractable)
     {
         std::optional<std::reference_wrapper<SpatialObject>> oDetectedInteractable = ms_oDetectedInteractable->findObject();
         // always interact with the interactable previously detected

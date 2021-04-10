@@ -11,7 +11,7 @@
 
 UICanvas::UICanvas(GameApplication& gameApp) :
     ApplicationObject(gameApp),
-    m_nextInsertHandle(0)
+    ms_nextInsertHandle(0)
 {
 }
 
@@ -23,7 +23,7 @@ UICanvas::~UICanvas()
 
 void UICanvas::render(sf::RenderWindow& window)
 {
-    for (const auto& [handle, widget] : m_widgets)
+    for (const auto& [handle, widget] : ms_widgets)
     {
         widget->render(window);
     }
@@ -31,24 +31,24 @@ void UICanvas::render(sf::RenderWindow& window)
 
 Handle UICanvas::addWidget(std::unique_ptr<UIWidget> widget)
 {
-    m_widgets.insert({m_nextInsertHandle, std::move(widget)});
-    return m_nextInsertHandle++;
+    ms_widgets.insert({ms_nextInsertHandle, std::move(widget)});
+    return ms_nextInsertHandle++;
 }
 
 std::optional<std::reference_wrapper<UIWidget>> UICanvas::getWidget(Handle widgetHandle) const
 {
-    auto it = m_widgets.find(widgetHandle);
-    return it != m_widgets.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
+    auto it = ms_widgets.find(widgetHandle);
+    return it != ms_widgets.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
 }
 
 void UICanvas::removeWidget(std::optional<Handle>& oWidgetHandle)
 {
-    size_t erasedCount = m_widgets.erase(*oWidgetHandle);
+    size_t erasedCount = ms_widgets.erase(*oWidgetHandle);
 
     if (erasedCount == 0)
     {
         throw std::runtime_error(fmt::format(
-            "No widget with handle {} found in UICanvas::m_widgets, could not remove.",
+            "No widget with handle {} found in UICanvas::ms_widgets, could not remove.",
             *oWidgetHandle
         ));
     }

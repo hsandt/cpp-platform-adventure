@@ -45,8 +45,8 @@ private:
     /* State */
 
     /// Handle to insert the next widget at
-    Handle m_nextInsertHandle;
+    Handle ms_nextInsertHandle;
 
     /// Map of owned widgets, identified by handle
-    std::map<Handle, std::unique_ptr<UIWidget>> m_widgets;
+    std::map<Handle, std::unique_ptr<UIWidget>> ms_widgets;
 };

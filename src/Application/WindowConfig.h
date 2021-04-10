@@ -12,7 +12,7 @@
 struct WindowConfig
 {
     /// Parse YAML file containing window config and return WindowConfig
-    static WindowConfig from_file(const std::string& filename);
+    static WindowConfig fromFile(const std::string& filename);
 
     /// Default constructor with sensible defaults
     WindowConfig();

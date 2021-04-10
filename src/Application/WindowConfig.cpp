@@ -12,7 +12,7 @@
 // Game
 #include "Serialization/YamlHelper.h"
 
-/* static */ WindowConfig WindowConfig::from_file(const std::string& filename)
+/* static */ WindowConfig WindowConfig::fromFile(const std::string& filename)
 {
     WindowConfig windowConfig;
 

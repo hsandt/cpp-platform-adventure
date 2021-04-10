@@ -32,7 +32,7 @@ public:
 
     /// Initialize and run game application
     /// Only method made public for safety.
-    void init_and_run();
+    void initAndRun();
 
 private:
 
@@ -95,5 +95,5 @@ private:
     /// Time elapsed in application since start
     /// Unlike real time, it only cumulates confirmed update delta times,
     /// not raw elapsed times, and is therefore a multiple a frame duration
-    sf::Time m_applicationTime;
+    sf::Time ms_applicationTime;
 };

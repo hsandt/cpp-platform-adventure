@@ -18,7 +18,7 @@ namespace YAML
 struct AppConfig
 {
     /// Parse YAML file containing app config and return AppConfig
-    static AppConfig from_file(const std::string& filename);
+    static AppConfig fromFile(const std::string& filename);
 
     /// Search for key in appConfigFile
     /// If key is found, set var by reference to YAML value at key and return true
@@ -28,7 +28,7 @@ struct AppConfig
     /// (int, std::string, etc.)
     template<typename YAMLValue, typename Var, typename YAMLKey>
     requires std::convertible_to<YAMLValue, Var>
-    static bool try_set_from_key(Var& var, const YAMLKey& key, const YAML::Node& appConfigFile);
+    static bool trySetFromKey(Var& var, const YAMLKey& key, const YAML::Node& appConfigFile);
 
     /// Default constructor with sensible defaults
     AppConfig();

@@ -30,7 +30,7 @@ GameApplication::~GameApplication()
 {
 }
 
-void GameApplication::init_and_run()
+void GameApplication::initAndRun()
 {
     init();
     run();
@@ -38,11 +38,11 @@ void GameApplication::init_and_run()
 
 void GameApplication::init()
 {
-    AppConfig appConfig = AppConfig::from_file("config/app.yml");
+    AppConfig appConfig = AppConfig::fromFile("config/app.yml");
     mp_frameDuration = sf::seconds(1.f / appConfig.fps);
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
-    WindowConfig windowConfig = WindowConfig::from_file("config/window.yml");
+    WindowConfig windowConfig = WindowConfig::fromFile("config/window.yml");
 
     // set aliasing
     sf::ContextSettings settings;
@@ -130,12 +130,12 @@ void GameApplication::run()
                 updatesCount < mp_maxUpdatesPerRender)
             {
                 cumulatedElapsedTime -= mp_frameDuration;
-                m_applicationTime += mp_frameDuration;
+                ms_applicationTime += mp_frameDuration;
 
                 // anti-overflow (brutal)
-                if (m_applicationTime.asSeconds() > 1000 * 1000)
+                if (ms_applicationTime.asSeconds() > 1000 * 1000)
                 {
-                    m_applicationTime = sf::Time::Zero;
+                    ms_applicationTime = sf::Time::Zero;
                 }
 
                 update(mp_frameDuration);
@@ -168,7 +168,7 @@ void GameApplication::update(sf::Time deltaTime)
     mc_world->update(deltaTime);
 
     // move camera
-    mc_view->move(0.f, std::sin(m_applicationTime.asSeconds()) * 50.f * deltaTime.asSeconds());
+    mc_view->move(0.f, std::sin(ms_applicationTime.asSeconds()) * 50.f * deltaTime.asSeconds());
 }
 
 void GameApplication::render()

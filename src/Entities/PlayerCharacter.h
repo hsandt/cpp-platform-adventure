@@ -71,7 +71,7 @@ private:
     /* State */
 
     /// Can the character interact now?
-    bool m_canInteract;
+    bool ms_canInteract;
 
     /// Interactable currently detected nearby (cleared on interaction start)
     std::optional<SpatialObjectHandle> ms_oDetectedInteractable;
