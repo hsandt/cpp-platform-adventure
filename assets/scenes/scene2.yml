@@ -4,7 +4,7 @@
 - type: NonPlayerCharacter
   id: 1
   transform:
-    position: {x: 300, y: 420}
+    position: {x: 300, y: 416}
   dialogueTree:
     verifiedItemDataID: 1  # Box
     dialogueTextWithItem: "Wow, you brought me the box. Thanks!"
@@ -13,10 +13,8 @@
   id: 2
   dataID: 1
   transform:
-    position: {x: 700, y: 420}
-  shape:
-    size: {x: 60, y: 30}
-    fillColor: {r: 255, g: 255, b: 0}
+    position: {x: 700, y: 416}
+  spriteTexture: flag.png
   pickUpDialogueTree:
     dialogueTextWithItem: "Player has already picked box!"
     dialogueTextWithoutItem: "Player picks box!"

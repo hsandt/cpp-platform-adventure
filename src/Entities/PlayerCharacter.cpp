@@ -34,13 +34,13 @@ PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
     mc_inventory(),
     ms_canInteract(false)  // so setCanInteract works
 {
-    // sprite pivot (hardcoded for now, but should be in data)
-    mc_sprite->setPosition(-8.f, -16.f);
+    // sprite pivot, scaled (hardcoded for now, but should be in data)
+    mc_sprite->setPosition(-8.f * 8.f, -16.f * 8.f);
 
     // default texture scaling is not smooth (nearest-neighbor), so just scale up
     // rendering is still following screen resolution, so either round sprite rendering position
     // to nearest scaled pixel, or work on a small texture then upscale it to become the window texture
-    mc_sprite->setScale(4.f, 4.f);
+    mc_sprite->setScale(8.f, 8.f);
 
     setCanInteract(true);
 }
@@ -138,7 +138,10 @@ void PlayerCharacter::render(sf::RenderWindow& window)
 {
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
-    sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
+    // round to nearest scaled integer pixel
+    float roundedX = std::roundf(mc_transform->position.x / 8.f) * 8.f;
+    float roundedY = std::roundf(mc_transform->position.y / 8.f) * 8.f;
+    sfTransform.translate(roundedX, roundedY);
     window.draw(*mc_sprite, sfTransform);
 }
 

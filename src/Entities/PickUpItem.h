@@ -11,6 +11,7 @@ namespace sf
 {
     class RectangleShape;
     class RenderWindow;
+    class Sprite;
 }
 
 // yaml-cpp
@@ -44,7 +45,7 @@ public:
 
     /* Components */
 
-    const Box<sf::RectangleShape> mc_shape;
+    const Box<sf::Sprite> mc_sprite;
 
     /* Parameters */
 

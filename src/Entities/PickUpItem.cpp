@@ -17,6 +17,7 @@
 #include "Dialogue/DialogueManager.h"
 #include "Dialogue/DialogueTree.h"
 #include "Entities/PlayerCharacter.h"
+#include "Graphics/TextureManager.h"
 #include "Serialization/YamlHelper.h"
 #include "Space/World.h"
 
@@ -25,10 +26,13 @@ PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
     dataID(dataID),
     mp_pickUpDialogueTree(gameApp)
 {
-    // item rectangle
-    mc_shape->setPosition(-5.f, -10.f);
-    mc_shape->setSize(sf::Vector2f(10.f, 20.f));
-    mc_shape->setFillColor(sf::Color::Yellow);
+    // sprite pivot (hardcoded for now, but should be in data)
+    mc_sprite->setPosition(-5.f * 8.f, -10.f * 8.f);
+
+    // default texture scaling is not smooth (nearest-neighbor), so just scale up
+    // rendering is still following screen resolution, so either round sprite rendering position
+    // to nearest scaled pixel, or work on a small texture then upscale it to become the window texture
+    mc_sprite->setScale(8.f, 8.f);
 }
 
 PickUpItem::~PickUpItem()
@@ -44,11 +48,9 @@ PickUpItem::~PickUpItem()
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
     item->mc_transform->position = position;
 
-    const YAML::Node& shapeNode = spatialObjectNode["shape"];
-    sf::Vector2 size = YamlHelper::asVector2f(shapeNode["size"]);
-    item->mc_shape->setSize(size);
-    sf::Color color = YamlHelper::asColor(shapeNode["fillColor"]);
-    item->mc_shape->setFillColor(color);
+    auto spriteTextureRelativePathString = spatialObjectNode["spriteTexture"].as<std::string>();
+    const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
+    item->mc_sprite->setTexture(texture);
 
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
     const YAML::Node& dialogueTree = spatialObjectNode["pickUpDialogueTree"];
@@ -64,8 +66,11 @@ void PickUpItem::render(sf::RenderWindow& window)
 {
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
-    sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
-    window.draw(*mc_shape, sfTransform);
+    // round to nearest scaled integer pixel
+    float roundedX = std::roundf(mc_transform->position.x / 8.f) * 8.f;
+    float roundedY = std::roundf(mc_transform->position.y / 8.f) * 8.f;
+    sfTransform.translate(roundedX, roundedY);
+    window.draw(*mc_sprite, sfTransform);
 }
 
 void PickUpItem::onInteract(PlayerCharacter& playerCharacter) /* override */
