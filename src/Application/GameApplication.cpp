@@ -38,11 +38,11 @@ void GameApplication::initAndRun()
 
 void GameApplication::init()
 {
-    AppConfig appConfig = AppConfig::fromFile("config/app.yml");
+    AppConfig appConfig = AppConfig::fromFile("config/app_config.yml");
     mp_frameDuration = sf::seconds(1.f / appConfig.fps);
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
-    WindowConfig windowConfig = WindowConfig::fromFile("config/window.yml");
+    WindowConfig windowConfig = WindowConfig::fromFile("config/window_config.yml");
 
     // set aliasing
     sf::ContextSettings settings;
