@@ -16,6 +16,7 @@ UIWidgetText::UIWidgetText() :
     mc_text(std::make_unique<sf::Text>()),
     mp_text()
 {
+    // mc_text->scale({2.f, 2.f});
 }
 
 // Even empty, destructor definition in .cpp required if only class-forwarding
@@ -34,6 +35,12 @@ void UIWidgetText::render(sf::RenderWindow& window)
         std::cout << "FAILED LOADING FONT" << std::endl;
         return;
     }
+
+    // after upgrading to SFML 2.6.0 including https://github.com/SFML/SFML/pull/1690, just use
+    // font.setSmooth(false);
+    sf::Texture& texture = const_cast<sf::Texture&>(font.getTexture(10));
+    texture.setSmooth(false);
+
     mc_text->setFont(font);
     mc_text->setString(mp_text);
     mc_text->setCharacterSize(11);
