@@ -36,7 +36,7 @@ void UIWidgetText::render(sf::RenderWindow& window)
     }
     mc_text->setFont(font);
     mc_text->setString(mp_text);
-    mc_text->setCharacterSize(32);
+    mc_text->setCharacterSize(11);
     mc_text->setFillColor(sf::Color::White);
 
     // convert custom Transform component to SFML Transform

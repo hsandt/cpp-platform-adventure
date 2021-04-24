@@ -5,12 +5,12 @@
   id: 0
   tag: PlayerCharacter
   transform:
-    position: {x: 550, y: 416}
+    position: {x: 184, y: 140}
   spriteTexture: player_character.png
 - type: NonPlayerCharacter
   id: 1
   transform:
-    position: {x: 600, y: 416}
+    position: {x: 200, y: 140}
   dialogueTree:
     verifiedItemDataID: 0  # Flag
     dialogueTextWithItem: "Wow, you brought me the flag. Thanks!"
@@ -19,7 +19,7 @@
   id: 2
   dataID: 0
   transform:
-    position: {x: 500, y: 416}
+    position: {x: 168, y: 140}
   spriteTexture: flag.png
   pickUpDialogueTree:
     dialogueTextWithItem: "Player has already picked flag!"

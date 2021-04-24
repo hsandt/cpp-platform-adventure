@@ -23,7 +23,7 @@ NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
 {
     // character rectangle
     mc_shape->setPosition(0.f, 0.f);
-    mc_shape->setSize(sf::Vector2f(120.f, 128.f));
+    mc_shape->setSize(sf::Vector2f(15.f, 16.f));
     mc_shape->setFillColor(sf::Color::Blue);
 }
 

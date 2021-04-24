@@ -51,15 +51,15 @@ void DialogueManager::startDialogueTree(const DialogueTree& dialogueTree)
 void DialogueManager::showDialogueText(const std::string& text)
 {
     auto dialogBox = std::make_unique<UIWidgetRectangle>();
-    dialogBox->mc_transform->position = sf::Vector2f(100.f, 500.f);
+    dialogBox->mc_transform->position = sf::Vector2f(33.f, 166.f);
     dialogBox->mc_shape->setPosition(0.f, 0.f);
-    // dialogBox->mc_shape->setOrigin(sf::Vector2f(350.f, 50.f));
-    dialogBox->mc_shape->setSize(sf::Vector2f(700.f, 100.f));
+    // dialogBox->mc_shape->setOrigin(sf::Vector2f(116.f, 16.f));
+    dialogBox->mc_shape->setSize(sf::Vector2f(233.f, 33.f));
     dialogBox->mc_shape->setFillColor(sf::Color::Blue);
     ms_oDialogueBoxHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogBox));
 
     auto dialogText = std::make_unique<UIWidgetText>();
-    dialogText->mc_transform->position = sf::Vector2f(150.f, 520.f);
+    dialogText->mc_transform->position = sf::Vector2f(50.f, 172.f);
     dialogText->mp_text = text;
     ms_oDialogueTextHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogText));
 }

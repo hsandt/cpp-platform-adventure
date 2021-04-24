@@ -27,12 +27,12 @@ PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
     mp_pickUpDialogueTree(gameApp)
 {
     // sprite pivot (hardcoded for now, but should be in data)
-    mc_sprite->setPosition(-5.f * 8.f, -10.f * 8.f);
+    mc_sprite->setPosition(-5.f * 1.f, -10.f * 1.f);
 
     // default texture scaling is not smooth (nearest-neighbor), so just scale up
     // rendering is still following screen resolution, so either round sprite rendering position
     // to nearest scaled pixel, or work on a small texture then upscale it to become the window texture
-    mc_sprite->setScale(8.f, 8.f);
+    mc_sprite->setScale(1.f, 1.f);
 }
 
 PickUpItem::~PickUpItem()
@@ -67,8 +67,8 @@ void PickUpItem::render(sf::RenderWindow& window)
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
     // round to nearest scaled integer pixel
-    float roundedX = std::roundf(mc_transform->position.x / 8.f) * 8.f;
-    float roundedY = std::roundf(mc_transform->position.y / 8.f) * 8.f;
+    float roundedX = std::roundf(mc_transform->position.x / 1.f) * 1.f;
+    float roundedY = std::roundf(mc_transform->position.y / 1.f) * 1.f;
     sfTransform.translate(roundedX, roundedY);
     window.draw(*mc_sprite, sfTransform);
 }

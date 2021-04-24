@@ -1,6 +1,6 @@
 # Window dimensions
-width: 1280
-height: 720
+width: 426
+height: 240
 
 # V-sync enabling flag. If true, framerateLimit is ignored
 # V-sync is recommended to avoid screen tearing, but with some Linux graphics drivers it will

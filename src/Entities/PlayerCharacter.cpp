@@ -35,12 +35,12 @@ PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :
     ms_canInteract(false)  // so setCanInteract works
 {
     // sprite pivot, scaled (hardcoded for now, but should be in data)
-    mc_sprite->setPosition(-8.f * 8.f, -16.f * 8.f);
+    mc_sprite->setPosition(-8.f, -16.f);
 
     // default texture scaling is not smooth (nearest-neighbor), so just scale up
     // rendering is still following screen resolution, so either round sprite rendering position
     // to nearest scaled pixel, or work on a small texture then upscale it to become the window texture
-    mc_sprite->setScale(8.f, 8.f);
+    // mc_sprite->setScale(8.f, 8.f);
 
     setCanInteract(true);
 }
@@ -82,7 +82,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     }
 
     // apply character speed in px/s
-    const float characterSpeedX = 32.f * 10;
+    const float characterSpeedX = 106.f;
     mc_transform->position.x += characterSpeedX * deltaTime.asSeconds() * moveIntentionX;
 
     // clamp character shape edges to scene edges
@@ -95,7 +95,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
             mo_gameApp.mc_world->deferLoadScene(sceneFilePathString);
 
             // warp character to the right of scene on the left
-            mc_transform->position.x = 1280.f;
+            mc_transform->position.x = 426.f;
         }
         else
         {
@@ -103,7 +103,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
             mc_transform->position.x = 0.f;
         }
     }
-    else if (mc_transform->position.x > 1280.f)
+    else if (mc_transform->position.x > 426.f)
     {
         if (const std::optional<std::string>& oGateRightTargetSceneName = mo_gameApp.mc_world->GetGateRightTargetSceneName())
         {
@@ -117,7 +117,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
         else
         {
             // nothing to the right, stop
-            mc_transform->position.x = 1280.f;
+            mc_transform->position.x = 426.f;
         }
     }
 
@@ -139,8 +139,8 @@ void PlayerCharacter::render(sf::RenderWindow& window)
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
     // round to nearest scaled integer pixel
-    float roundedX = std::roundf(mc_transform->position.x / 8.f) * 8.f;
-    float roundedY = std::roundf(mc_transform->position.y / 8.f) * 8.f;
+    float roundedX = std::roundf(mc_transform->position.x / 1.f);
+    float roundedY = std::roundf(mc_transform->position.y / 1.f);
     sfTransform.translate(roundedX, roundedY);
     window.draw(*mc_sprite, sfTransform);
 }
@@ -173,7 +173,7 @@ void PlayerCharacter::detectInteractable(World& world)
                 // check if item center position is inside square centered
                 // on player character with half-size (50, 50)
                 sf::Vector2f vectorToItem = spatialObject->mc_transform->position - mc_transform->position;
-                const float maxInteractDistance = 50.f;
+                const float maxInteractDistance = 16.f;
                 if (fabs(vectorToItem.x) < maxInteractDistance && fabs(vectorToItem.y) < maxInteractDistance)
                 {
                     ms_oDetectedInteractable = std::make_optional(SpatialObjectHandle(*mo_gameApp.mc_world, handle));

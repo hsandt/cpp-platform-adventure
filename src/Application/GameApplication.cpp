@@ -49,7 +49,7 @@ void GameApplication::init()
     settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
     // set window size (windowed, no resize)
-    mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
+    mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close | sf::Style::Resize, settings);
 
     // disable key repeat (this is not part of WindowConfig because most games either don't use it
     // or implement their own repeat detection system)
@@ -75,8 +75,8 @@ void GameApplication::init()
     }
 
     // create camera view
-    mc_view->setCenter(sf::Vector2f(1280.f * 0.5f, 720.f * 0.5f));
-    mc_view->setSize(sf::Vector2f(1280.f, 720.f));
+    mc_view->setCenter(sf::Vector2f(windowConfig.width * 0.5f, windowConfig.height * 0.5f));
+    mc_view->setSize(sf::Vector2f(windowConfig.width, windowConfig.height));
 
     // load initial scene
     mc_world->deferLoadScene("scene1.yml");
@@ -168,7 +168,7 @@ void GameApplication::update(sf::Time deltaTime)
     mc_world->update(deltaTime);
 
     // move camera
-    mc_view->move(0.f, std::sin(ms_applicationTime.asSeconds()) * 50.f * deltaTime.asSeconds());
+    // mc_view->move(0.f, std::sin(ms_applicationTime.asSeconds()) * 50.f * deltaTime.asSeconds());
 }
 
 void GameApplication::render()
