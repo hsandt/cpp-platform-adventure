@@ -21,7 +21,7 @@ if sys.version_info.minor < 6:
     sys.exit(1)
 
 
-def try_delete_dir_content(dir_path: str):
+def try_delete_dir_content(dir_path: str) -> bool:
     """
     If directory exists at `dir_path`, delete it recursively and return True.
     Else, return False.
@@ -42,17 +42,30 @@ def try_delete_dir_content(dir_path: str):
 
     return False
 
+def try_delete_dir_contents(dir_paths: [str]) -> bool:
+    """
+    Call try_delete_dir_content for every directory path in dir_paths
+    Return true iff all directories were found
+
+    """
+    total_success = True
+
+    for dir_path in dir_paths:
+        success = try_delete_dir_content(dir_path)
+        total_success = total_success and success
+
+    return total_success
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser(description='Delete any directory content recursively, preserving the directory itself.')
-    parser.add_argument('dir_path', type=str, help='path of directory to delete')
+    parser.add_argument('dir_paths', type=str, nargs='+', help='path of directory to delete')
     args = parser.parse_args()
 
-    logging.info(f"Trying to delete directory: {args.dir_path}...")
-    deleted_dir = try_delete_dir_content(args.dir_path)
-    if deleted_dir:
-        logging.info("Deleted directory content.")
+    logging.info(f"Trying to delete directory contents for: {args.dir_paths}...")
+    deleted_all_dir_contents = try_delete_dir_contents(args.dir_paths)
+    if deleted_all_dir_contents:
+        logging.info("Deleted all directory contents.")
     else:
-        logging.info("No directory found, did nothing.")
+        logging.info("Some directories were not found and could not be deleted.")
