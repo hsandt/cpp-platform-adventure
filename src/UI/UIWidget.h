@@ -4,7 +4,7 @@
 
 namespace sf
 {
-    class RenderWindow;
+    class RenderTarget;
 }
 
 /// Abstract base class for all UI widgets
@@ -15,7 +15,7 @@ public:
     virtual ~UIWidget() = 0;
 
     /// Render this widget
-    virtual void render(sf::RenderWindow& window) = 0;
+    virtual void render(sf::RenderTarget& renderTarget) = 0;
 
 private:
 

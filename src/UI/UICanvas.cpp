@@ -21,11 +21,11 @@ UICanvas::~UICanvas()
 {
 }
 
-void UICanvas::render(sf::RenderWindow& window)
+void UICanvas::render(sf::RenderTarget& renderTarget)
 {
     for (const auto& [handle, widget] : ms_widgets)
     {
-        widget->render(window);
+        widget->render(renderTarget);
     }
 }
 

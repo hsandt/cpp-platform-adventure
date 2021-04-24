@@ -9,6 +9,7 @@
 
 namespace sf
 {
+    class RenderTexture;
     class RenderWindow;
     class View;
 }
@@ -55,6 +56,9 @@ public:
 
     /// Render window
     const Box<sf::RenderWindow> mc_window;
+
+    /// Render texture drawn (upscaled) on render window
+    const Box<sf::RenderTexture> mc_renderTexture;
 
     /// View used to draw in window
     const Box<sf::View> mc_view;

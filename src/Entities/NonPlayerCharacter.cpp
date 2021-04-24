@@ -59,12 +59,12 @@ void NonPlayerCharacter::update(World& world, sf::Time deltaTime)
 {
 }
 
-void NonPlayerCharacter::render(sf::RenderWindow& window)
+void NonPlayerCharacter::render(sf::RenderTarget& renderTarget)
 {
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
     sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
-    window.draw(*mc_shape, sfTransform);
+    renderTarget.draw(*mc_shape, sfTransform);
 }
 
 void NonPlayerCharacter::onInteract(PlayerCharacter& playerCharacter) /* override */

@@ -2,6 +2,7 @@
 
 // std
 #include <cmath>
+#include <stdexcept>
 
 // SFML
 #include <SFML/Graphics.hpp>
@@ -17,6 +18,9 @@
 #include "Space/World.h"
 
 GameApplication::GameApplication() :
+    mc_window(),
+    mc_renderTexture(),
+    mc_view(),
     mc_world(*this),
     mc_uiCanvas(*this),
     mc_inputManager(*this),
@@ -72,6 +76,12 @@ void GameApplication::init()
     {
         // set framerate limit (not necessarily FPS, may be a little higher for extra precision)
         mc_window->setFramerateLimit(windowConfig.framerateLimit);
+    }
+
+    bool success = mc_renderTexture->create(windowConfig.width, windowConfig.height);
+    if (!success)
+    {
+        throw std::runtime_error("Could not create render texture");
     }
 
     // create camera view
@@ -174,19 +184,29 @@ void GameApplication::update(sf::Time deltaTime)
 void GameApplication::render()
 {
     // clear sky
-    mc_window->clear(sf::Color::Cyan);
+    mc_renderTexture->clear(sf::Color::Cyan);
 
     // set view from moving camera
-    mc_window->setView(*mc_view);
+    mc_renderTexture->setView(*mc_view);
 
     // render world
-    mc_world->render(*mc_window);
+    mc_world->render(*mc_renderTexture);
 
     // set view back to default view so UI has fixed position on screen
     // mc_window->setView(mc_window->getDefaultView());
 
     // render UI
-    mc_uiCanvas->render(*mc_window);
+    mc_uiCanvas->render(*mc_renderTexture);
+
+    // display render texture is important to prevent Y mirroring
+    mc_renderTexture->display();
+
+    // clear window
+    mc_window->clear();
+
+    // draw render texture on window (includes upscaling)
+    sf::Sprite sprite(mc_renderTexture->getTexture());
+    mc_window->draw(sprite);
 
     // flip
     mc_window->display();

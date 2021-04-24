@@ -6,7 +6,7 @@
 
 namespace sf
 {
-    class RenderWindow;
+    class RenderTarget;
     class Text;
 }
 
@@ -20,7 +20,7 @@ public:
     ~UIWidgetText();
 
     /// Render this widget as a text
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget& renderTarget);
 
 public:
 

@@ -25,7 +25,7 @@ UIWidgetText::~UIWidgetText()
 {
 }
 
-void UIWidgetText::render(sf::RenderWindow& window)
+void UIWidgetText::render(sf::RenderTarget& renderTarget)
 {
     // just for testing we load every frame, but of course we should preload
     // and store the font (it must live as text keeps a pointer to it)
@@ -36,11 +36,6 @@ void UIWidgetText::render(sf::RenderWindow& window)
         return;
     }
 
-    // after upgrading to SFML 2.6.0 including https://github.com/SFML/SFML/pull/1690, just use
-    // font.setSmooth(false);
-    sf::Texture& texture = const_cast<sf::Texture&>(font.getTexture(10));
-    texture.setSmooth(false);
-
     mc_text->setFont(font);
     mc_text->setString(mp_text);
     mc_text->setCharacterSize(11);
@@ -49,7 +44,7 @@ void UIWidgetText::render(sf::RenderWindow& window)
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
     sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
-    window.draw(*mc_text, sfTransform);
+    renderTarget.draw(*mc_text, sfTransform);
 
     // ! font will be destroyed and mc_text now points to invalid data
     // this doesn't crash only because we reset the font each frame

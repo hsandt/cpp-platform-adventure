@@ -12,7 +12,7 @@ Terrain::Terrain() :
     shape->setPosition(0.f, 140.f);
 }
 
-void Terrain::render(sf::RenderWindow& window)
+void Terrain::render(sf::RenderTarget& renderTarget)
 {
-    window.draw(*shape);
+    renderTarget.draw(*shape);
 }

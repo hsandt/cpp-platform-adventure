@@ -13,7 +13,7 @@
 // SFML
 namespace sf
 {
-    class RenderWindow;
+    class RenderTarget;
 }
 
 // Game
@@ -38,7 +38,7 @@ public:
     virtual void update(World& world, sf::Time deltaTime) {}
 
     /// Render (empty implementation for sub-classes that don't need one)
-    virtual void render(sf::RenderWindow& window) {}
+    virtual void render(sf::RenderTarget& renderTarget) {}
 
 public:
 

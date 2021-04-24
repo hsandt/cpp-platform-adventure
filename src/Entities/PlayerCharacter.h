@@ -15,7 +15,7 @@
 namespace sf
 {
     class RectangleShape;
-    class RenderWindow;
+    class RenderTarget;
     class Sprite;
 }
 
@@ -43,7 +43,7 @@ public:
     static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
 
     void update(World& world, sf::Time deltaTime);
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget& renderTarget);
 
     /// Set whether this character can interact, and updating input bindings
     void setCanInteract(bool value);

@@ -17,10 +17,10 @@ UIWidgetRectangle::~UIWidgetRectangle()
 {
 }
 
-void UIWidgetRectangle::render(sf::RenderWindow& window)
+void UIWidgetRectangle::render(sf::RenderTarget& renderTarget)
 {
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
     sfTransform.translate(mc_transform->position.x, mc_transform->position.y);
-    window.draw(*mc_shape, sfTransform);
+    renderTarget.draw(*mc_shape, sfTransform);
 }

@@ -11,7 +11,7 @@
 
 namespace sf
 {
-    class RenderWindow;
+    class RenderTarget;
 }
 
 class UIWidget;
@@ -25,7 +25,7 @@ public:
 public:
 
     /// Render all widgets, elements with greatest Handle at the top
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget& renderTarget);
 
     /// Add widget to map of widgets, and return map handle
     /// for future access. This transfers ownership to UI root

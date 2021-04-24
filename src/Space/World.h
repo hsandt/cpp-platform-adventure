@@ -19,7 +19,7 @@
 
 namespace sf
 {
-    class RenderWindow;
+    class RenderTarget;
 }
 
 class NonPlayerCharacter;
@@ -46,7 +46,7 @@ public:
     void update(sf::Time deltaTime);
 
     /// Render all world elements
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget& renderTarget);
 
     /// Return name of target scene of left gate, if any
     const std::optional<std::string>& GetGateLeftTargetSceneName() const

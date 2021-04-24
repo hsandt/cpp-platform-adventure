@@ -10,7 +10,7 @@
 namespace sf
 {
     class RectangleShape;
-    class RenderWindow;
+    class RenderTarget;
     class Sprite;
 }
 
@@ -36,7 +36,7 @@ public:
     static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
 
     /// Render
-    virtual void render(sf::RenderWindow& window) override;
+    virtual void render(sf::RenderTarget& renderTarget) override;
 
     /// Callback for interaction
     virtual void onInteract(PlayerCharacter& playerCharacter) override;

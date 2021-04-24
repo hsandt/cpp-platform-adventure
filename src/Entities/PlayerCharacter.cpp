@@ -134,7 +134,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     }
 }
 
-void PlayerCharacter::render(sf::RenderWindow& window)
+void PlayerCharacter::render(sf::RenderTarget& renderTarget)
 {
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
@@ -142,7 +142,7 @@ void PlayerCharacter::render(sf::RenderWindow& window)
     float roundedX = std::roundf(mc_transform->position.x / 1.f);
     float roundedY = std::roundf(mc_transform->position.y / 1.f);
     sfTransform.translate(roundedX, roundedY);
-    window.draw(*mc_sprite, sfTransform);
+    renderTarget.draw(*mc_sprite, sfTransform);
 }
 
 void PlayerCharacter::setCanInteract(bool value)

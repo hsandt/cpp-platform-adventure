@@ -194,7 +194,7 @@ void World::clearScene()
     ms_spatialObjects = std::move(persistentSpatialObjects);
 }
 
-void World::render(sf::RenderWindow& window)
+void World::render(sf::RenderTarget& window)
 {
     // show terrain
     terrain->render(window);

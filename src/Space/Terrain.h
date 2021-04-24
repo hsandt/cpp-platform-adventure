@@ -5,7 +5,7 @@
 namespace sf
 {
     class RectangleShape;
-    class RenderWindow;
+    class RenderTarget;
 }
 
 class Terrain
@@ -15,7 +15,7 @@ public:
 
 public:
 
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget& renderTarget);
 
 private:
 

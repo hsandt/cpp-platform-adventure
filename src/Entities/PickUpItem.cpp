@@ -62,7 +62,7 @@ PickUpItem::~PickUpItem()
     return item;
 }
 
-void PickUpItem::render(sf::RenderWindow& window)
+void PickUpItem::render(sf::RenderTarget& renderTarget)
 {
     // convert custom Transform component to SFML Transform
     sf::Transform sfTransform;
@@ -70,7 +70,7 @@ void PickUpItem::render(sf::RenderWindow& window)
     float roundedX = std::roundf(mc_transform->position.x / 1.f) * 1.f;
     float roundedY = std::roundf(mc_transform->position.y / 1.f) * 1.f;
     sfTransform.translate(roundedX, roundedY);
-    window.draw(*mc_sprite, sfTransform);
+    renderTarget.draw(*mc_sprite, sfTransform);
 }
 
 void PickUpItem::onInteract(PlayerCharacter& playerCharacter) /* override */

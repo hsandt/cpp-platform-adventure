@@ -7,7 +7,7 @@
 namespace sf
 {
     class RectangleShape;
-    class RenderWindow;
+    class RenderTarget;
 }
 
 struct Transform;
@@ -20,7 +20,7 @@ public:
     ~UIWidgetRectangle();
 
     /// Render this widget as a rectangle of uniform color
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget& renderTarget);
 
 public:
 
