@@ -61,13 +61,13 @@ void GameApplication::init()
     u16 windowHeight = windowConfig.upscaleFactor * windowConfig.nativeHeight;
     mc_window->setSize(sf::Vector2u(windowWidth, windowHeight));
 
+    // center window on screen by getting current desktop resolution and placing window top-left accordingly
+    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+    mc_window->setPosition(sf::Vector2i((desktopMode.width - windowWidth) / 2, (desktopMode.height - windowHeight) / 2));
+
     // disable key repeat (this is not tunable in WindowConfig because most games either don't use it
     // or implement their own repeat detection system)
     mc_window->setKeyRepeatEnabled(false);
-
-    // center window on screen by getting current desktop resolution and placing top-left accordingly
-    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-    mc_window->setPosition(sf::Vector2i((desktopMode.width - windowWidth) / 2, (desktopMode.height - windowHeight) / 2));
 
     if (windowConfig.vsync)
     {
@@ -90,7 +90,7 @@ void GameApplication::init()
         throw std::runtime_error("Could not create render texture");
     }
 
-    // create camera view
+    // create camera view (currently moved so top-left matches origin)
     mc_view->setCenter(sf::Vector2f(windowConfig.nativeWidth * 0.5f, windowConfig.nativeHeight * 0.5f));
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
 
