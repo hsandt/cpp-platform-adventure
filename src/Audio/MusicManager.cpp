@@ -14,7 +14,9 @@
 /* static */ std::filesystem::path MusicManager::bgmAssetsDirPath("assets/audio/bgm");
 
 MusicManager::MusicManager(GameApplication& gameApp) :
-    ApplicationObject(gameApp)
+    ApplicationObject(gameApp),
+    ms_music(),
+    ms_oCurrentBgmRelativePathString()
 {
 }
 
@@ -24,14 +26,21 @@ MusicManager::~MusicManager()
 
 void MusicManager::playBgm(const std::string& relativeFilePathString)
 {
-    std::filesystem::path filePath = bgmAssetsDirPath / relativeFilePathString;
-
-    bool result = ms_music.openFromFile(filePath);
-    if (!result)
+    // do not replay the same BGM from start, as we often have scenes with the same BGM
+    // connected to each other
+    if (ms_oCurrentBgmRelativePathString != relativeFilePathString)
     {
-        throw std::runtime_error(fmt::format("Could not open bgm at file path: %s", filePath.c_str()));
-    }
+        std::filesystem::path filePath = bgmAssetsDirPath / relativeFilePathString;
 
-    ms_music.setLoop(true);
-    ms_music.play();
+        bool result = ms_music.openFromFile(filePath);
+        if (!result)
+        {
+            throw std::runtime_error(fmt::format("Could not open bgm at file path: %s", filePath.c_str()));
+        }
+
+        ms_music.setLoop(true);
+        ms_music.play();
+
+        ms_oCurrentBgmRelativePathString = relativeFilePathString;
+    }
 }

@@ -1,3 +1,5 @@
+- type: Music
+  path: bgm1.ogg
 - type: Gate
   direction: left
   targetScene: scene1

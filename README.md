@@ -144,4 +144,4 @@ so they are stored as references.
 
 ### Free BGM
 
-- bgm1.ogg from 傾き屋根から見た景色民 (2009-03-07) by mozeen ([free music DL page](https://mozeen.com/music/free_music_dl/)). Extracted first section (0.2s - 58.784s) to make it loop. Converted to ogg with quality 0 to make it work with SFML and still be lightweight.
+- bgm1.ogg from katamukiyane.mp3 (傾き屋根から見た景色民, 2009-03-07) by mozeen ([free music DL page](https://mozeen.com/music/free_music_dl/)). Extracted first section (0.2s - 58.784s) to make it loop. Converted to ogg with quality 0 to make it work with SFML and still be lightweight.
