@@ -37,5 +37,5 @@ struct WindowConfig
     u8 antialiasingLevel;
 
     // Window title (for Window)
-    sf::String title;
+    std::string title;
 };
