@@ -29,10 +29,7 @@ public:
     GameApplication();
     ~GameApplication();
 
-public:
-
     /// Initialize and run game application
-    /// Only method made public for safety.
     void initAndRun();
 
 private:
@@ -41,10 +38,10 @@ private:
     void init();
 
     /// Run game loop
-    /// Returns when the loop is over, i.e. the window is closed.
+    /// Returns when the loop is over, after closing the window.
     void run();
 
-    /// Update the game
+    /// Update the game by deltaTime
     void update(sf::Time deltaTime);
 
     /// Render the game
@@ -66,7 +63,7 @@ public:
     /// Game world
     const Box<World> mc_world;
 
-    /// Game UI
+    /// Game UI canvas
     const Box<UICanvas> mc_uiCanvas;
 
     /// Input manager
@@ -87,9 +84,7 @@ public:
     /// Frame duration
     sf::Time mp_frameDuration;
 
-    /// Maximum number of updates done before a render. There are 2 updates or more so physics can
-    /// catch up during lag. When reaching more than the max, the game slows down instead of
-    /// dropping frames.
+    /// Maximum number of updates done before a render. See AppConfig::maxUpdatesPerRender.
     u8 mp_maxUpdatesPerRender;
 
 private:
@@ -98,6 +93,6 @@ private:
 
     /// Time elapsed in application since start
     /// Unlike real time, it only cumulates confirmed update delta times,
-    /// not raw elapsed times, and is therefore a multiple a frame duration
+    /// not raw elapsed times, and is therefore a multiple of mp_frameDuration.
     sf::Time ms_applicationTime;
 };

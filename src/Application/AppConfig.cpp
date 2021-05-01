@@ -26,7 +26,7 @@
         YamlHelper::tryGet<int>(appConfigFile, "fps", appConfig.fps);
         YamlHelper::tryGet<int>(appConfigFile, "maxUpdatesPerRender", appConfig.maxUpdatesPerRender);
     }
-    catch(const YAML::BadFile& e)
+    catch (const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer custom error message
         throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename));

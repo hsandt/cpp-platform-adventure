@@ -1,7 +1,6 @@
 #include "Application/GameApplication.h"
 
 // std
-#include <cmath>
 #include <stdexcept>
 
 // SFML
@@ -42,10 +41,12 @@ void GameApplication::initAndRun()
 
 void GameApplication::init()
 {
+    // retrieve App Config from config file
     AppConfig appConfig = AppConfig::fromFile("config/app_config.yml");
     mp_frameDuration = sf::seconds(1.f / appConfig.fps);
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
+    // retrieve Window Config from config file
     WindowConfig windowConfig = WindowConfig::fromFile("config/window_config.yml");
 
     // set aliasing
@@ -53,7 +54,7 @@ void GameApplication::init()
     settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
     // set window size (windowed, no resize)
-    mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close | sf::Style::Resize, settings);
+    mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
     mc_window->setSize({windowConfig.width * 3u, windowConfig.height * 3u});
     // disable key repeat (this is not part of WindowConfig because most games either don't use it
     // or implement their own repeat detection system)
@@ -176,9 +177,6 @@ void GameApplication::update(sf::Time deltaTime)
 
     // update characters
     mc_world->update(deltaTime);
-
-    // move camera
-    // mc_view->move(0.f, std::sin(ms_applicationTime.asSeconds()) * 50.f * deltaTime.asSeconds());
 }
 
 void GameApplication::render()
