@@ -6,8 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-template class std::unique_ptr<sf::Text>;
-
 // Game
 #include "Components/Transform.h"
 
