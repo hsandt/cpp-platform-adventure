@@ -14,6 +14,8 @@
 #include "yaml-cpp/yaml.h"
 
 // Game
+#include "Application/GameApplication.h"
+#include "Audio/MusicManager.h"
 #include "Components/Transform.h"
 #include "Data/ItemDataID.h"
 #include "Dialogue/DialogueTree.h"
@@ -95,7 +97,19 @@ void World::loadSceneFromYAML(const std::string& sceneName)
             // Check for meta-objects like Gates first
             // Redundant with Deserialization::deserialize...
             auto type = spatialObjectNode["type"].as<std::string>();
-            if (type == "Gate")
+            if (type == "Music")
+            {
+                auto path = spatialObjectNode["path"].as<std::string>();
+
+                // load and play initial BGM
+                // (we should generally defer this kind of thing to after loading, but there is no
+                // such mechanic on the Music Manager for now)
+                mo_gameApp.mc_musicManager->playBgm(path);
+
+                // continue as meta-object is a valid entry, but deserialize below would assert on it
+                continue;
+            }
+            else if (type == "Gate")
             {
                 auto direction = spatialObjectNode["direction"].as<std::string>();
                 auto targetScene = spatialObjectNode["targetScene"].as<std::string>();

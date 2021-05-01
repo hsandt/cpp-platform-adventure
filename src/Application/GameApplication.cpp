@@ -51,9 +51,6 @@ void GameApplication::init()
     // load initial scene
     mc_world->deferLoadScene(appConfig.initialSceneName);
 
-    // load initial BGM
-    mc_musicManager->playBgm("bgm1.ogg");
-
     // set initial input context to Platforming
     mc_inputManager->pushInputContext(InputContext::Platforming);
 }
