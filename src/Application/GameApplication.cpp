@@ -49,7 +49,7 @@ void GameApplication::init()
     initWindow();
 
     // load initial scene
-    mc_world->deferLoadScene("scene1.yml");
+    mc_world->deferLoadScene(appConfig.initialSceneName);
 
     // load initial BGM
     mc_musicManager->playBgm("bgm1.ogg");

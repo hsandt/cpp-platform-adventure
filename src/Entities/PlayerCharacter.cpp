@@ -91,8 +91,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
         if (const std::optional<std::string>& oGateLeftTargetSceneName = mo_gameApp.mc_world->GetGateLeftTargetSceneName())
         {
             // go to scene on the left
-            std::string sceneFilePathString = fmt::format("{}.yml", *oGateLeftTargetSceneName);
-            mo_gameApp.mc_world->deferLoadScene(sceneFilePathString);
+            mo_gameApp.mc_world->deferLoadScene(*oGateLeftTargetSceneName);
 
             // warp character to the right of scene on the left
             mc_transform->position.x = 426.f;
@@ -108,8 +107,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
         if (const std::optional<std::string>& oGateRightTargetSceneName = mo_gameApp.mc_world->GetGateRightTargetSceneName())
         {
             // go to scene on the right
-            std::string sceneFilePathString = fmt::format("{}.yml", *oGateRightTargetSceneName);
-            mo_gameApp.mc_world->deferLoadScene(sceneFilePathString);
+            mo_gameApp.mc_world->deferLoadScene(*oGateRightTargetSceneName);
 
             // warp character to the left of scene on the right
             mc_transform->position.x = 0.f;

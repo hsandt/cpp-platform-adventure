@@ -30,8 +30,8 @@
 World::World(GameApplication& gameApp) :
     ApplicationObject(gameApp),
     terrain(std::make_unique<Terrain>()),
-    ms_oCurrentSceneFilePathString(),
-    ms_oNextSceneFilePathString(),
+    ms_oCurrentSceneName(),
+    ms_oNextSceneName(),
     ms_oGateLeftTargetSceneName(),
     ms_oGateRightTargetSceneName(),
     ms_spatialObjects(),
@@ -46,19 +46,19 @@ World::~World()
 {
 }
 
-void World::deferLoadScene(const std::string& relativeFilePathString)
+void World::deferLoadScene(const std::string& sceneName)
 {
-    ms_oNextSceneFilePathString = relativeFilePathString;
+    ms_oNextSceneName = sceneName;
 }
 
 void World::update(sf::Time deltaTime)
 {
     // Check for next scene to load
     // Note that next scene path can be equal to current scene, it will reload the current scene.
-    if (ms_oNextSceneFilePathString)
+    if (ms_oNextSceneName)
     {
-        loadSceneFromYAML(*ms_oNextSceneFilePathString);
-        ms_oNextSceneFilePathString = std::nullopt;
+        loadSceneFromYAML(*ms_oNextSceneName);
+        ms_oNextSceneName = std::nullopt;
     }
 
     // update spatial objects
@@ -72,7 +72,7 @@ void World::update(sf::Time deltaTime)
     cleanObjectsToDestroy();
 }
 
-void World::loadSceneFromYAML(const std::string& relativeFilePathString)
+void World::loadSceneFromYAML(const std::string& sceneName)
 {
     // clear any loaded scene
     // this must only be called on game start and at the beginning of the frame,
@@ -84,11 +84,12 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
     ms_oGateRightTargetSceneName = std::nullopt;
 
     // update current scene file path
-    ms_oCurrentSceneFilePathString = relativeFilePathString;
+    ms_oCurrentSceneName = sceneName;
+    std::string sceneFileRelativePathString = fmt::format("{}.yml", sceneName);
 
     try
     {
-        YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / relativeFilePathString);
+        YAML::Node sceneAsset = YAML::LoadFile(sceneAssetsDirPath / sceneFileRelativePathString);
         for (const YAML::Node& spatialObjectNode : sceneAsset)
         {
             // Check for meta-objects like Gates first
@@ -139,7 +140,7 @@ void World::loadSceneFromYAML(const std::string& relativeFilePathString)
     catch(const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer custom error message
-        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", relativeFilePathString));
+        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", sceneFileRelativePathString));
     }
 }
 

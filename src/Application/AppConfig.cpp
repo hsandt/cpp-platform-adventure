@@ -25,6 +25,7 @@
         // but v0.6.3 is behind so for now, just parse as int.
         YamlHelper::tryGet<int>(appConfigFile, "fps", appConfig.fps);
         YamlHelper::tryGet<int>(appConfigFile, "maxUpdatesPerRender", appConfig.maxUpdatesPerRender);
+        YamlHelper::tryGet<std::string>(appConfigFile, "initialSceneName", appConfig.initialSceneName);
     }
     catch (const YAML::BadFile& e)
     {
@@ -37,6 +38,7 @@
 
 AppConfig::AppConfig() :
     fps(60),
-    maxUpdatesPerRender(3)
+    maxUpdatesPerRender(3),
+    initialSceneName("init")
 {
 }

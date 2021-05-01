@@ -38,9 +38,9 @@ public:
     explicit World(GameApplication& gameApp);
     virtual ~World();
 
-    /// Order World to load scene on next frame, by passing filepath relative to
-    /// assets/scenes
-    void deferLoadScene(const std::string& relativeFilePathString);
+    /// Order world to load scene on next frame, by passing scene name
+    /// (path to scene file's basename (no .yml), relative to assets/scenes)
+    void deferLoadScene(const std::string& sceneName);
 
     /// Update all world elements
     void update(sf::Time deltaTime);
@@ -79,7 +79,7 @@ private:
 
     /// Load scene content from YAML scene asset file, described by filepath relative to
     /// assets/scenes
-    void loadSceneFromYAML(const std::string& relativeFilePathString);
+    void loadSceneFromYAML(const std::string& sceneName);
 
     /// Add spatial object from unique pointer
     SpatialObject& addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
@@ -97,16 +97,16 @@ private:
 
     /* State */
 
-    /// File path of current scene
-    std::optional<std::string> ms_oCurrentSceneFilePathString;
+    /// Current scene name (basename path relative to assets/scenes)
+    std::optional<std::string> ms_oCurrentSceneName;
 
-    /// File path of next scene to load, if any (consumed on next frame)
-    std::optional<std::string> ms_oNextSceneFilePathString;
+    /// Name of next scene to load, if any (consumed on next frame)
+    std::optional<std::string> ms_oNextSceneName;
 
-    /// Meta-object: left gate
+    /// Meta-object: left gate's target scene name
     std::optional<std::string> ms_oGateLeftTargetSceneName;
 
-    /// Meta-object: right gate
+    /// Meta-object: right gate's target scene name
     std::optional<std::string> ms_oGateRightTargetSceneName;
 
     /// Map of spatial objects, identified by handle
