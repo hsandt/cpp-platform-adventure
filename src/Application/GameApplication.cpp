@@ -41,11 +41,25 @@ void GameApplication::initAndRun()
 
 void GameApplication::init()
 {
-    // retrieve App Config from config file
+    // retrieve App Config from config file and derive parameters
     AppConfig appConfig = AppConfig::fromFile("config/app_config.yml");
     mp_frameDuration = sf::seconds(1.f / appConfig.fps);
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
+    initWindow();
+
+    // load initial scene
+    mc_world->deferLoadScene("scene1.yml");
+
+    // load initial BGM
+    mc_musicManager->playBgm("bgm1.ogg");
+
+    // set initial input context to Platforming
+    mc_inputManager->pushInputContext(InputContext::Platforming);
+}
+
+void GameApplication::initWindow()
+{
     // retrieve Window Config from config file
     WindowConfig windowConfig = WindowConfig::fromFile("config/window_config.yml");
 
@@ -93,15 +107,6 @@ void GameApplication::init()
     // create camera view (currently moved so top-left matches origin)
     mc_view->setCenter(sf::Vector2f(windowConfig.nativeWidth * 0.5f, windowConfig.nativeHeight * 0.5f));
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
-
-    // load initial scene
-    mc_world->deferLoadScene("scene1.yml");
-
-    // load initial BGM
-    mc_musicManager->playBgm("bgm1.ogg");
-
-    // set initial input context to Platforming
-    mc_inputManager->pushInputContext(InputContext::Platforming);
 }
 
 void GameApplication::run()

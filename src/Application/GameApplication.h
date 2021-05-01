@@ -37,6 +37,9 @@ private:
     /// Initialize game application
     void init();
 
+    /// Initialize window, render texture and view
+    void initWindow();
+
     /// Run game loop
     /// Returns when the loop is over, after closing the window.
     void run();
