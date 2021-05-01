@@ -53,16 +53,21 @@ void GameApplication::init()
     sf::ContextSettings settings;
     settings.antialiasingLevel = windowConfig.antialiasingLevel;
 
-    // set window size (windowed, no resize)
-    mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
-    mc_window->setSize(sf::Vector2u(windowConfig.upscaleFactor * windowConfig.width, windowConfig.upscaleFactor * windowConfig.height));
-    // disable key repeat (this is not part of WindowConfig because most games either don't use it
+    // create window (closable, not resizable) with native resolution
+    mc_window->create(sf::VideoMode(windowConfig.nativeWidth, windowConfig.nativeHeight), windowConfig.title, sf::Style::Close, settings);
+
+    // resize window to match upscaling factor (the unsmoothed render texture will make sure we get nearest-neighbor scaling)
+    u16 windowWidth = windowConfig.upscaleFactor * windowConfig.nativeWidth;
+    u16 windowHeight = windowConfig.upscaleFactor * windowConfig.nativeHeight;
+    mc_window->setSize(sf::Vector2u(windowWidth, windowHeight));
+
+    // disable key repeat (this is not tunable in WindowConfig because most games either don't use it
     // or implement their own repeat detection system)
     mc_window->setKeyRepeatEnabled(false);
 
     // center window on screen by getting current desktop resolution and placing top-left accordingly
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-    mc_window->setPosition(sf::Vector2i((desktopMode.width - windowConfig.width * 3u) / 2, (desktopMode.height - windowConfig.height * 3u) / 2));
+    mc_window->setPosition(sf::Vector2i((desktopMode.width - windowWidth) / 2, (desktopMode.height - windowHeight) / 2));
 
     if (windowConfig.vsync)
     {
@@ -79,15 +84,15 @@ void GameApplication::init()
         mc_window->setFramerateLimit(windowConfig.framerateLimit);
     }
 
-    bool success = mc_renderTexture->create(windowConfig.width, windowConfig.height);
+    bool success = mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
     if (!success)
     {
         throw std::runtime_error("Could not create render texture");
     }
 
     // create camera view
-    mc_view->setCenter(sf::Vector2f(windowConfig.width * 0.5f, windowConfig.height * 0.5f));
-    mc_view->setSize(sf::Vector2f(windowConfig.width, windowConfig.height));
+    mc_view->setCenter(sf::Vector2f(windowConfig.nativeWidth * 0.5f, windowConfig.nativeHeight * 0.5f));
+    mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
 
     // load initial scene
     mc_world->deferLoadScene("scene1.yml");

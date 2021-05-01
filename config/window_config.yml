@@ -1,6 +1,6 @@
-# Window dimensions
-width: 426
-height: 240
+# Native resolution
+nativeWidth: 426
+nativeHeight: 240
 
 # Pixel art upscaling
 upscaleFactor: 3

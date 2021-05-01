@@ -15,8 +15,8 @@ struct WindowConfig
     WindowConfig();
 
     /// Window dimensions (for VideoMode)
-    u16 width;
-    u16 height;
+    u16 nativeWidth;
+    u16 nativeHeight;
 
     /// Integer render upscaling factor (for games using pixel art)
     u8 upscaleFactor;

@@ -21,8 +21,8 @@
         YAML::Node windowConfigFile = YAML::LoadFile(filename);
 
         // Same comment as in AppConfig::fromFile, but for <int> instead of <u16>
-        YamlHelper::tryGet<int>(windowConfigFile, "width", windowConfig.width);
-        YamlHelper::tryGet<int>(windowConfigFile, "height", windowConfig.height);
+        YamlHelper::tryGet<int>(windowConfigFile, "nativeWidth", windowConfig.nativeWidth);
+        YamlHelper::tryGet<int>(windowConfigFile, "nativeHeight", windowConfig.nativeHeight);
         YamlHelper::tryGet<int>(windowConfigFile, "upscaleFactor", windowConfig.upscaleFactor);
         YamlHelper::tryGet<bool>(windowConfigFile, "vsync", windowConfig.vsync);
         YamlHelper::tryGet<int>(windowConfigFile, "framerateLimit", windowConfig.framerateLimit);
@@ -41,8 +41,8 @@
 
 WindowConfig::WindowConfig() :
     // 720p
-    width(1280),
-    height(720),
+    nativeWidth(1280),
+    nativeHeight(720),
     // no upscaling
     upscaleFactor(1),
     // V-sync false by default so framerate limit is used
