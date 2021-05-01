@@ -20,6 +20,7 @@
     {
         YAML::Node windowConfigFile = YAML::LoadFile(filename);
 
+        // Same comment as in AppConfig::fromFile, but for <int> instead of <u16>
         YamlHelper::tryGet<int>(windowConfigFile, "width", windowConfig.width);
         YamlHelper::tryGet<int>(windowConfigFile, "height", windowConfig.height);
         YamlHelper::tryGet<bool>(windowConfigFile, "vsync", windowConfig.vsync);

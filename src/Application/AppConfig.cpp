@@ -9,6 +9,9 @@
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
 
+// Game
+#include "Serialization/YamlHelper.h"
+
 /* static */ AppConfig AppConfig::fromFile(const std::string& filename)
 {
     AppConfig appConfig;
@@ -20,8 +23,8 @@
         // Support for u8 is added in commit "Support as<uint8_t>/as<int8_t>."
         // https://github.com/jbeder/yaml-cpp/commit/4dbfeb0bbccac8164ab8f8686307867c0729d8c1
         // but v0.6.3 is behind so for now, just parse as int.
-        trySetFromKey<int>(appConfig.fps, "fps", appConfigFile);
-        trySetFromKey<int>(appConfig.maxUpdatesPerRender, "maxUpdatesPerRender", appConfigFile);
+        YamlHelper::tryGet<int>(appConfigFile, "fps", appConfig.fps);
+        YamlHelper::tryGet<int>(appConfigFile, "maxUpdatesPerRender", appConfig.maxUpdatesPerRender);
     }
     catch(const YAML::BadFile& e)
     {
@@ -30,21 +33,6 @@
     }
 
     return appConfig;
-}
-
-template<typename YAMLValue, typename Var, typename YAMLKey>
-requires std::convertible_to<YAMLValue, Var>
-/* static */ bool AppConfig::trySetFromKey(Var& var, const YAMLKey& key, const YAML::Node& appConfigFile)
-{
-    YAML::Node node = appConfigFile[key];
-    if (node.IsDefined())
-    {
-        // implicit conversion from Value to Out type may happen here
-        var = node.as<YAMLValue>();
-        return true;
-    }
-
-    return false;
 }
 
 AppConfig::AppConfig() :
