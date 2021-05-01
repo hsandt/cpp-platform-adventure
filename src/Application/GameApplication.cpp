@@ -55,7 +55,7 @@ void GameApplication::init()
 
     // set window size (windowed, no resize)
     mc_window->create(sf::VideoMode(windowConfig.width, windowConfig.height), windowConfig.title, sf::Style::Close, settings);
-    mc_window->setSize({windowConfig.width * 3u, windowConfig.height * 3u});
+    mc_window->setSize(sf::Vector2u(windowConfig.upscaleFactor * windowConfig.width, windowConfig.upscaleFactor * windowConfig.height));
     // disable key repeat (this is not part of WindowConfig because most games either don't use it
     // or implement their own repeat detection system)
     mc_window->setKeyRepeatEnabled(false);

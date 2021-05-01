@@ -2,6 +2,9 @@
 width: 426
 height: 240
 
+# Pixel art upscaling
+upscaleFactor: 3
+
 # V-sync enabling flag. If true, framerateLimit is ignored
 # V-sync is recommended to avoid screen tearing, but with some Linux graphics drivers it will
 # make the update loop run at 100% CPU.

@@ -3,9 +3,6 @@
 // std
 #include <string>
 
-// SFML
-#include <SFML/System/String.hpp>
-
 // Game
 #include "Common.h"
 
@@ -20,6 +17,9 @@ struct WindowConfig
     /// Window dimensions (for VideoMode)
     u16 width;
     u16 height;
+
+    /// Integer render upscaling factor (for games using pixel art)
+    u8 upscaleFactor;
 
     /// V-sync enabling flag. If true, framerateLimit is ignored (for Window)
     bool vsync;

@@ -23,6 +23,7 @@
         // Same comment as in AppConfig::fromFile, but for <int> instead of <u16>
         YamlHelper::tryGet<int>(windowConfigFile, "width", windowConfig.width);
         YamlHelper::tryGet<int>(windowConfigFile, "height", windowConfig.height);
+        YamlHelper::tryGet<int>(windowConfigFile, "upscaleFactor", windowConfig.upscaleFactor);
         YamlHelper::tryGet<bool>(windowConfigFile, "vsync", windowConfig.vsync);
         YamlHelper::tryGet<int>(windowConfigFile, "framerateLimit", windowConfig.framerateLimit);
         YamlHelper::tryGet<bool>(windowConfigFile, "allowVsyncWithFramerateLimit", windowConfig.allowVsyncWithFramerateLimit);
@@ -42,11 +43,13 @@ WindowConfig::WindowConfig() :
     // 720p
     width(1280),
     height(720),
+    // no upscaling
+    upscaleFactor(1),
     // V-sync false by default so framerate limit is used
     vsync(false),
     // Framerate limit at 60 for roughly 60 FPS
     framerateLimit(60),
-    // V-sync false by default, so this value will be ignored by default
+    // V-sync is false by default, so this value will be ignored by default
     allowVsyncWithFramerateLimit(false),
     // No anti-aliasing
     antialiasingLevel(0),
