@@ -33,9 +33,12 @@ void InputManager::processEvent(sf::Event event)
 
 void InputManager::update()
 {
-    // set the input context for this frame
-    // even if the stack changes, it should not change until next frame for stability
-    ms_oCurrentInputContext = ms_inputContextStack.top();
+    if (!ms_inputContextStack.empty())
+    {
+        // set the input context for this frame
+        // even if the stack changes, it should not change until next frame for stability
+        ms_oCurrentInputContext = ms_inputContextStack.top();
+    }
 
     updateInputStates();
 }
@@ -52,12 +55,22 @@ void InputManager::pushInputContext(InputContext inputContext)
 
 void InputManager::popInputContext(InputContext inputContext)
 {
-    InputContext top = ms_inputContextStack.top();
-    if (top != inputContext)
+    if (!ms_inputContextStack.empty())
+    {
+        InputContext top = ms_inputContextStack.top();
+        if (top != inputContext)
+        {
+            throw std::runtime_error(fmt::format(
+                "Input context stack top is {}, cannot pop expected input context {}.",
+                top, inputContext
+            ));
+        }
+    }
+    else
     {
         throw std::runtime_error(fmt::format(
-            "Input context stack top is {}, cannot pop expected input context {}.",
-            top, inputContext
+            "Input context stack is empty, cannot pop expected input context {}.",
+            inputContext
         ));
     }
 
