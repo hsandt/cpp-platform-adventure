@@ -1,8 +1,10 @@
--- ex: build/Linux_debug
-output_dir = "build/%{cfg.system}_%{cfg.action}_%{cfg.buildcfg}"
+-- ex: build/linux_gmake_clang_debug
+-- don't rely on %{cfg.toolset}, it's 'gcc' even for clang
+-- instead, define one configuration per pair (toolchain, debug/release)
+local output_dir = "build/%{cfg.system}_%{cfg.action}_%{cfg.buildcfg}"
 
 workspace "C++_Platform_Adventure"
-    configurations { "Debug", "Release" }
+    configurations { "gcc_debug", "gcc_release", "clang_debug", "clang_release" }
     location "build"
     targetdir(output_dir .. "/bin")
     objdir(output_dir .. "/obj")
@@ -24,7 +26,11 @@ project "Game"
     -- Instead we directly add its header and source to the project and build them with the rest.
     includedirs { "engine/third-party/PPK_ASSERT/src" }
     files { "engine/third-party/PPK_ASSERT/src/**.h", "engine/third-party/PPK_ASSERT/src/**.cpp" }
-    disablewarnings { "stringop-truncation" }  -- g++ release detects false positive on strncpy usage
+    -- g++ release detects false positive warnings related to strncpy
+
+    filter { "configurations:gcc_release" }
+        disablewarnings { "stringop-overflow", "stringop-truncation" }
+    filter {}
 
 
     -- Dependency: {fmt} --
@@ -130,12 +136,12 @@ project "Game"
     -- add all files recursively to project
     files { "src/**.h", "src/**.cpp" }
 
-    filter { "configurations:Debug" }
+    filter { "configurations:*_debug" }
         defines { "DEBUG" }
         symbols "On"
         buildoptions "-O0"
 
-    filter { "configurations:Release" }
+    filter { "configurations:*_release" }
         defines { "NDEBUG" }
         -- `optimize "On"` sets -O2 instead of -O3, so prefer manual options
         buildoptions "-O3"

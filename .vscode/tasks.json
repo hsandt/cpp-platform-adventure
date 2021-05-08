@@ -90,7 +90,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "debug"}
+                "env": {"CXX": "g++-10", "config": "gcc_debug"}
             },
             "problemMatcher": [],
             "group": {
@@ -108,7 +108,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "debug"}
+                "env": {"CXX": "g++-10", "config": "gcc_debug"}
             },
             "problemMatcher": [],
             "group": {
@@ -123,7 +123,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "release"}
+                "env": {"CXX": "g++-10", "config": "gcc_release"}
             },
             "problemMatcher": [],
             "group": {
@@ -141,7 +141,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "release"}
+                "env": {"CXX": "g++-10", "config": "gcc_release"}
             },
             "problemMatcher": [],
             "group": {
@@ -156,16 +156,16 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "debug"}
+                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_debug"}
             },
             "osx": {
                 "options": {
-                    "env": {"CXX": "clang++", "CC": "clang", "config": "debug"}
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_debug"}
                 }
             },
             "windows": {
                 "options": {
-                    "env": {"CXX": "clang++", "CC": "clang", "config": "debug"}
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_debug"}
                 }
             },
             "problemMatcher": [],
@@ -182,16 +182,16 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "release"}
+                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_release"}
             },
             "osx": {
                 "options": {
-                    "env": {"CXX": "clang++", "CC": "clang", "config": "release"}
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_release"}
                 }
             },
             "windows": {
                 "options": {
-                    "env": {"CXX": "clang++", "CC": "clang", "config": "release"}
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_release"}
                 }
             },
             "problemMatcher": [],
