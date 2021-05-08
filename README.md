@@ -15,6 +15,13 @@ Only Linux is currently supported. Build is tested on Ubuntu and Mint, and proba
 
 However, premake will make it easier to support Windows and OSX in a later version.
 
+## Third-party libraries
+
+* PPK_ASSERT for assertions. Note that it's not used as a separate library, rather built together with project sources (as it only contains 1 header and 1 source)
+* fmt for string formatting (outside assertions)
+* SFML for Window, Graphics, Audio and Input management
+* yaml-cpp for YAML parsing
+
 ## How to build
 
 ### Required compiler toolchain
@@ -55,7 +62,9 @@ On OSX, I recommend to install the latest Xcode (currently 11) and the lastest c
 
 ### Dependencies
 
-You need python3.6+ (named `python3` in your PATH) to run build_sfml.py.
+You need python3.6+ (named `python3` in your PATH) to build the dependencies. This is done by running build_deps.py.
+
+Note that PPK_ASSERT is not built as a separate library, but together with the project sources.
 
 #### Linux
 

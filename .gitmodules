@@ -7,3 +7,6 @@
 [submodule "engine/third-party/fmt"]
 	path = engine/third-party/fmt
 	url = https://github.com/fmtlib/fmt
+[submodule "engine/third-party/PPK_ASSERT"]
+	path = engine/third-party/PPK_ASSERT
+	url = https://github.com/gpakosz/PPK_ASSERT.git

@@ -18,6 +18,15 @@ project "Game"
     flags { "FatalWarnings" }
     enablewarnings { "all" }
 
+    -- Dependency: PPK_ASSERT --
+
+    -- PPK_ASSERT is not a pre-built & linked library.
+    -- Instead we directly add its header and source to the project and build them with the rest.
+    includedirs { "engine/third-party/PPK_ASSERT/src" }
+    files { "engine/third-party/PPK_ASSERT/src/**.h", "engine/third-party/PPK_ASSERT/src/**.cpp" }
+    disablewarnings { "stringop-truncation" }  -- g++ release detects false positive on strncpy usage
+
+
     -- Dependency: {fmt} --
 
     includedirs { "engine/third-party/install/fmt/include" }
@@ -116,6 +125,7 @@ project "Game"
     includedirs { "engine/third-party/install/yaml-cpp/include" }
     libdirs {"engine/third-party/install/yaml-cpp/lib"}
     links {"yaml-cpp"}
+
 
     -- add all files recursively to project
     files { "src/**.h", "src/**.cpp" }

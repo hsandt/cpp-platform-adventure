@@ -6,7 +6,8 @@
                 "src",
                 "engine/third-party/fmt/include",
                 "engine/third-party/SFML/include",
-                "engine/third-party/yaml-cpp/include"
+                "engine/third-party/yaml-cpp/include",
+                "engine/third-party/PPK_ASSERT/src"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++-10",

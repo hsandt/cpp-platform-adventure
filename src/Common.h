@@ -1,6 +1,13 @@
 #pragma once
 
+// std
 #include <stdint.h>
+
+// PPK_ASSERT
+// Enable assertions even in Release (mostly for FATAL aborts)
+#undef PPK_ASSERT_ENABLED
+#define PPK_ASSERT_ENABLED 1
+#include <ppk_assert.h>
 
 // Type aliases
 
