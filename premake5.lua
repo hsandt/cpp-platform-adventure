@@ -28,10 +28,6 @@ project "Game"
     files { "engine/third-party/PPK_ASSERT/src/**.h", "engine/third-party/PPK_ASSERT/src/**.cpp" }
     -- g++ release detects false positive warnings related to strncpy
 
-    filter { "configurations:gcc_release" }
-        disablewarnings { "stringop-overflow", "stringop-truncation" }
-    filter {}
-
 
     -- Dependency: {fmt} --
 
