@@ -37,10 +37,6 @@ namespace YamlHelper
         return false;
     }
 
-    /// Return YAML node as an IntRect
-    /// UB unless node contains x, y, w and h values as int
-    sf::IntRect asIntRect(const YAML::Node& node);
-
     /// Return YAML node as a Color with max opacity
     /// UB unless node contains r, g and b as float
     sf::Color asColor(const YAML::Node& node);

@@ -10,7 +10,7 @@
     position: {x: -29, y: 20}
   sprite:
     texture: character1_spritesheet.png
-    rectangle: {x: 0, y: 0, w: 16, h: 18}
+    rectangle: {left: 0, top: 0, width: 16, height: 18}
 - type: NonPlayerCharacter
   id: 1
   transform:

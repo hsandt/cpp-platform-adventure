@@ -55,10 +55,9 @@ PickUpItem::~PickUpItem()
     const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
     item->mc_sprite->setTexture(texture);
 
-    YAML::Node sourceRectNode;
-    if (YamlHelper::tryGet<YAML::Node>(spriteNode, "rectangle", sourceRectNode))
+    sf::IntRect sourceRect;
+    if (YamlHelper::tryGet<sf::IntRect>(spriteNode, "rectangle", sourceRect))
     {
-        sf::IntRect sourceRect = YamlHelper::asIntRect(sourceRectNode);
         item->mc_sprite->setTextureRect(sourceRect);
     }
 
