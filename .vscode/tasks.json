@@ -176,6 +176,33 @@
             "dependsOn": ["premake5 gmake", "build dependencies (clang++)"]
         },
         {
+            // alternative version without checking deps at all
+            // run it when you're sure deps have been built to gain 1s
+            "label": "quick make (clang++, debug)",
+            "type": "shell",
+            "command": "make",
+            "args": ["-j", "$nproc"],
+            "options": {
+                "cwd": "build",
+                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_debug"}
+            },
+            "osx": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_debug"}
+                }
+            },
+            "windows": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_debug"}
+                }
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "make (clang++, release)",
             "type": "shell",
             "command": "make",
@@ -200,6 +227,33 @@
                 "isDefault": true
             },
             "dependsOn": ["premake5 gmake", "build dependencies (clang++)"]
+        },
+        {
+            // alternative version without checking deps at all
+            // run it when you're sure deps have been built to gain 1s
+            "label": "quick make (clang++, release)",
+            "type": "shell",
+            "command": "make",
+            "args": ["-j", "$nproc"],
+            "options": {
+                "cwd": "build",
+                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_release"}
+            },
+            "osx": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_release"}
+                }
+            },
+            "windows": {
+                "options": {
+                    "env": {"CXX": "clang++", "CC": "clang", "config": "clang_release"}
+                }
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "clean",

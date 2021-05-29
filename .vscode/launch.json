@@ -60,7 +60,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "quick make (clang, debug)",
+            "preLaunchTask": "quick make (clang++, debug)",
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
@@ -119,7 +119,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "quick make (clang, debug)",
+            "preLaunchTask": "quick make (clang++, debug)",
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
@@ -175,7 +175,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "quick make (clang, release)",
+            "preLaunchTask": "quick make (clang++, release)",
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
@@ -234,7 +234,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "quick make (clang, release)",
+            "preLaunchTask": "quick make (clang++, release)",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
