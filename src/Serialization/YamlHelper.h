@@ -37,10 +37,6 @@ namespace YamlHelper
         return false;
     }
 
-    /// Return YAML node as a Vector2f
-    /// UB unless node contains x and y values as float
-    sf::Vector2f asVector2f(const YAML::Node& node);
-
     /// Return YAML node as an IntRect
     /// UB unless node contains x, y, w and h values as int
     sf::IntRect asIntRect(const YAML::Node& node);

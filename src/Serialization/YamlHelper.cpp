@@ -4,15 +4,6 @@ namespace YamlHelper
 {
     /// Return YAML node as a Vector2f
     /// UB unless node contains x and y values as float
-    sf::Vector2f asVector2f(const YAML::Node& node)
-    {
-        float x = node["x"].as<float>();
-        float y = node["y"].as<float>();
-        return sf::Vector2f(x, y);
-    }
-
-    /// Return YAML node as a Vector2f
-    /// UB unless node contains x and y values as float
     sf::IntRect asIntRect(const YAML::Node& node)
     {
         int x = node["x"].as<int>();

@@ -24,6 +24,7 @@
 #include "Input/InputManager.h"
 #include "Memory/Box.hpp"
 #include "PlayerCharacter/Inventory.h"
+#include "Serialization/YamlConvert.hpp"
 #include "Serialization/YamlHelper.h"
 #include "Space/World.h"
 
@@ -56,7 +57,7 @@ PlayerCharacter::~PlayerCharacter()
     Handle id = spatialObjectNode["id"].as<Handle>();
     auto playerCharacter = std::make_unique<PlayerCharacter>(gameApp, id);
 
-    sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+    sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
     playerCharacter->mc_transform->position = position;
 
     const YAML::Node& spriteNode = spatialObjectNode["sprite"];

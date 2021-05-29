@@ -5,6 +5,7 @@
 
 // SFML
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
@@ -14,6 +15,7 @@
 #include "Components/Transform.h"
 #include "Dialogue/DialogueManager.h"
 #include "Dialogue/DialogueTree.h"
+#include "Serialization/YamlConvert.hpp"
 #include "Serialization/YamlHelper.h"
 
 NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
@@ -38,7 +40,7 @@ NonPlayerCharacter::~NonPlayerCharacter()
     Handle id = spatialObjectNode["id"].as<Handle>();
     auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(gameApp, id);
 
-    sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+    sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
     nonPlayerCharacter->mc_transform->position = position;
 
     const YAML::Node& dialogueTreeNode = spatialObjectNode["dialogueTree"];

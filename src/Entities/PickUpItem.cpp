@@ -7,6 +7,7 @@
 
 // SFML
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
@@ -18,6 +19,7 @@
 #include "Dialogue/DialogueTree.h"
 #include "Entities/PlayerCharacter.h"
 #include "Graphics/TextureManager.h"
+#include "Serialization/YamlConvert.hpp"
 #include "Serialization/YamlHelper.h"
 #include "Space/World.h"
 
@@ -45,7 +47,7 @@ PickUpItem::~PickUpItem()
     DataID dataID = spatialObjectNode["dataID"].as<DataID>();
     auto item = std::make_unique<PickUpItem>(gameApp, id, dataID);
 
-    sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
+    sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
     item->mc_transform->position = position;
 
     const YAML::Node& spriteNode = spatialObjectNode["sprite"];
