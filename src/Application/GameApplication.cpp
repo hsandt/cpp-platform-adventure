@@ -98,7 +98,10 @@ void GameApplication::initWindow()
         mc_window->setFramerateLimit(windowConfig.framerateLimit);
     }
 
-    bool success = mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
+    #if PPK_ASSERT_ENABLED
+    bool success =
+    #endif
+    mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
     PPK_ASSERT_FATAL(success, "Could not create render texture");
 
     // create camera view (currently moved so top-left matches origin)
