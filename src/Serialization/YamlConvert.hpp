@@ -7,10 +7,15 @@
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
 
+// Game
+#include "Common.h"
+#include "Serialization/YamlHelper.h"
+
 // Specialization of YAML convert for custom types
 
 namespace YAML
 {
+    /// Vector<T> node converter
     template<typename T>
     struct convert<sf::Vector2<T>>
     {
@@ -35,6 +40,7 @@ namespace YAML
         }
     };
 
+    /// Rect<T> node converter
     template<typename T>
     struct convert<sf::Rect<T>>
     {
@@ -59,6 +65,42 @@ namespace YAML
             rhs.top = node["top"].as<T>();
             rhs.width = node["width"].as<T>();
             rhs.height = node["height"].as<T>();
+            return true;
+        }
+    };
+
+    /// Color node converter
+    template<>
+    struct convert<sf::Color>
+    {
+        static Node encode(const sf::Color& rhs)
+        {
+            Node node;
+            node["r"] = rhs.r;
+            node["g"] = rhs.g;
+            node["b"] = rhs.b;
+            node["a"] = rhs.a;  // always store a when encoding
+            return node;
+        }
+
+        static bool decode(const Node& node, sf::Color& rhs)
+        {
+            if (!node.IsMap() || !(node.size() >= 3 && node.size() <= 4))
+            {
+                return false;
+            }
+
+            rhs.r = node["r"].as<u8>();
+            rhs.g = node["g"].as<u8>();
+            rhs.b = node["b"].as<u8>();
+
+            // alpha is optional on decode, so if you find it, set it,
+            // but if you don't, default to opaque (255)
+            if (!YamlHelper::tryGet<u8>(node, "a", rhs.a))
+            {
+                rhs.a = 255;
+            }
+
             return true;
         }
     };

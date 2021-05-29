@@ -36,8 +36,4 @@ namespace YamlHelper
 
         return false;
     }
-
-    /// Return YAML node as a Color with max opacity
-    /// UB unless node contains r, g and b as float
-    sf::Color asColor(const YAML::Node& node);
 }
