@@ -25,7 +25,7 @@
 #include "Memory/Box.hpp"
 #include "PlayerCharacter/Inventory.h"
 #include "Serialization/YamlConvert.hpp"
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 #include "Space/World.h"
 
 PlayerCharacter::PlayerCharacter(GameApplication& gameApp, Handle id) :

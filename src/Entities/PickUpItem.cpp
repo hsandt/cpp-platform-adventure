@@ -20,7 +20,7 @@
 #include "Entities/PlayerCharacter.h"
 #include "Graphics/TextureManager.h"
 #include "Serialization/YamlConvert.hpp"
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 #include "Space/World.h"
 
 PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :

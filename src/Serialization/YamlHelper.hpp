@@ -3,10 +3,6 @@
 // std
 #include <concepts>
 
-// SFML
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-
 // yaml-cpp
 #include "yaml-cpp/yaml.h"
 

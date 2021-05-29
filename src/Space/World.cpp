@@ -23,7 +23,7 @@
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"
 #include "Serialization/Deserialization.h"
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 #include "Space/SpatialObject.h"
 #include "Space/Terrain.h"
 

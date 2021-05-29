@@ -11,7 +11,7 @@
 #include "yaml-cpp/yaml.h"
 
 // Game
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 #include "Entities/NonPlayerCharacter.h"
 #include "Entities/PickUpItem.h"
 #include "Entities/PlayerCharacter.h"

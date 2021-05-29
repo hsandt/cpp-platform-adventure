@@ -16,7 +16,7 @@
 #include "Dialogue/DialogueManager.h"
 #include "Dialogue/DialogueTree.h"
 #include "Serialization/YamlConvert.hpp"
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 
 NonPlayerCharacter::NonPlayerCharacter(GameApplication& gameApp, Handle id) :
     SpatialObject(gameApp, id),

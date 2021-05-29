@@ -9,7 +9,7 @@
 
 // Game
 #include "Common.h"
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 
 // Specialization of YAML convert for custom types
 

@@ -13,7 +13,7 @@
 #include "yaml-cpp/yaml.h"
 
 // Game
-#include "Serialization/YamlHelper.h"
+#include "Serialization/YamlHelper.hpp"
 
 /* static */ AppConfig AppConfig::fromFile(const std::string& filename)
 {
