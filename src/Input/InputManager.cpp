@@ -55,24 +55,18 @@ void InputManager::pushInputContext(InputContext inputContext)
 
 void InputManager::popInputContext(InputContext inputContext)
 {
+    #if PPK_ASSERT_ENABLED
     if (!ms_inputContextStack.empty())
     {
         InputContext top = ms_inputContextStack.top();
-        if (top != inputContext)
-        {
-            throw std::runtime_error(fmt::format(
-                "Input context stack top is {}, cannot pop expected input context {}.",
-                top, inputContext
-            ));
-        }
+        PPK_ASSERT_ERROR(top == inputContext,
+            "Input context stack top is %u, cannot pop expected input context %u.", top, inputContext);
     }
     else
     {
-        throw std::runtime_error(fmt::format(
-            "Input context stack is empty, cannot pop expected input context {}.",
-            inputContext
-        ));
+        PPK_ASSERT_ERROR(false, "Input context stack is empty, cannot pop expected input context %u.", inputContext);
     }
+    #endif
 
     ms_inputContextStack.pop();
 }

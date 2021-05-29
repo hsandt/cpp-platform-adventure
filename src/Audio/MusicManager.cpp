@@ -3,6 +3,9 @@
 // std
 #include <stdexcept>
 
+// PPK_ASSERT
+#include "ppk_assert.h"
+
 // fmt
 #include "fmt/format.h"
 
@@ -33,14 +36,14 @@ void MusicManager::playBgm(const std::string& relativeFilePathString)
         std::filesystem::path filePath = bgmAssetsDirPath / relativeFilePathString;
 
         bool result = ms_music.openFromFile(filePath);
-        if (!result)
+        PPK_ASSERT_DEBUG(result, "Could not open bgm at file path: %s", filePath.c_str());
+
+        if (result)
         {
-            throw std::runtime_error(fmt::format("Could not open bgm at file path: %s", filePath.c_str()));
+            ms_music.setLoop(true);
+            ms_music.play();
+
+            ms_oCurrentBgmRelativePathString = relativeFilePathString;
         }
-
-        ms_music.setLoop(true);
-        ms_music.play();
-
-        ms_oCurrentBgmRelativePathString = relativeFilePathString;
     }
 }

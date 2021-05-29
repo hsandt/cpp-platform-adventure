@@ -36,7 +36,8 @@ namespace Deserialization
         }
         else
         {
-            throw std::runtime_error(fmt::format("Unsupported type {}", type));
+            PPK_ASSERT_DEBUG(false, "Unsupported type %s, deserialize will return empty unique_ptr.", type.c_str());
+            return nullptr;
         }
     }
 }

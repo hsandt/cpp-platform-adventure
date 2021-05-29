@@ -127,28 +127,30 @@ void World::loadSceneFromYAML(const std::string& sceneName)
             }
 
             std::unique_ptr<SpatialObject> spatialObject = Deserialization::deserialize(mo_gameApp, spatialObjectNode);
-
-            // Check tag for special behaviours
-            std::string tag;
-            if (YamlHelper::tryGet<std::string>(spatialObjectNode, "tag", tag))
+            if (spatialObject)
             {
-                if (tag == "PlayerCharacter")
+                // Check tag for special behaviours
+                std::string tag;
+                if (YamlHelper::tryGet<std::string>(spatialObjectNode, "tag", tag))
                 {
-                    if (ms_playerCharacterHandle)
+                    if (tag == "PlayerCharacter")
                     {
-                        // Player character has already been spawned and registered,
-                        // so ignore this one (it's just the scene indicating a spawn point)
-                        // Performance note: we created the object for nothing. It will be destroyed
-                        // when unique_ptr goes out of scope, but it'd be better not to create it at all.
-                        continue;
+                        if (ms_playerCharacterHandle)
+                        {
+                            // Player character has already been spawned and registered,
+                            // so ignore this one (it's just the scene indicating a spawn point)
+                            // Performance note: we created the object for nothing. It will be destroyed
+                            // when unique_ptr goes out of scope, but it'd be better not to create it at all.
+                            continue;
+                        }
+
+                        // Player Character found for the first time, register it and add it
+                        ms_playerCharacterHandle.set(spatialObject->mp_id);
                     }
-
-                    // Player Character found for the first time, register it and add it
-                    ms_playerCharacterHandle.set(spatialObject->mp_id);
                 }
-            }
 
-            addSpatialObject(std::move(spatialObject));
+                addSpatialObject(std::move(spatialObject));
+            }
         }
     }
     catch(const YAML::BadFile& e)
@@ -160,6 +162,8 @@ void World::loadSceneFromYAML(const std::string& sceneName)
 
 SpatialObject& World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
 {
+    PPK_ASSERT_ERROR(spatialObject, "Cannot add empty spatial object");
+
     const auto& [it, success] = ms_spatialObjects.emplace(spatialObject->mp_id, std::move(spatialObject));
 
     if (!success)

@@ -3,6 +3,9 @@
 // std
 #include <stdexcept>
 
+// PPK_ASSERT
+#include "ppk_assert.h"
+
 // SFML
 #include <SFML/Graphics.hpp>
 
@@ -96,10 +99,7 @@ void GameApplication::initWindow()
     }
 
     bool success = mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
-    if (!success)
-    {
-        throw std::runtime_error("Could not create render texture");
-    }
+    PPK_ASSERT_FATAL(success, "Could not create render texture");
 
     // create camera view (currently moved so top-left matches origin)
     mc_view->setCenter(sf::Vector2f(windowConfig.nativeWidth * 0.5f, windowConfig.nativeHeight * 0.5f));

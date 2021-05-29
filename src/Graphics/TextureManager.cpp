@@ -27,10 +27,7 @@ const sf::Texture& TextureManager::loadFromFile(const std::string& relativeFileP
     // currently no lazy loading, just overwrite any existing entry, else create a default one
     sf::Texture& texture = ms_textureMap[relativeFilePathString];
     bool result = texture.loadFromFile(filePath);
-    if (!result)
-    {
-        throw std::runtime_error(fmt::format("Could not load texture at file path: %s", filePath.c_str()));
-    }
+    PPK_ASSERT_DEBUG(result, "Could not load texture at file path: %s", filePath.c_str());
 
     return texture;
 }

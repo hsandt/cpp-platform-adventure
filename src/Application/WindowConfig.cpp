@@ -3,6 +3,9 @@
 // std
 #include <stdexcept>
 
+// PPK_ASSERT
+#include "ppk_assert.h"
+
 // fmt
 #include "fmt/format.h"
 
@@ -32,8 +35,8 @@
     }
     catch(const YAML::BadFile& e)
     {
-        // what() just contains "bad file", so prefer custom error message
-        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", filename));
+        // what() just contains "bad file", so prefer assert with custom message
+        PPK_ASSERT_DEBUG(false, "YAML::BadFile: '%s'", filename.c_str());
     }
 
     return windowConfig;
