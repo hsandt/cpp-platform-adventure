@@ -9,7 +9,7 @@
 #define PPK_ASSERT_ENABLED 1
 #include <ppk_assert.h>
 
-// Type aliases
+// Numeric type aliases
 
 using i8 = int8_t;
 using i16 = int16_t;
@@ -20,6 +20,18 @@ using u8 = uint8_t;
 using u16 = uint16_t;
 using u32 = uint32_t;
 using u64 = uint64_t;
+
+// Numeric constants
+
+constexpr i8 MAX_I8 = std::numeric_limits<i8>::max();
+constexpr i16 MAX_I16 = std::numeric_limits<i16>::max();
+constexpr i32 MAX_I32 = std::numeric_limits<i32>::max();
+constexpr i64 MAX_I64 = std::numeric_limits<i64>::max();
+
+constexpr u8 MAX_U8 = std::numeric_limits<u8>::max();
+constexpr u16 MAX_U16 = std::numeric_limits<u16>::max();
+constexpr u32 MAX_U32 = std::numeric_limits<u32>::max();
+constexpr u64 MAX_U64 = std::numeric_limits<u64>::max();
 
 // Handle alias is used for container index or key
 using Handle = u16;
