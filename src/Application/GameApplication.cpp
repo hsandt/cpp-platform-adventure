@@ -105,7 +105,7 @@ void GameApplication::initWindow()
     PPK_ASSERT_FATAL(success, "Could not create render texture");
 
     // create camera view (currently moved so top-left matches origin)
-    mc_view->setCenter(sf::Vector2f(windowConfig.nativeWidth * 0.5f, windowConfig.nativeHeight * 0.5f));
+    mc_view->setCenter(sf::Vector2f(0.f, 0.f));
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
 }
 
@@ -200,8 +200,8 @@ void GameApplication::render()
     // render world
     mc_world->render(*mc_renderTexture);
 
-    // set view back to default view so UI has fixed position on screen
-    // mc_window->setView(mc_window->getDefaultView());
+    // set view back to default view (top-left origin) so UI has fixed position on screen
+    mc_renderTexture->setView(mc_window->getDefaultView());
 
     // render UI
     mc_uiCanvas->render(*mc_renderTexture);

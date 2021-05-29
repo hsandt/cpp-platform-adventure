@@ -7,14 +7,14 @@
   id: 0
   tag: PlayerCharacter
   transform:
-    position: {x: 184, y: 140}
+    position: {x: -29, y: 20}
   sprite:
     texture: character1_spritesheet.png
     rectangle: {x: 0, y: 0, w: 16, h: 18}
 - type: NonPlayerCharacter
   id: 1
   transform:
-    position: {x: 200, y: 140}
+    position: {x: -13, y: 20}
   dialogueTree:
     verifiedItemDataID: 0  # Flag
     dialogueTextWithItem: "Wow, you brought me the flag. Thanks!"
@@ -23,7 +23,7 @@
   id: 2
   dataID: 0
   transform:
-    position: {x: 168, y: 140}
+    position: {x: -45, y: 20}
   sprite:
     texture: flag.png
   pickUpDialogueTree:

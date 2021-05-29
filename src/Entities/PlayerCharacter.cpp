@@ -93,8 +93,7 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
     const float characterSpeedX = 106.f;
     mc_transform->position.x += characterSpeedX * deltaTime.asSeconds() * moveIntentionX;
 
-    // clamp character shape edges to scene edges
-    if (mc_transform->position.x < 0.f)
+    if (mc_transform->position.x < -213.f)
     {
         if (const std::optional<std::string>& oGateLeftTargetSceneName = mo_gameApp.mc_world->GetGateLeftTargetSceneName())
         {
@@ -102,15 +101,15 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
             mo_gameApp.mc_world->deferLoadScene(*oGateLeftTargetSceneName);
 
             // warp character to the right of scene on the left
-            mc_transform->position.x = 426.f;
+            mc_transform->position.x = 213.f;
         }
         else
         {
             // nothing to the left, stop
-            mc_transform->position.x = 0.f;
+            mc_transform->position.x = -213.f;
         }
     }
-    else if (mc_transform->position.x > 426.f)
+    else if (mc_transform->position.x > 213.f)
     {
         if (const std::optional<std::string>& oGateRightTargetSceneName = mo_gameApp.mc_world->GetGateRightTargetSceneName())
         {
@@ -118,12 +117,12 @@ void PlayerCharacter::update(World& world, sf::Time deltaTime)
             mo_gameApp.mc_world->deferLoadScene(*oGateRightTargetSceneName);
 
             // warp character to the left of scene on the right
-            mc_transform->position.x = 0.f;
+            mc_transform->position.x = -213.f;
         }
         else
         {
             // nothing to the right, stop
-            mc_transform->position.x = 426.f;
+            mc_transform->position.x = 213.f;
         }
     }
 

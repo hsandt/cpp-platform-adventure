@@ -9,7 +9,7 @@ Terrain::Terrain() :
     // grass rectangle goes beyond the bottom of the screen on start to allow camera motion on Y
     shape->setSize(sf::Vector2f{426.f, 400.f / 3.f});
     shape->setFillColor(sf::Color::Green);
-    shape->setPosition(0.f, 140.f);
+    shape->setPosition(-426.f / 2.f, 20.f);
 }
 
 void Terrain::render(sf::RenderTarget& renderTarget)

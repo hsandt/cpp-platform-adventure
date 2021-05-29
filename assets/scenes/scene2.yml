@@ -6,7 +6,7 @@
 - type: NonPlayerCharacter
   id: 1
   transform:
-    position: {x: 100, y: 140}
+    position: {x: -113, y: 20}
   dialogueTree:
     verifiedItemDataID: 1  # Box
     dialogueTextWithItem: "Wow, you brought me the box. Thanks!"
@@ -15,7 +15,7 @@
   id: 2
   dataID: 1
   transform:
-    position: {x: 234, y: 140}
+    position: {x: 21, y: 20}
   sprite:
     texture: box.png
   pickUpDialogueTree:
