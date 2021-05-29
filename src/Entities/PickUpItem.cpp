@@ -48,9 +48,17 @@ PickUpItem::~PickUpItem()
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
     item->mc_transform->position = position;
 
-    auto spriteTextureRelativePathString = spatialObjectNode["spriteTexture"].as<std::string>();
+    const YAML::Node& spriteNode = spatialObjectNode["sprite"];
+    auto spriteTextureRelativePathString = spriteNode["texture"].as<std::string>();
     const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
     item->mc_sprite->setTexture(texture);
+
+    YAML::Node sourceRectNode;
+    if (YamlHelper::tryGet<YAML::Node>(spriteNode, "rectangle", sourceRectNode))
+    {
+        sf::IntRect sourceRect = YamlHelper::asIntRect(sourceRectNode);
+        item->mc_sprite->setTextureRect(sourceRect);
+    }
 
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
     const YAML::Node& dialogueTree = spatialObjectNode["pickUpDialogueTree"];

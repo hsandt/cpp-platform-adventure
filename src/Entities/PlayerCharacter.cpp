@@ -59,9 +59,17 @@ PlayerCharacter::~PlayerCharacter()
     sf::Vector2 position = YamlHelper::asVector2f(spatialObjectNode["transform"]["position"]);
     playerCharacter->mc_transform->position = position;
 
-    auto spriteTextureRelativePathString = spatialObjectNode["spriteTexture"].as<std::string>();
+    const YAML::Node& spriteNode = spatialObjectNode["sprite"];
+    auto spriteTextureRelativePathString = spriteNode["texture"].as<std::string>();
     const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
     playerCharacter->mc_sprite->setTexture(texture);
+
+    YAML::Node sourceRectNode;
+    if (YamlHelper::tryGet<YAML::Node>(spriteNode, "rectangle", sourceRectNode))
+    {
+        sf::IntRect sourceRect = YamlHelper::asIntRect(sourceRectNode);
+        playerCharacter->mc_sprite->setTextureRect(sourceRect);
+    }
 
     return playerCharacter;
 }
