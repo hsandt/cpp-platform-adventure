@@ -18,11 +18,13 @@ public:
     ~DialogueManager();
 
 public:
+    /// Process input
     void handleInput();
 
     /// Start dialogue tree by following nodes one by one from the Start node
     void startDialogueTree(const DialogueTree& dialogueTree);
 
+    /// End dialogue and hide its UI
     void closeDialogue();
 
     /// Callback for interaction action
