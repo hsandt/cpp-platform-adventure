@@ -104,7 +104,7 @@ void GameApplication::initWindow()
     mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
     PPK_ASSERT_FATAL(success, "Could not create render texture");
 
-    // create camera view (currently moved so top-left matches origin)
+    // create camera view (centered)
     mc_view->setCenter(sf::Vector2f(0.f, 0.f));
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
 }
@@ -151,13 +151,10 @@ void GameApplication::run()
                 updatesCount < mp_maxUpdatesPerRender)
             {
                 cumulatedElapsedTime -= mp_frameDuration;
-                ms_applicationTime += mp_frameDuration;
 
-                // anti-overflow (brutal)
-                if (ms_applicationTime.asSeconds() > 1000 * 1000)
-                {
-                    ms_applicationTime = sf::Time::Zero;
-                }
+                // Don't worry about overflow, we store microseconds as i64,
+                // which can last for 146,000 years
+                ms_applicationTime += mp_frameDuration;
 
                 update(mp_frameDuration);
                 ++updatesCount;
