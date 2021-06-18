@@ -1,8 +1,5 @@
 #include "Application/GameApplication.h"
 
-// std
-#include <stdexcept>
-
 // PPK_ASSERT
 #include "ppk_assert.h"
 

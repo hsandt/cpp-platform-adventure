@@ -1,7 +1,7 @@
 #include "Space/World.h"
 
 // std
-#include <stdexcept>
+#include <functional>
 
 // SFML
 #include <SFML/Graphics.hpp>
@@ -156,7 +156,7 @@ void World::loadSceneFromYAML(const std::string& sceneName)
     catch(const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer custom error message
-        throw std::runtime_error(fmt::format("YAML::BadFile: '{}'", sceneFileRelativePathString));
+        PPK_ASSERT_ERROR(false, "YAML::BadFile: '%s'", sceneFileRelativePathString.c_str());
     }
 }
 
@@ -169,9 +169,8 @@ SpatialObject& World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObj
     if (!success)
     {
         // spatialObject was moved and lost, so get the ID from the conflicting existing object
-        throw std::runtime_error(fmt::format(
-            "World::addSpatialObject: there is already an object with id {}, "
-            "cannot add another object with same id", it->second->mp_id));
+        PPK_ASSERT_ERROR(false, "World::addSpatialObject: there is already an object with id %u, "
+            "cannot add another object with same id", it->second->mp_id);
     }
 
     return *it->second;

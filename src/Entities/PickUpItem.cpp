@@ -3,7 +3,6 @@
 // std
 #include <cassert>
 #include <cmath>
-#include <stdexcept>
 
 // SFML
 #include <SFML/Graphics.hpp>
