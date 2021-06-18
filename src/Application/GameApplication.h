@@ -1,5 +1,8 @@
 #pragma once
 
+// std
+#include <string>
+
 // SFML
 #include <SFML/System/Time.hpp>
 
@@ -42,7 +45,7 @@ private:
     void initWindow();
 
     /// Initialize game state manager
-    void initGameStateManager();
+    void initGameStateManager(const std::string& initialSceneName);
 
     /// Run game loop
     /// Returns when the loop is over, after closing the window.

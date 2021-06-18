@@ -50,13 +50,7 @@ void GameApplication::init()
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
     initWindow();
-    initGameStateManager();
-
-    // load initial scene
-    mc_world->deferLoadScene(appConfig.initialSceneName);
-
-    // set initial input context to Platforming
-    mc_inputManager->pushInputContext(InputContext::Platforming);
+    initGameStateManager(appConfig.initialSceneName);
 }
 
 void GameApplication::initWindow()
@@ -110,9 +104,15 @@ void GameApplication::initWindow()
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
 }
 
-void GameApplication::initGameStateManager()
+void GameApplication::initGameStateManager(const std::string& initialSceneName)
 {
-    mc_gameStateManager->addGameState(std::make_unique<InGameState>(*this));
+    // add InGame state with initial scene to load
+    auto inGameState = std::make_unique<InGameState>(*this);
+    inGameState->mp_initialSceneName = initialSceneName;
+    mc_gameStateManager->addGameState(std::move(inGameState));
+
+    // start by entering InGame state
+    mc_gameStateManager->queryEnterGameState((u8) GameStateID::InGame);
 }
 
 void GameApplication::run()
@@ -186,6 +186,7 @@ void GameApplication::update(sf::Time deltaTime)
 {
     // update managers
     mc_inputManager->update();
+    mc_gameStateManager->update();
     mc_dialogueManager->handleInput();
 
     // update characters

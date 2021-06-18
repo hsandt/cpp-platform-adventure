@@ -20,4 +20,10 @@ public:
 
     /// Update in-game state
     virtual void update() override;
+
+public:
+
+    /* Parameters */
+
+    std::string mp_initialSceneName;
 };
