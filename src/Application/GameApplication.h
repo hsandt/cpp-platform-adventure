@@ -41,6 +41,9 @@ private:
     /// Initialize window, render texture and view
     void initWindow();
 
+    /// Initialize game state manager
+    void initGameStateManager();
+
     /// Run game loop
     /// Returns when the loop is over, after closing the window.
     void run();

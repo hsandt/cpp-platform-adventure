@@ -12,6 +12,7 @@
 #include "Application/WindowConfig.h"
 #include "Audio/MusicManager.h"
 #include "Dialogue/DialogueManager.h"
+#include "GameStates/InGameState.h"
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
 #include "UI/UICanvas.h"
@@ -49,6 +50,7 @@ void GameApplication::init()
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
     initWindow();
+    initGameStateManager();
 
     // load initial scene
     mc_world->deferLoadScene(appConfig.initialSceneName);
@@ -106,6 +108,11 @@ void GameApplication::initWindow()
     // create camera view (centered)
     mc_view->setCenter(sf::Vector2f(0.f, 0.f));
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
+}
+
+void GameApplication::initGameStateManager()
+{
+    mc_gameStateManager->addGameState(std::make_unique<InGameState>(*this));
 }
 
 void GameApplication::run()

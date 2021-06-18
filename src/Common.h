@@ -33,8 +33,9 @@ constexpr u16 MAX_U16 = std::numeric_limits<u16>::max();
 constexpr u32 MAX_U32 = std::numeric_limits<u32>::max();
 constexpr u64 MAX_U64 = std::numeric_limits<u64>::max();
 
-// Handle alias is used for container index or key
+/// Handle alias is used for big container index or key
+/// For small containers, just use u8
 using Handle = u16;
 
-// DataID is used for data entries and do not need be contiguous
+/// DataID is used for data entries and do not need be contiguous
 using DataID = u16;
