@@ -169,7 +169,7 @@ SpatialObject& World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObj
     if (!success)
     {
         // spatialObject was moved and lost, so get the ID from the conflicting existing object
-        PPK_ASSERT_ERROR(false, "World::addSpatialObject: there is already an object with id %u, "
+        PPK_ASSERT_DEBUG(false, "World::addSpatialObject: there is already an object with id %u, "
             "cannot add another object with same id", it->second->mp_id);
     }
 

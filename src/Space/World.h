@@ -81,7 +81,9 @@ private:
     /// assets/scenes
     void loadSceneFromYAML(const std::string& sceneName);
 
-    /// Add spatial object from unique pointer
+    /// Add spatial object to the world
+    /// This moves ownership from the unique pointer to a Box in ms_spatialObjects.
+    /// UB unless spatialObject is not empty, and there is not already an object with the same ID.
     SpatialObject& addSpatialObject(std::unique_ptr<SpatialObject> spatialObject);
 
     /// Destroy all spatial objects flagged for destruction
