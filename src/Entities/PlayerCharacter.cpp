@@ -52,26 +52,21 @@ PlayerCharacter::~PlayerCharacter()
     setCanInteract(false);
 }
 
-/* static */ std::unique_ptr<SpatialObject> PlayerCharacter::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
+void PlayerCharacter::deserialize(const YAML::Node& spatialObjectNode)
 {
-    Handle id = spatialObjectNode["id"].as<Handle>();
-    auto playerCharacter = std::make_unique<PlayerCharacter>(gameApp, id);
-
     sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
-    playerCharacter->mc_transform->position = position;
+    mc_transform->position = position;
 
     const YAML::Node& spriteNode = spatialObjectNode["sprite"];
     auto spriteTextureRelativePathString = spriteNode["texture"].as<std::string>();
-    const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
-    playerCharacter->mc_sprite->setTexture(texture);
+    const sf::Texture& texture = mo_gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
+    mc_sprite->setTexture(texture);
 
     sf::IntRect sourceRect;
     if (YamlHelper::tryGet<sf::IntRect>(spriteNode, "rectangle", sourceRect))
     {
-        playerCharacter->mc_sprite->setTextureRect(sourceRect);
+        mc_sprite->setTextureRect(sourceRect);
     }
-
-    return playerCharacter;
 }
 
 void PlayerCharacter::update(World& world, sf::Time deltaTime)
@@ -160,7 +155,7 @@ void PlayerCharacter::setCanInteract(bool value)
 
 void PlayerCharacter::addToInventory(const PickUpItem& pickUpItem)
 {
-    mc_inventory->addItem(pickUpItem.dataID);
+    mc_inventory->addItem(pickUpItem.mp_dataID);
 }
 
 void PlayerCharacter::detectInteractable(World& world)

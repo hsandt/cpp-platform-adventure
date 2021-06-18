@@ -29,11 +29,10 @@ struct Transform;
 class PickUpItem : public SpatialObject, public IInteractable
 {
 public:
-    explicit PickUpItem(GameApplication& gameApp, Handle id, DataID dataID);
+    explicit PickUpItem(GameApplication& gameApp, Handle id);
     virtual ~PickUpItem();
 
-    /// Create and return object from YAML node
-    static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
+    void deserialize(const YAML::Node& spatialObjectNode) override;
 
     /// Render
     virtual void render(sf::RenderTarget& renderTarget) override;
@@ -50,7 +49,7 @@ public:
     /* Parameters */
 
     /// Item Data ID
-    const DataID dataID;
+    DataID mp_dataID;
 
     /// Dialogue tree displayed when picking this item. Must be set manually after construction.
     const Box<DialogueTree> mp_pickUpDialogueTree;

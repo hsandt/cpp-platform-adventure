@@ -35,26 +35,21 @@ NonPlayerCharacter::~NonPlayerCharacter()
 {
 }
 
-/* static */ std::unique_ptr<SpatialObject> NonPlayerCharacter::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
+void NonPlayerCharacter::deserialize(const YAML::Node& spatialObjectNode)
 {
-    Handle id = spatialObjectNode["id"].as<Handle>();
-    auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(gameApp, id);
-
     sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
-    nonPlayerCharacter->mc_transform->position = position;
+    mc_transform->position = position;
 
     const YAML::Node& dialogueTreeNode = spatialObjectNode["dialogueTree"];
 
     // verifiedItemDataID is optional, but when there is one, it affects the dialogue condition checked
     // if not present, dialogueTextWithItem is ignored
-    YamlHelper::tryGet<int>(dialogueTreeNode, "verifiedItemDataID", nonPlayerCharacter->mp_dialogueTree->mp_verifiedItemDataID);
+    YamlHelper::tryGet<int>(dialogueTreeNode, "verifiedItemDataID", mp_dialogueTree->mp_verifiedItemDataID);
 
     auto dialogueTextWithItem = dialogueTreeNode["dialogueTextWithItem"].as<std::string>();
-    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
+    mp_dialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
     auto dialogueTextWithoutItem = dialogueTreeNode["dialogueTextWithoutItem"].as<std::string>();
-    nonPlayerCharacter->mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
-
-    return nonPlayerCharacter;
+    mp_dialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
 }
 
 void NonPlayerCharacter::update(World& world, sf::Time deltaTime)

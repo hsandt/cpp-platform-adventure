@@ -39,8 +39,7 @@ public:
     explicit PlayerCharacter(GameApplication& gameApp, Handle id);
     virtual ~PlayerCharacter();
 
-    /// Create and return object from YAML node
-    static std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode);
+    virtual void deserialize(const YAML::Node& spatialObjectNode) override;
 
     void update(World& world, sf::Time deltaTime);
     void render(sf::RenderTarget& renderTarget);

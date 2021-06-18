@@ -21,18 +21,25 @@ namespace Deserialization
     std::unique_ptr<SpatialObject> deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
     {
         auto type = spatialObjectNode["type"].as<std::string>();
+        auto id = spatialObjectNode["id"].as<Handle>();
 
         if (type == "PlayerCharacter")
         {
-            return PlayerCharacter::deserialize(gameApp, spatialObjectNode);
+            auto playerCharacter = std::make_unique<PlayerCharacter>(gameApp, id);
+            playerCharacter->deserialize(spatialObjectNode);
+            return playerCharacter;
         }
         else if (type == "NonPlayerCharacter")
         {
-            return NonPlayerCharacter::deserialize(gameApp, spatialObjectNode);
+            auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(gameApp, id);
+            nonPlayerCharacter->deserialize(spatialObjectNode);
+            return nonPlayerCharacter;
         }
         else if (type == "PickUpItem")
         {
-            return PickUpItem::deserialize(gameApp, spatialObjectNode);
+            auto pickUpItem = std::make_unique<PickUpItem>(gameApp, id);
+            pickUpItem->deserialize(spatialObjectNode);
+            return pickUpItem;
         }
         else
         {

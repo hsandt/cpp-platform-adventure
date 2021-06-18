@@ -16,17 +16,27 @@ namespace sf
     class RenderTarget;
 }
 
+// yaml-cpp
+namespace YAML
+{
+    class Node;
+}
+
 // Game
 struct Transform;
 class World;
 
 /// Object located in World (always 2D)
-class SpatialObject : protected ApplicationObject
+class SpatialObject : public ApplicationObject
 {
 public:
 
     SpatialObject(GameApplication& gameApp, Handle id, bool persistentFlag = false);
     virtual ~SpatialObject();
+
+    /// Fill members with data read from a serialized YAML node
+    /// Note that the ID must have been set previously on object construction
+    virtual void deserialize(const YAML::Node& spatialObjectNode) = 0;
 
     /// Is the object flagged for destruction?
     bool getDestructionFlag() const { return ms_destructionFlag; }

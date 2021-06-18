@@ -23,9 +23,9 @@
 #include "Serialization/YamlHelper.hpp"
 #include "Space/World.h"
 
-PickUpItem::PickUpItem(GameApplication& gameApp, Handle id, DataID dataID) :
+PickUpItem::PickUpItem(GameApplication& gameApp, Handle id) :
     SpatialObject(gameApp, id),
-    dataID(dataID),
+    mp_dataID(0),  // maybe better if 0 was INVALID_ID
     mp_pickUpDialogueTree(gameApp)
 {
     // sprite pivot (hardcoded for now, but should be in data)
@@ -41,34 +41,30 @@ PickUpItem::~PickUpItem()
 {
 }
 
-/* static */ std::unique_ptr<SpatialObject> PickUpItem::deserialize(GameApplication& gameApp, const YAML::Node& spatialObjectNode)
+void PickUpItem::deserialize(const YAML::Node& spatialObjectNode)
 {
-    Handle id = spatialObjectNode["id"].as<Handle>();
-    DataID dataID = spatialObjectNode["dataID"].as<DataID>();
-    auto item = std::make_unique<PickUpItem>(gameApp, id, dataID);
+    mp_dataID = spatialObjectNode["dataID"].as<DataID>();
 
     sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
-    item->mc_transform->position = position;
+    mc_transform->position = position;
 
     const YAML::Node& spriteNode = spatialObjectNode["sprite"];
     auto spriteTextureRelativePathString = spriteNode["texture"].as<std::string>();
-    const sf::Texture& texture = gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
-    item->mc_sprite->setTexture(texture);
+    const sf::Texture& texture = mo_gameApp.mc_textureManager->loadFromFile(spriteTextureRelativePathString);
+    mc_sprite->setTexture(texture);
 
     sf::IntRect sourceRect;
     if (YamlHelper::tryGet<sf::IntRect>(spriteNode, "rectangle", sourceRect))
     {
-        item->mc_sprite->setTextureRect(sourceRect);
+        mc_sprite->setTextureRect(sourceRect);
     }
 
     // currently dialogue trees all check for item, but it doesn't make sense for picking an item
     const YAML::Node& dialogueTree = spatialObjectNode["pickUpDialogueTree"];
     auto dialogueTextWithItem = dialogueTree["dialogueTextWithItem"].as<std::string>();
-    item->mp_pickUpDialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
+    mp_pickUpDialogueTree->mp_dialogueTextWithItem = dialogueTextWithItem;
     auto dialogueTextWithoutItem = dialogueTree["dialogueTextWithoutItem"].as<std::string>();
-    item->mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
-
-    return item;
+    mp_pickUpDialogueTree->mp_dialogueTextWithoutItem = dialogueTextWithoutItem;
 }
 
 void PickUpItem::render(sf::RenderTarget& renderTarget)
