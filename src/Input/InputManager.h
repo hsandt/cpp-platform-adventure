@@ -17,7 +17,7 @@
 
 /// Handles game input state update and access
 /// Devices supported: Keyboard
-class InputManager : protected ApplicationObject
+class InputManager : public ApplicationObject
 {
 public:
     explicit InputManager(GameApplication& gameApp);

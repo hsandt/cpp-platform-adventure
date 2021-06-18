@@ -16,7 +16,7 @@ namespace sf
 
 class UIWidget;
 
-class UICanvas : protected ApplicationObject
+class UICanvas : public ApplicationObject
 {
 public:
     explicit UICanvas(GameApplication& gameApp);

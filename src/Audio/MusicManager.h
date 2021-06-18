@@ -12,7 +12,7 @@
 #include "Common.h"
 #include "Application/ApplicationObject.h"
 
-class MusicManager : protected ApplicationObject
+class MusicManager : public ApplicationObject
 {
 public:
 

@@ -8,7 +8,7 @@
 
 // Game
 
-class MyAppObject : protected ApplicationObject
+class MyAppObject : public ApplicationObject
 {
 public:
 

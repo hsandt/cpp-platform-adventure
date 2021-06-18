@@ -15,7 +15,7 @@ namespace sf
     class Texture;
 }
 
-class TextureManager : protected ApplicationObject
+class TextureManager : public ApplicationObject
 {
 public:
 

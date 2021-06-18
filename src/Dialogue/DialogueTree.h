@@ -14,7 +14,7 @@
 /// we need to access game app so this is an ApplicationObject
 /// Eventually this will be put in pure data and we will separate Dialogue Tree Data
 /// and Dialogue Tree Explorer
-class DialogueTree : protected ApplicationObject
+class DialogueTree : public ApplicationObject
 {
 public:
 

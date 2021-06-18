@@ -29,7 +29,7 @@ class SpatialObject;
 class Terrain;
 
 /// The world contains all spatial objects currently loaded in the game
-class World : protected ApplicationObject
+class World : public ApplicationObject
 {
 public:
     /// Path to scene assets directory

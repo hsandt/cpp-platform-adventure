@@ -11,7 +11,7 @@
 // Game
 class DialogueTree;
 
-class DialogueManager : protected ApplicationObject
+class DialogueManager : public ApplicationObject
 {
 public:
     explicit DialogueManager(GameApplication& gameApp);
