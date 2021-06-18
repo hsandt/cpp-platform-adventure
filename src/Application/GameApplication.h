@@ -15,6 +15,7 @@ namespace sf
 }
 
 class DialogueManager;
+class GameStateManager;
 class InputManager;
 class MusicManager;
 class TextureManager;
@@ -68,6 +69,9 @@ public:
 
     /// Game UI canvas
     const Box<UICanvas> mc_uiCanvas;
+
+    /// GameState manager
+    const Box<GameStateManager> mc_gameStateManager;
 
     /// Input manager
     const Box<InputManager> mc_inputManager;

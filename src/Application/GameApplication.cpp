@@ -11,6 +11,7 @@
 
 // Game
 #include "Application/AppConfig.h"
+#include "Application/GameStateManager.h"
 #include "Application/WindowConfig.h"
 #include "Audio/MusicManager.h"
 #include "Dialogue/DialogueManager.h"
@@ -25,6 +26,7 @@ GameApplication::GameApplication() :
     mc_view(),
     mc_world(*this),
     mc_uiCanvas(*this),
+    mc_gameStateManager(*this),
     mc_inputManager(*this),
     mc_textureManager(*this),
     mc_musicManager(*this),
