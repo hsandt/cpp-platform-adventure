@@ -54,8 +54,7 @@ PlayerCharacter::~PlayerCharacter()
 
 void PlayerCharacter::deserialize(const YAML::Node& spatialObjectNode)
 {
-    sf::Vector2 position = spatialObjectNode["transform"]["position"].as<sf::Vector2f>();
-    mc_transform->position = position;
+    mc_transform->deserialize(spatialObjectNode["transform"]);
 
     const YAML::Node& spriteNode = spatialObjectNode["sprite"];
     auto spriteTextureRelativePathString = spriteNode["texture"].as<std::string>();
