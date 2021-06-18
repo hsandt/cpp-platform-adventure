@@ -22,29 +22,27 @@ namespace Deserialization
     {
         auto type = spatialObjectNode["type"].as<std::string>();
         auto id = spatialObjectNode["id"].as<Handle>();
+        std::unique_ptr<SpatialObject> spatialObject;
 
         if (type == "PlayerCharacter")
         {
-            auto playerCharacter = std::make_unique<PlayerCharacter>(gameApp, id);
-            playerCharacter->deserialize(spatialObjectNode);
-            return playerCharacter;
+            spatialObject = std::make_unique<PlayerCharacter>(gameApp, id);
         }
         else if (type == "NonPlayerCharacter")
         {
-            auto nonPlayerCharacter = std::make_unique<NonPlayerCharacter>(gameApp, id);
-            nonPlayerCharacter->deserialize(spatialObjectNode);
-            return nonPlayerCharacter;
+            spatialObject = std::make_unique<NonPlayerCharacter>(gameApp, id);
         }
         else if (type == "PickUpItem")
         {
-            auto pickUpItem = std::make_unique<PickUpItem>(gameApp, id);
-            pickUpItem->deserialize(spatialObjectNode);
-            return pickUpItem;
+            spatialObject = std::make_unique<PickUpItem>(gameApp, id);
         }
         else
         {
             PPK_ASSERT_DEBUG(false, "Unsupported type %s, deserialize will return empty unique_ptr.", type.c_str());
             return nullptr;
         }
+
+        spatialObject->deserialize(spatialObjectNode);
+        return spatialObject;
     }
 }
