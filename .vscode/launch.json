@@ -13,7 +13,7 @@
             "cwd": "${workspaceFolder}",
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": "engine/third-party/install/RmlUi/lib:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "program": "${workspaceFolder}/build/linux_gmake_gcc_debug/bin/Game_Linux",
@@ -39,7 +39,7 @@
             "cwd": "${workspaceFolder}",
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": "engine/third-party/install/RmlUi/lib:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "program": "${workspaceFolder}/build/linux_gmake_clang_debug/bin/Game_Linux",
@@ -71,7 +71,7 @@
             "stopAtEntry": false,
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": ".:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "cwd": "${workspaceFolder}/build/linux_gmake_gcc_debug/bin",
@@ -97,7 +97,7 @@
             "stopAtEntry": false,
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": ".:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "cwd": "${workspaceFolder}/build/linux_gmake_clang_debug/bin",
@@ -131,7 +131,7 @@
             "cwd": "${workspaceFolder}",
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": "engine/third-party/install/RmlUi/lib:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "program": "${workspaceFolder}/build/linux_gmake_gcc_release/bin/Game_Linux",
@@ -157,7 +157,7 @@
             "cwd": "${workspaceFolder}",
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": "engine/third-party/install/RmlUi/lib:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "program": "${workspaceFolder}/build/linux_gmake_clang_release/bin/Game_Linux",
@@ -186,7 +186,7 @@
             "stopAtEntry": false,
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": ".:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "cwd": "${workspaceFolder}/build/linux_gmake_gcc_release/bin",
@@ -212,7 +212,7 @@
             "stopAtEntry": false,
             "environment": [{
                 "name": "LD_LIBRARY_PATH",
-                "value": "engine/third-party/build/SFML/lib:${env:LD_LIBRARY_PATH}"
+                "value": ".:${env:LD_LIBRARY_PATH}"
             }],
             "linux": {
                 "cwd": "${workspaceFolder}/build/linux_gmake_clang_release/bin",

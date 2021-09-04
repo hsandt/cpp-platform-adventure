@@ -10,3 +10,6 @@
 [submodule "engine/third-party/PPK_ASSERT"]
 	path = engine/third-party/PPK_ASSERT
 	url = https://github.com/gpakosz/PPK_ASSERT.git
+[submodule "engine/third-party/RmlUi"]
+	path = engine/third-party/RmlUi
+	url = https://github.com/mikke89/RmlUi.git

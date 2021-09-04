@@ -105,6 +105,7 @@ project "Game"
         -- without freetype, changing opengl -> GL (to have GLX functions) and uppercase FLAC
         -- they must be installed locally on the machine
         links {
+            -- note that freetype is a dependency of both SFML Font system, and RmlUI
             "freetype",
             "X11",
             "Xrandr",
@@ -129,6 +130,13 @@ project "Game"
     links {"yaml-cpp"}
 
 
+    -- Dependency: RmlUi --
+
+    includedirs { "engine/third-party/install/RmlUi/include" }
+    libdirs {"engine/third-party/install/RmlUi/lib"}
+    links {"RmlCore"}
+
+
     -- add all files recursively to project
     files { "src/**.h", "src/**.cpp" }
 
@@ -145,7 +153,7 @@ project "Game"
     filter {}
 
 
-    -- Copy assets and config folders near executable
+    -- Copy assets and config folders + dynamic libraries + run script near executable
     -- Delete any existing folder to cleanup old files now removed from assets and config
     -- Note that paths are relative to location "build", so we access project root with ".." (else we'd need to use project_root = os.realpath("."))
     --   (%{wks.location} and %{prj.location} are both relative to location themselves, so ".")
@@ -161,3 +169,13 @@ project "Game"
         -- replace COPY with COPYDIR for clarity and Windows compatibility
         "{COPY} ../assets ../config %{cfg.targetdir}",
     }
+
+    filter { "system:linux" }
+        prebuildcommands {
+            -- copy dynamic libraries required for playing
+            "{COPY} ../engine/third-party/install/RmlUi/lib/libRmlCore.so* %{cfg.targetdir}",
+            -- copy run script (allows to run the game from any working directory while still accessing assets,
+            --  config and dynamic libraries copied along the executable)
+            "{COPY} ../engine/dist_scripts/run.sh %{cfg.targetdir} && chmod +x %{cfg.targetdir}/run.sh",
+        }
+    filter {}

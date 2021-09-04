@@ -34,6 +34,12 @@ def build_deps(third_party_path: Path):
         logging.error(f"build_yamlcpp.py failed")
         sys.exit(e.returncode)
 
+    try:
+        run(["python3", "build_rmlui.py"], cwd=third_party_path, check=True)
+    except CalledProcessError as e:
+        logging.error(f"build_rmlui.py failed")
+        sys.exit(e.returncode)
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
