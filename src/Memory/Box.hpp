@@ -36,6 +36,7 @@ public:
 
     T& operator*() const { return *mc_data; }
     T* operator->() const { return mc_data.get(); }
+    T* get() const { return mc_data.get(); }
 
 private:
 

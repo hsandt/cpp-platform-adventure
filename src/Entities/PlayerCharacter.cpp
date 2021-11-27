@@ -167,7 +167,7 @@ void PlayerCharacter::detectInteractable(World& world)
         if (!spatialObject->getDestructionFlag())
         {
             // check if it's an interactable item
-            if ([[maybe_unused]] const IInteractable* interactable = dynamic_cast<const IInteractable*>(&*spatialObject))
+            if ([[maybe_unused]] const IInteractable* interactable = dynamic_cast<const IInteractable*>(spatialObject.get()))
             {
                 // check if item center position is inside square centered
                 // on player character with half-size (50, 50)
