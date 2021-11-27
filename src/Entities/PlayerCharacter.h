@@ -41,8 +41,8 @@ public:
 
     virtual void deserialize(const YAML::Node& spatialObjectNode) override;
 
-    void update(World& world, sf::Time deltaTime);
-    void render(sf::RenderTarget& renderTarget);
+    virtual void update(World& world, sf::Time deltaTime) override;
+    virtual void render(sf::RenderTarget& renderTarget) override;
 
     /// Set whether this character can interact, and updating input bindings
     void setCanInteract(bool value);
