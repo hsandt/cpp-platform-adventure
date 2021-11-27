@@ -199,7 +199,7 @@ void GameApplication::run()
         }
     }
 
-    mc_window->close();
+    shutdown();
 }
 
 void GameApplication::update(sf::Time deltaTime)
@@ -242,4 +242,11 @@ void GameApplication::render()
 
     // flip
     mc_window->display();
+}
+
+void GameApplication::shutdown()
+{
+    Rml::Shutdown();
+
+    mc_window->close();
 }

@@ -62,6 +62,9 @@ private:
     /// Render the game
     void render();
 
+    /// Shutdown game application
+    void shutdown();
+
 public:
 
     /* Components */
