@@ -19,7 +19,7 @@ def build_yamlcpp(yamlcpp_path: Path, yamlcpp_build_path: Path, yamlcpp_install_
     # create directory with any intermediate parents, if needed
     # similar to Unix: mkdir -p
     Path(yamlcpp_build_path).mkdir(parents=True, exist_ok=True)
-    
+
     # We want:
     # - static lib with YAML_BUILD_SHARED_LIBS=OFF (default)
     # - release build with CMAKE_BUILD_TYPE=Release (default)
@@ -38,7 +38,7 @@ def build_yamlcpp(yamlcpp_path: Path, yamlcpp_build_path: Path, yamlcpp_install_
     except CalledProcessError as e:
         logging.error(f"cmake command failed")
         sys.exit(e.returncode)
-        
+
     cpu_count = 1
     try:
         cpu_count = multiprocessing.cpu_count()
@@ -60,13 +60,13 @@ def build_yamlcpp(yamlcpp_path: Path, yamlcpp_build_path: Path, yamlcpp_install_
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    
-    # get third-party dir from this file's path 
+
+    # get third-party dir from this file's path
     third_party_path = Path(__file__).parent.absolute()
     yamlcpp_path = third_party_path.joinpath("yaml-cpp")
     yamlcpp_build_path = third_party_path.joinpath("build/yaml-cpp")
     yamlcpp_install_path = third_party_path.joinpath("install/yaml-cpp")
-    
+
     # build yaml-cpp in target path
     logging.info(f"Building yaml-cpp from {yamlcpp_path} in {yamlcpp_build_path} and installing to {yamlcpp_install_path}...")
     build_yamlcpp(yamlcpp_path, yamlcpp_build_path, yamlcpp_install_path)

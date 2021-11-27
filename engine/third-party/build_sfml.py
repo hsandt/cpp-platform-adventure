@@ -19,7 +19,7 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
     # create directory with any intermediate parents, if needed
     # similar to Unix: mkdir -p
     Path(sfml_build_path).mkdir(parents=True, exist_ok=True)
-    
+
     # See https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php for compile options
     # We want:
     # - static libs for static linking (bigger, self-contained game executable)
@@ -30,7 +30,7 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
     # !! we are not currenty building project linking to deps/, so build will only work on Linux
     # !! where SFML deps are installed on system
     # - install misc in: engine/third-party/install/SFML/share/
-    # - build for: Release (default)
+    # - release build with CMAKE_BUILD_TYPE=Release (default)
     # - use architecture: x86_64 (default)
     # - no doc, no examples (default)
     # - no OpenGL ES (default)
@@ -49,7 +49,7 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
     except CalledProcessError as e:
         logging.error(f"cmake command failed")
         sys.exit(e.returncode)
-        
+
     cpu_count = 1
     try:
         cpu_count = multiprocessing.cpu_count()
@@ -71,13 +71,13 @@ def build_sfml(sfml_path: Path, sfml_build_path: Path, sfml_install_path: Path):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    
-    # get third-party dir from this file's path 
+
+    # get third-party dir from this file's path
     third_party_path = Path(__file__).parent.absolute()
     sfml_path = third_party_path.joinpath("SFML")
     sfml_build_path = third_party_path.joinpath("build/SFML")
     sfml_install_path = third_party_path.joinpath("install/SFML")
-    
+
     # build SFML in target path
     logging.info(f"Building SFML from {sfml_path} in {sfml_build_path} and installing to {sfml_install_path}...")
     build_sfml(sfml_path, sfml_build_path, sfml_install_path)

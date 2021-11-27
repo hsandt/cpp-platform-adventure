@@ -6,6 +6,9 @@
 // SFML
 #include <SFML/Graphics.hpp>
 
+// RmlUi
+#include <RmlUi/Core.h>
+
 // Game
 #include "Application/AppConfig.h"
 #include "Application/GameStateManager.h"
@@ -15,6 +18,7 @@
 #include "GameStates/InGameState.h"
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
+#include "UI/RmlUIInterfaces/SystemInterfaceSFML.h"
 #include "UI/UICanvas.h"
 #include "Space/World.h"
 
@@ -50,6 +54,7 @@ void GameApplication::init()
     mp_maxUpdatesPerRender = appConfig.maxUpdatesPerRender;
 
     initWindow();
+    initRmlUi();
     initGameStateManager(appConfig.initialSceneName);
 }
 
@@ -102,6 +107,17 @@ void GameApplication::initWindow()
     // create camera view (centered)
     mc_view->setCenter(sf::Vector2f(0.f, 0.f));
     mc_view->setSize(sf::Vector2f(windowConfig.nativeWidth, windowConfig.nativeHeight));
+}
+
+void GameApplication::initRmlUi()
+{
+	Rml::SetSystemInterface(mc_systemInterface.get());
+
+    #if PPK_ASSERT_ENABLED
+    bool success =
+    #endif
+    Rml::Initialise();
+    PPK_ASSERT_FATAL(success, "Could not initialize RmlUi");
 }
 
 void GameApplication::initGameStateManager(const std::string& initialSceneName)

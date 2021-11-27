@@ -134,6 +134,7 @@ project "Game"
 
     includedirs { "engine/third-party/install/RmlUi/include" }
     libdirs {"engine/third-party/install/RmlUi/lib"}
+    -- RmlDebugger is for debug only, see filter on configurations below
     links {"RmlCore"}
 
 
@@ -144,6 +145,8 @@ project "Game"
         defines { "DEBUG" }
         symbols "On"
         buildoptions "-O0"
+        -- this will also be copied with prebuildcommands for debug configs only
+        links {"RmlDebugger"}
 
     filter { "configurations:*_release" }
         defines { "NDEBUG" }
@@ -177,5 +180,10 @@ project "Game"
             -- copy run script (allows to run the game from any working directory while still accessing assets,
             --  config and dynamic libraries copied along the executable)
             "{COPY} ../engine/dist_scripts/run.sh %{cfg.targetdir} && chmod +x %{cfg.targetdir}/run.sh",
+        }
+    filter { "system:linux", "configurations:*_debug" }
+        prebuildcommands {
+            -- copy dynamic libraries required for debugging
+            "{COPY} ../engine/third-party/install/RmlUi/lib/libRmlDebugger.so* %{cfg.targetdir}",
         }
     filter {}

@@ -21,8 +21,8 @@ def build_fmt(fmt_path: Path, fmt_build_path: Path, fmt_install_path: Path):
     Path(fmt_build_path).mkdir(parents=True, exist_ok=True)
 
     # We want:
-    # - build for: Release (default)
-    # - install (default)
+    # - release build with CMAKE_BUILD_TYPE=Release (default)
+    # - install locally in: engine/third-party/install/fmt/
     # - no doc with FMT_DOC:BOOL=OFF
     # - no test with FMT_TEST=OFF
     options = [

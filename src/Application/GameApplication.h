@@ -21,6 +21,7 @@ class DialogueManager;
 class GameStateManager;
 class InputManager;
 class MusicManager;
+class RmlUiSFMLSystemInterface;
 class TextureManager;
 class UICanvas;
 class World;
@@ -43,6 +44,9 @@ private:
 
     /// Initialize window, render texture and view
     void initWindow();
+
+    /// Initialize RmlUI interfaces
+    void initRmlUi();
 
     /// Initialize game state manager
     void initGameStateManager(const std::string& initialSceneName);
@@ -69,6 +73,9 @@ public:
 
     /// View used to draw in window
     const Box<sf::View> mc_view;
+
+    /// RmlUi SFML system interface
+	const Box<RmlUiSFMLSystemInterface> mc_systemInterface;
 
     /// Game world
     const Box<World> mc_world;
