@@ -21,6 +21,7 @@ class DialogueManager;
 class GameStateManager;
 class InputManager;
 class MusicManager;
+class RmlUiSFMLRenderer;
 class RmlUiSFMLSystemInterface;
 class TextureManager;
 class UICanvas;
@@ -75,7 +76,10 @@ public:
     const Box<sf::View> mc_view;
 
     /// RmlUi SFML system interface
-	const Box<RmlUiSFMLSystemInterface> mc_systemInterface;
+	const Box<RmlUiSFMLSystemInterface> mc_rmlUiSystemInterface;
+
+    /// RmlUi SFML render interface
+	const Box<RmlUiSFMLRenderer> mc_rmlUiRenderer;
 
     /// Game world
     const Box<World> mc_world;

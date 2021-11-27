@@ -18,6 +18,7 @@
 #include "GameStates/InGameState.h"
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
+#include "UI/RmlUIInterfaces/RenderInterfaceSFML.h"
 #include "UI/RmlUIInterfaces/SystemInterfaceSFML.h"
 #include "UI/UICanvas.h"
 #include "Space/World.h"
@@ -26,6 +27,8 @@ GameApplication::GameApplication() :
     mc_window(),
     mc_renderTexture(),
     mc_view(),
+    mc_rmlUiSystemInterface(),
+    mc_rmlUiRenderer(),
     mc_world(*this),
     mc_uiCanvas(*this),
     mc_gameStateManager(*this),
@@ -111,7 +114,8 @@ void GameApplication::initWindow()
 
 void GameApplication::initRmlUi()
 {
-	Rml::SetSystemInterface(mc_systemInterface.get());
+	Rml::SetSystemInterface(mc_rmlUiSystemInterface.get());
+	Rml::SetRenderInterface(mc_rmlUiRenderer.get());
 
     #if PPK_ASSERT_ENABLED
     bool success =
