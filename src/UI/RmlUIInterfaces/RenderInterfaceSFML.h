@@ -30,6 +30,8 @@
 
 // NOTE: uncomment this only when you want to use the
 // OpenGL Extension Wrangler Library (GLEW)
+// PROJECT NOTE: we didn't manage to link glew statically nor dynamically,
+// so we are disabling it for now.
 //#define ENABLE_GLEW
 
 // if the OpenGL Extension Wrangler Library (GLEW) should be used include it

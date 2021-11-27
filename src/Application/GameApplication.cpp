@@ -8,6 +8,9 @@
 
 // RmlUi
 #include <RmlUi/Core.h>
+#if DEBUG
+#include <RmlUi/Debugger.h>
+#endif
 
 // Game
 #include "Application/AppConfig.h"
@@ -35,7 +38,8 @@ GameApplication::GameApplication() :
     mc_inputManager(*this),
     mc_textureManager(*this),
     mc_musicManager(*this),
-    mc_dialogueManager(*this)
+    mc_dialogueManager(*this),
+    mr_rmlContext(nullptr)
 {
 }
 
@@ -114,14 +118,56 @@ void GameApplication::initWindow()
 
 void GameApplication::initRmlUi()
 {
-	Rml::SetSystemInterface(mc_rmlUiSystemInterface.get());
-	Rml::SetRenderInterface(mc_rmlUiRenderer.get());
+    // inject window
+    mc_rmlUiRenderer->SetWindow(mc_window.get());
 
+    // inject interfaces
+    Rml::SetSystemInterface(mc_rmlUiSystemInterface.get());
+    Rml::SetRenderInterface(mc_rmlUiRenderer.get());
+
+    // initialize
     #if PPK_ASSERT_ENABLED
     bool success =
     #endif
     Rml::Initialise();
     PPK_ASSERT_FATAL(success, "Could not initialize RmlUi");
+
+    struct FontFace {
+        Rml::String filename;
+        bool fallback_face;
+    };
+    FontFace font_faces[] = {
+        { "LatoLatin-Regular.ttf",    false },
+        { "LatoLatin-Italic.ttf",     false },
+        { "LatoLatin-Bold.ttf",       false },
+        { "LatoLatin-BoldItalic.ttf", false },
+        { "NotoEmoji-Regular.ttf",    true  },
+    };
+
+    for (const FontFace& face : font_faces)
+    {
+        Rml::LoadFontFace("assets/fonts/RmlUI samples/" + face.filename, face.fallback_face);
+    }
+
+    // create context to match window
+    mr_rmlContext = Rml::CreateContext("default",
+        Rml::Vector2i(mc_window->getSize().x, mc_window->getSize().y));
+    PPK_ASSERT_FATAL(mr_rmlContext, "Could not create RmlUi context");
+
+    #if DEBUG
+    // initialize debugger
+    Rml::Debugger::Initialise(mr_rmlContext);
+    Rml::Debugger::SetVisible(true);
+    #endif
+
+    // load sample document
+    Rml::ElementDocument* document = mr_rmlContext->LoadDocument("assets/ui/demo.rml");
+    PPK_ASSERT_DEBUG(mr_rmlContext, "Could not create RmlUi context");
+
+    if (document)
+    {
+        document->Show();
+    }
 }
 
 void GameApplication::initGameStateManager(const std::string& initialSceneName)
@@ -211,6 +257,9 @@ void GameApplication::update(sf::Time deltaTime)
 
     // update characters
     mc_world->update(deltaTime);
+
+    // update UI
+    mr_rmlContext->Update();
 }
 
 void GameApplication::render()
@@ -227,7 +276,7 @@ void GameApplication::render()
     // set view back to default view (top-left origin) so UI has fixed position on screen
     mc_renderTexture->setView(mc_window->getDefaultView());
 
-    // render UI
+    // render UI legacy canvas
     mc_uiCanvas->render(*mc_renderTexture);
 
     // display render texture is important to prevent Y mirroring
@@ -240,12 +289,25 @@ void GameApplication::render()
     sf::Sprite sprite(mc_renderTexture->getTexture());
     mc_window->draw(sprite);
 
+    // render RmlUi
+    // Normally, we should add its content to mc_renderTexture before it is
+    // added to the window, to get pixelated upscaled output like the rest.
+    // But RmlUiSFMLRenderer (from the samples) currently takes a RenderWindow only
+    // so we must draw directly on the window, *after* the texture sprite.
+    // We could adapt its code to take a RenderTarget so we can render RmlUi
+    // directly on the native resolution texture, but remember we'll need to scale
+    // all the UI down by windowConfig.upscaleFactor if doing so.
+    mr_rmlContext->Render();
+
     // flip
     mc_window->display();
 }
 
 void GameApplication::shutdown()
 {
+    // clear references to objects about to be destroyed
+    mr_rmlContext = nullptr;
+
     Rml::Shutdown();
 
     mc_window->close();

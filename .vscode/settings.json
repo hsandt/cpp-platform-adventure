@@ -65,7 +65,16 @@
         "cassert": "cpp",
         "complex": "cpp",
         "codecvt": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "bitset": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "unordered_set": "cpp",
+        "regex": "cpp",
+        "mutex": "cpp",
+        "shared_mutex": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     },
     "cmake.configureOnOpen": false
 }

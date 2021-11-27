@@ -17,6 +17,11 @@ namespace sf
     class View;
 }
 
+namespace Rml
+{
+    class Context;
+}
+
 class DialogueManager;
 class GameStateManager;
 class InputManager;
@@ -79,10 +84,10 @@ public:
     const Box<sf::View> mc_view;
 
     /// RmlUi SFML system interface
-	const Box<RmlUiSFMLSystemInterface> mc_rmlUiSystemInterface;
+    const Box<RmlUiSFMLSystemInterface> mc_rmlUiSystemInterface;
 
     /// RmlUi SFML render interface
-	const Box<RmlUiSFMLRenderer> mc_rmlUiRenderer;
+    const Box<RmlUiSFMLRenderer> mc_rmlUiRenderer;
 
     /// Game world
     const Box<World> mc_world;
@@ -104,6 +109,14 @@ public:
 
     /// Dialogue manager
     const Box<DialogueManager> mc_dialogueManager;
+
+
+    /* Parameters */
+
+    /// RmlUi context
+    /// Exceptionally a raw pointer to work with RmlUi API.
+    /// RmlUi owns the contexts and will destroy them by itself on Shutdown.
+    Rml::Context* mr_rmlContext;
 
 
     /* Parameters */
