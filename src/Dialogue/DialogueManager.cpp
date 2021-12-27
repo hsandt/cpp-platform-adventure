@@ -1,27 +1,19 @@
 #include "Dialogue/DialogueManager.h"
 
-// std
-#include <memory>
-#include <cassert>
-
-// SFML
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
+// RmlUi
+#include <RmlUi/Core.h>
 
 // Game
 #include "Application/GameApplication.h"
-#include "Components/Transform.h"
 #include "Dialogue/DialogueTree.h"
 #include "Entities/PlayerCharacter.h"
 #include "Input/InputManager.h"
 #include "Space/World.h"
-#include "UI/UICanvas.h"
-#include "UI/UIWidgetRectangle.h"
-#include "UI/UIWidgetText.h"
 
 DialogueManager::DialogueManager(GameApplication& gameApp) :
     ApplicationObject(gameApp),
-    ms_oDialogueBoxHandle()
+    mr_dialogBox(nullptr),
+    mr_dialogText(nullptr)
 {
 }
 
@@ -29,9 +21,28 @@ DialogueManager::~DialogueManager()
 {
 }
 
+void DialogueManager::init()
+{
+    Rml::Context* rmlContext = mo_gameApp.getRmlContext();
+    PPK_ASSERT_DEBUG(rmlContext, "DialogueManager::init: No Rml Context");
+
+    if (rmlContext)
+    {
+        // Load dialog box document
+        mr_dialogBox = rmlContext->LoadDocument("assets/ui/dialog_box.rml");
+        PPK_ASSERT_DEBUG(mr_dialogBox, "DialogueManager::init: Could not load document: dialog_box.rml");
+
+        if (mr_dialogBox)
+        {
+            mr_dialogText = mr_dialogBox->GetElementById("text");
+            PPK_ASSERT_DEBUG(mr_dialogText, "DialogueManager::init: No #text found on dialog box document");
+        }
+    }
+}
+
 void DialogueManager::handleInput()
 {
-    if (ms_oDialogueBoxHandle &&
+    if (mr_dialogBox && mr_dialogBox->IsVisible() &&
         mo_gameApp.mc_inputManager->getCurrentInputContext() == InputContext::Dialogue)
     {
         if (mo_gameApp.mc_inputManager->isKeyJustPressed(sf::Keyboard::Key::Space))
@@ -50,27 +61,19 @@ void DialogueManager::startDialogueTree(const DialogueTree& dialogueTree)
 
 void DialogueManager::showDialogueText(const std::string& text)
 {
-    auto dialogBox = std::make_unique<UIWidgetRectangle>();
-    dialogBox->mc_transform->position = sf::Vector2f(33.f, 166.f);
-    dialogBox->mc_shape->setPosition(0.f, 0.f);
-    // dialogBox->mc_shape->setOrigin(sf::Vector2f(116.f, 16.f));
-    dialogBox->mc_shape->setSize(sf::Vector2f(233.f, 33.f));
-    dialogBox->mc_shape->setFillColor(sf::Color::Blue);
-    ms_oDialogueBoxHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogBox));
-
-    auto dialogText = std::make_unique<UIWidgetText>();
-    dialogText->mc_transform->position = sf::Vector2f(50.f, 172.f);
-    dialogText->mp_text = text;
-    ms_oDialogueTextHandle = mo_gameApp.mc_uiCanvas->addWidget(std::move(dialogText));
+    if (mr_dialogBox && mr_dialogText)
+    {
+        mr_dialogBox->Show();
+        mr_dialogText->SetInnerRML(text);
+    }
 }
 
 void DialogueManager::closeDialogue()
 {
-    assert(ms_oDialogueBoxHandle);
-    assert(ms_oDialogueTextHandle);
-
-    mo_gameApp.mc_uiCanvas->removeWidget(ms_oDialogueBoxHandle);
-    mo_gameApp.mc_uiCanvas->removeWidget(ms_oDialogueTextHandle);
+    if (mr_dialogBox)
+    {
+        mr_dialogBox->Hide();
+    }
 
     mo_gameApp.mc_inputManager->popInputContext(InputContext::Dialogue);
 

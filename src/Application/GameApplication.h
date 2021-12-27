@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "Memory/Box.hpp"
 
+// SFML
 namespace sf
 {
     class RenderTexture;
@@ -17,12 +18,13 @@ namespace sf
     class View;
 }
 
+// RmlUi
 namespace Rml
 {
     class Context;
-    class ElementDocument;
 }
 
+// Game
 class DialogueManager;
 class GameStateManager;
 class InputManager;
@@ -30,7 +32,6 @@ class MusicManager;
 class RmlUiSFMLRenderer;
 class RmlUiSFMLSystemInterface;
 class TextureManager;
-class UICanvas;
 class World;
 
 /// Game Application. Handles window and game loop.
@@ -43,6 +44,8 @@ public:
 
     /// Initialize and run game application
     void initAndRun();
+
+    Rml::Context* getRmlContext() const { return mr_rmlContext; }
 
 private:
 
@@ -93,9 +96,6 @@ public:
     /// Game world
     const Box<World> mc_world;
 
-    /// Game UI canvas
-    const Box<UICanvas> mc_uiCanvas;
-
     /// GameState manager
     const Box<GameStateManager> mc_gameStateManager;
 
@@ -114,18 +114,6 @@ public:
 
     /* Parameters */
 
-    // Exceptionally, we use raw pointers to work with RmlUi API.
-    // RmlUi owns the context and will destroy it along with elements on Shutdown.
-
-    /// RmlUi context
-    Rml::Context* mr_rmlContext;
-
-    /// Dialog box
-    Rml::ElementDocument* mr_dialogBox;
-
-
-    /* Parameters */
-
     /// Frame duration
     sf::Time mp_frameDuration;
 
@@ -133,6 +121,15 @@ public:
     u8 mp_maxUpdatesPerRender;
 
 private:
+
+    /* External references */
+
+    // We use raw pointers to reference non-owned objects created via third-party API like RmlUi.
+    // RmlUi owns the Rml context and will destroy it along UI elements on Shutdown.
+
+    /// RmlUi context
+    Rml::Context* mr_rmlContext;
+
 
     /* State */
 

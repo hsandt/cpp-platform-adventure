@@ -1,12 +1,17 @@
 #pragma once
 
 // std
-#include <optional>
 #include <string>
 
 // Game
 #include "Common.h"
 #include "Application/ApplicationObject.h"
+
+namespace Rml
+{
+    class Element;
+    class ElementDocument;
+}
 
 // Game
 class DialogueTree;
@@ -18,6 +23,10 @@ public:
     ~DialogueManager();
 
 public:
+    /// Initialize dialogue manager, loading required UI documents
+    /// This must be called after GameApplication::initRmlUi
+    void init();
+
     /// Process input
     void handleInput();
 
@@ -38,11 +47,11 @@ private:
 
 public:
 
-    /* State */
+    /* External references */
 
-    /// Handle to current dialog box
-    std::optional<Handle> ms_oDialogueBoxHandle;
+    /// Dialog box
+    Rml::ElementDocument* mr_dialogBox;
 
-    /// Handle to current dialog text
-    std::optional<Handle> ms_oDialogueTextHandle;
+    /// Dialog text
+    Rml::Element* mr_dialogText;
 };

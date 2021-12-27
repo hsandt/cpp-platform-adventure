@@ -23,7 +23,6 @@
 #include "Input/InputManager.h"
 #include "UI/RmlUIInterfaces/RenderInterfaceSFML.h"
 #include "UI/RmlUIInterfaces/SystemInterfaceSFML.h"
-#include "UI/UICanvas.h"
 #include "Space/World.h"
 
 GameApplication::GameApplication() :
@@ -33,14 +32,12 @@ GameApplication::GameApplication() :
     mc_rmlUiSystemInterface(),
     mc_rmlUiRenderer(),
     mc_world(*this),
-    mc_uiCanvas(*this),
     mc_gameStateManager(*this),
     mc_inputManager(*this),
     mc_textureManager(*this),
     mc_musicManager(*this),
     mc_dialogueManager(*this),
-    mr_rmlContext(nullptr),
-    mr_dialogBox(nullptr)
+    mr_rmlContext(nullptr)
 {
 }
 
@@ -63,6 +60,10 @@ void GameApplication::init()
 
     initWindow();
     initRmlUi();
+
+    // Dialogue manager must be initialized after RmlUi
+    mc_dialogueManager->init();
+
     initGameStateManager(appConfig.initialSceneName);
 }
 
@@ -138,16 +139,17 @@ void GameApplication::initRmlUi()
         bool fallback_face;
     };
     FontFace font_faces[] = {
-        { "LatoLatin-Regular.ttf",    false },
-        { "LatoLatin-Italic.ttf",     false },
-        { "LatoLatin-Bold.ttf",       false },
-        { "LatoLatin-BoldItalic.ttf", false },
-        { "NotoEmoji-Regular.ttf",    true  },
+        { "open-sans/OpenSans-Regular.ttf",         false },
+        { "RmlUI samples/LatoLatin-Regular.ttf",    false },
+        { "RmlUI samples/LatoLatin-Italic.ttf",     false },
+        { "RmlUI samples/LatoLatin-Bold.ttf",       false },
+        { "RmlUI samples/LatoLatin-BoldItalic.ttf", false },
+        { "RmlUI samples/NotoEmoji-Regular.ttf",    true  },
     };
 
     for (const FontFace& face : font_faces)
     {
-        Rml::LoadFontFace("assets/fonts/RmlUI samples/" + face.filename, face.fallback_face);
+        Rml::LoadFontFace("assets/fonts/" + face.filename, face.fallback_face);
     }
 
     // create context to match window
@@ -159,18 +161,6 @@ void GameApplication::initRmlUi()
     // initialize debugger
     Rml::Debugger::Initialise(mr_rmlContext);
     #endif
-
-    // load sample document
-    mr_dialogBox = mr_rmlContext->LoadDocument("assets/ui/dialog_box.rml");
-    PPK_ASSERT_DEBUG(mr_dialogBox, "Could not load document: dialog_box.rml");
-
-    if (mr_dialogBox)
-    {
-        mr_dialogBox->Show();
-        Rml::Element* text = mr_dialogBox->GetElementById("text");
-        PPK_ASSERT_DEBUG(text, "No text found");
-        text->SetInnerRML("Hello!");
-    }
 }
 
 void GameApplication::initGameStateManager(const std::string& initialSceneName)
@@ -325,9 +315,6 @@ void GameApplication::render()
 
     // set view back to default view (top-left origin) so UI has fixed position on screen
     mc_renderTexture->setView(mc_window->getDefaultView());
-
-    // render UI legacy canvas
-    mc_uiCanvas->render(*mc_renderTexture);
 
     // display render texture is important to prevent Y mirroring
     mc_renderTexture->display();
