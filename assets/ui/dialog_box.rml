@@ -1,0 +1,12 @@
+<rml>
+	<head>
+		<title>Dialog Box</title>
+		<link type="text/rcss" href="rml.rcss"/>
+		<link type="text/rcss" href="dialog_box.rcss"/>
+	</head>
+	<body>
+		<div id="box">
+			<span id="text">[text]</span>
+		</div>
+	</body>
+</rml>

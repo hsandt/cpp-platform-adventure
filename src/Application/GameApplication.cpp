@@ -160,7 +160,7 @@ void GameApplication::initRmlUi()
     #endif
 
     // load sample document
-    Rml::ElementDocument* document = mr_rmlContext->LoadDocument("assets/ui/demo.rml");
+    Rml::ElementDocument* document = mr_rmlContext->LoadDocument("assets/ui/dialog_box.rml");
     PPK_ASSERT_DEBUG(mr_rmlContext, "Could not create RmlUi context");
 
     if (document)
