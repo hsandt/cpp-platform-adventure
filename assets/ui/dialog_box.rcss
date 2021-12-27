@@ -13,6 +13,7 @@ body
 #box
 {
 	margin-top: 500dp;
+	/* margin-bottom doesn't work, so define height instead */
 	height: 80dp;
 	margin-left: 80dp;
 	margin-right: 80dp;

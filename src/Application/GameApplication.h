@@ -20,6 +20,7 @@ namespace sf
 namespace Rml
 {
     class Context;
+    class ElementDocument;
 }
 
 class DialogueManager;
@@ -113,10 +114,14 @@ public:
 
     /* Parameters */
 
+    // Exceptionally, we use raw pointers to work with RmlUi API.
+    // RmlUi owns the context and will destroy it along with elements on Shutdown.
+
     /// RmlUi context
-    /// Exceptionally a raw pointer to work with RmlUi API.
-    /// RmlUi owns the contexts and will destroy them by itself on Shutdown.
     Rml::Context* mr_rmlContext;
+
+    /// Dialog box
+    Rml::ElementDocument* mr_dialogBox;
 
 
     /* Parameters */

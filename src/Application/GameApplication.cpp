@@ -39,7 +39,8 @@ GameApplication::GameApplication() :
     mc_textureManager(*this),
     mc_musicManager(*this),
     mc_dialogueManager(*this),
-    mr_rmlContext(nullptr)
+    mr_rmlContext(nullptr),
+    mr_dialogBox(nullptr)
 {
 }
 
@@ -160,12 +161,15 @@ void GameApplication::initRmlUi()
     #endif
 
     // load sample document
-    Rml::ElementDocument* document = mr_rmlContext->LoadDocument("assets/ui/dialog_box.rml");
-    PPK_ASSERT_DEBUG(mr_rmlContext, "Could not create RmlUi context");
+    mr_dialogBox = mr_rmlContext->LoadDocument("assets/ui/dialog_box.rml");
+    PPK_ASSERT_DEBUG(mr_dialogBox, "Could not load document: dialog_box.rml");
 
-    if (document)
+    if (mr_dialogBox)
     {
-        document->Show();
+        mr_dialogBox->Show();
+        Rml::Element* text = mr_dialogBox->GetElementById("text");
+        PPK_ASSERT_DEBUG(text, "No text found");
+        text->SetInnerRML("Hello!");
     }
 }
 
