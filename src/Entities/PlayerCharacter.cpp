@@ -22,8 +22,6 @@
 #include "Entities/PickUpItem.h"
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
-#include "Memory/Box.hpp"
-#include "Memory/SafePtr.hpp"
 #include "PlayerCharacter/Inventory.h"
 #include "Serialization/YamlConvert.hpp"
 #include "Serialization/YamlHelper.hpp"

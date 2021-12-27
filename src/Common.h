@@ -9,6 +9,10 @@
 #define PPK_ASSERT_ENABLED 1
 #include <ppk_assert.h>
 
+// Common game headers
+#include "Memory/Box.hpp"
+#include "Memory/SafePtr.hpp"
+
 // Numeric type aliases
 
 using i8 = int8_t;

@@ -3,7 +3,6 @@
 // Game
 #include "Common.h"
 #include "Entities/IInteractable.h"
-#include "Memory/Box.hpp"
 #include "Space/SpatialObject.h"
 
 // SFML

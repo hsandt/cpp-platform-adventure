@@ -8,8 +8,6 @@
 
 // Game
 #include "Common.h"
-#include "Memory/Box.hpp"
-#include "Memory/SafePtr.hpp"
 
 // SFML
 namespace sf

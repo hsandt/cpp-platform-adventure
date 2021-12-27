@@ -14,8 +14,6 @@
 // Game
 #include "Common.h"
 #include "Application/ApplicationObject.h"
-#include "Memory/Box.hpp"
-#include "Memory/SafePtr.hpp"
 #include "Space/SpatialObjectHandle.h"
 
 namespace sf

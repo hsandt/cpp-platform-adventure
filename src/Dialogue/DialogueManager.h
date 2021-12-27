@@ -6,7 +6,6 @@
 // Game
 #include "Common.h"
 #include "Application/ApplicationObject.h"
-#include "Memory/SafePtr.hpp"
 
 namespace Rml
 {

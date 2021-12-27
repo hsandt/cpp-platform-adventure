@@ -1,8 +1,5 @@
 #pragma once
 
-// std
-#include <Memory/Box.hpp>
-
 // SFML
 #include <SFML/System/Time.hpp>
 

@@ -7,7 +7,6 @@
 #include <SFML/System/Time.hpp>
 
 // Game
-#include "Memory/Box.hpp"
 #include "Space/SpatialObject.h"
 #include "Space/SpatialObjectHandle.h"
 

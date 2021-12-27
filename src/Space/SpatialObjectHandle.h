@@ -6,7 +6,6 @@
 
 // Game
 #include "Common.h"
-#include "Memory/SafePtr.hpp"
 
 // Game
 class SpatialObject;
