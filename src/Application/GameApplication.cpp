@@ -1,8 +1,5 @@
 #include "Application/GameApplication.h"
 
-// PPK_ASSERT
-#include "ppk_assert.h"
-
 // SFML
 #include <SFML/Graphics.hpp>
 
@@ -26,6 +23,7 @@
 #include "Space/World.h"
 
 GameApplication::GameApplication() :
+    mr_rmlContext(),
     mc_window(),
     mc_renderTexture(),
     mc_view(),
@@ -37,7 +35,9 @@ GameApplication::GameApplication() :
     mc_textureManager(*this),
     mc_musicManager(*this),
     mc_dialogueManager(*this),
-    mr_rmlContext(nullptr)
+    mp_frameDuration(),
+    mp_maxUpdatesPerRender(0),
+    ms_applicationTime()
 {
 }
 
@@ -159,7 +159,7 @@ void GameApplication::initRmlUi()
 
     #if DEBUG
     // initialize debugger
-    Rml::Debugger::Initialise(mr_rmlContext);
+    Rml::Debugger::Initialise(mr_rmlContext.get());
     #endif
 }
 

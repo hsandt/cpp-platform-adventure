@@ -9,6 +9,7 @@
 // Game
 #include "Common.h"
 #include "Memory/Box.hpp"
+#include "Memory/SafePtr.hpp"
 
 // SFML
 namespace sf
@@ -45,8 +46,6 @@ public:
     /// Initialize and run game application
     void initAndRun();
 
-    Rml::Context* getRmlContext() const { return mr_rmlContext; }
-
 private:
 
     /// Initialize game application
@@ -75,6 +74,15 @@ private:
     void shutdown();
 
 public:
+
+    /* External references */
+
+    // We use raw pointers to reference non-owned objects created via third-party API like RmlUi.
+    // RmlUi owns the Rml context and will destroy it along UI elements on Shutdown.
+
+    /// RmlUi context
+    SafePtr<Rml::Context> mr_rmlContext;
+
 
     /* Components */
 
@@ -120,16 +128,8 @@ public:
     /// Maximum number of updates done before a render. See AppConfig::maxUpdatesPerRender.
     u8 mp_maxUpdatesPerRender;
 
+
 private:
-
-    /* External references */
-
-    // We use raw pointers to reference non-owned objects created via third-party API like RmlUi.
-    // RmlUi owns the Rml context and will destroy it along UI elements on Shutdown.
-
-    /// RmlUi context
-    Rml::Context* mr_rmlContext;
-
 
     /* State */
 

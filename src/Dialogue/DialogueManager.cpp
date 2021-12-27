@@ -12,8 +12,8 @@
 
 DialogueManager::DialogueManager(GameApplication& gameApp) :
     ApplicationObject(gameApp),
-    mr_dialogBox(nullptr),
-    mr_dialogText(nullptr)
+    mr_dialogBox(),
+    mr_dialogText()
 {
 }
 
@@ -23,7 +23,7 @@ DialogueManager::~DialogueManager()
 
 void DialogueManager::init()
 {
-    Rml::Context* rmlContext = mo_gameApp.getRmlContext();
+    SafePtr<Rml::Context> rmlContext = mo_gameApp.mr_rmlContext;
     PPK_ASSERT_DEBUG(rmlContext, "DialogueManager::init: No Rml Context");
 
     if (rmlContext)

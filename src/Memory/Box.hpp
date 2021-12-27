@@ -10,7 +10,9 @@
 /// If T has a default constructor, the box also defines a default constructor relying on it.
 /// Otherwise, you need to explicitly construct your Box by passing the same arguments as you
 /// would to construct an object of type T (arguments are forwarded to std::make_unique<T>).
-/// Box supports move semantics.
+/// Box can be constructed from a moved unique_ptr, but it cannot be moved to another Box
+/// (as it would break the guarantee that the moved Box is still valid after move, as it would
+/// lose its ownership).
 template<typename T>
 class Box
 {
@@ -32,7 +34,7 @@ public:
 
     ~Box();
 
-    // allow access to non-const internal value, keeping const Box
+    // Allow access to non-const internal value, keeping const Box
 
     T& operator*() const { return *mc_data; }
     T* operator->() const { return mc_data.get(); }

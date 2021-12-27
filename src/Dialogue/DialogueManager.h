@@ -6,6 +6,7 @@
 // Game
 #include "Common.h"
 #include "Application/ApplicationObject.h"
+#include "Memory/SafePtr.hpp"
 
 namespace Rml
 {
@@ -45,13 +46,13 @@ private:
     /// and should be done as part of showDialogueTree
     void showDialogueText(const std::string& text);
 
-public:
+private:
 
     /* External references */
 
     /// Dialog box
-    Rml::ElementDocument* mr_dialogBox;
+    SafePtr<Rml::ElementDocument> mr_dialogBox;
 
     /// Dialog text
-    Rml::Element* mr_dialogText;
+    SafePtr<Rml::Element> mr_dialogText;
 };
