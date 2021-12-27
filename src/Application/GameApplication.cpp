@@ -157,7 +157,6 @@ void GameApplication::initRmlUi()
     #if DEBUG
     // initialize debugger
     Rml::Debugger::Initialise(mr_rmlContext);
-    Rml::Debugger::SetVisible(true);
     #endif
 
     // load sample document
@@ -199,13 +198,60 @@ void GameApplication::run()
         sf::Event event;
         while (mc_window->pollEvent(event))
         {
-            if (event.type == sf::Event::EventType::Closed ||
-                (event.type == sf::Event::EventType::KeyPressed && event.key.code == sf::Keyboard::Key::Escape))
+            switch (event.type)
             {
-                shouldRun = false;
-                break;
+                case sf::Event::MouseMoved:
+                    mr_rmlContext->ProcessMouseMove(event.mouseMove.x, event.mouseMove.y,
+                        mc_rmlUiSystemInterface->GetKeyModifiers());
+                    break;
+                case sf::Event::MouseButtonPressed:
+                    mr_rmlContext->ProcessMouseButtonDown(event.mouseButton.button,
+                        mc_rmlUiSystemInterface->GetKeyModifiers());
+                    break;
+                case sf::Event::MouseButtonReleased:
+                    mr_rmlContext->ProcessMouseButtonUp(event.mouseButton.button,
+                        mc_rmlUiSystemInterface->GetKeyModifiers());
+                    break;
+                case sf::Event::MouseWheelMoved:
+                    mr_rmlContext->ProcessMouseWheel(float(-event.mouseWheel.delta),
+                        mc_rmlUiSystemInterface->GetKeyModifiers());
+                    break;
+                case sf::Event::TextEntered:
+                    if (event.text.unicode > 32)
+                    {
+                        mr_rmlContext->ProcessTextInput(Rml::Character(event.text.unicode));
+                    }
+                    break;
+                case sf::Event::KeyPressed:
+                    switch (event.key.code)
+                    {
+                        #if DEBUG
+                        case sf::Keyboard::F8:
+                            Rml::Debugger::SetVisible(!Rml::Debugger::IsVisible());
+                            break;
+                        #endif
+                        case sf::Keyboard::Escape:
+                            shouldRun = false;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    mr_rmlContext->ProcessKeyDown(mc_rmlUiSystemInterface->TranslateKey(event.key.code),
+                        mc_rmlUiSystemInterface->GetKeyModifiers());
+                    break;
+                case sf::Event::KeyReleased:
+                    mr_rmlContext->ProcessKeyUp(mc_rmlUiSystemInterface->TranslateKey(event.key.code),
+                        mc_rmlUiSystemInterface->GetKeyModifiers());
+                    break;
+                case sf::Event::Closed:
+                    shouldRun = false;
+                    break;
+                default:
+                    break;
             }
-            else
+
+            if (shouldRun)
             {
                 mc_inputManager->processEvent(event);
             }
