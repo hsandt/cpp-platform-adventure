@@ -185,20 +185,25 @@ void PlayerCharacter::interact()
 {
     if (ms_canInteract && ms_oDetectedInteractable)
     {
-        SafePtr<SpatialObject> oDetectedInteractable = ms_oDetectedInteractable->findObject();
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
+
+        // consume detected interactable, whether object still exists or not
+        SafePtr<SpatialObject> oDetectedInteractable = ms_oDetectedInteractable->findObject();
+        ms_oDetectedInteractable.reset();
+
         if (oDetectedInteractable)
         {
             // prevent further interaction, including input binding
             setCanInteract(false);
 
-            std::optional<SpatialObjectHandle> a = ms_oDetectedInteractable;
-            ms_oActiveInteractable = ms_oDetectedInteractable;
-            ms_oDetectedInteractable.reset();
             if (IInteractable* interactable = dynamic_cast<IInteractable*>(oDetectedInteractable.get()))
             {
                 interactable->onInteract(*this);
+            }
+            else
+            {
+                PPK_ASSERT_DEBUG("PlayerCharacter::interact: detected interactable handle does not point to IInteractable");
             }
         }
     }

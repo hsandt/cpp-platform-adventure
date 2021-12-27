@@ -73,7 +73,4 @@ private:
 
     /// Interactable currently detected nearby (cleared on interaction start)
     std::optional<SpatialObjectHandle> ms_oDetectedInteractable;
-
-    /// Interactable currently interacted with (useful during interaction since ms_oDetectedInteractable is cleared)
-    std::optional<SpatialObjectHandle> ms_oActiveInteractable;
 };

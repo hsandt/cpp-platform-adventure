@@ -232,6 +232,10 @@ SafePtr<PlayerCharacter> World::getPlayerCharacter() const
         {
             return pc;
         }
+        else
+        {
+            PPK_ASSERT_DEBUG("World::getPlayerCharacter: player character handle does not point to PlayerCharacter");
+        }
     }
 
     return nullptr;
