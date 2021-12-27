@@ -1,8 +1,8 @@
 #pragma once
 
-/// Safe Pointer class: wrapper around raw pointer, used for non-owned objects:
-/// - raw pointers provided by third-party API
-/// - result of queries that may be filled or empty (as simpler than optional reference wrapper)
+/// Safe Pointer class: wrapper around raw pointer, used for:
+/// - raw pointers to non-owned objects provided by third-party API
+/// - objects that may or may not exist, as a substitute for optional reference wrapper
 /// It provides non-const access to the referenced value even when const itself,
 /// allowing user to store it as a public const member, for easy but safe access
 /// (the pointer itself cannot be changed, but the referenced value can be).
@@ -18,6 +18,7 @@ public:
     SafePtr() : mc_data(nullptr) {}
 
     /// Construct SafePtr<T> from raw pointer
+    /// Allow implicit conversion as this is used a lot
     SafePtr(T* data) : mc_data(data) {}
 
     /// Assign raw pointer to SafePtr<T> directly

@@ -23,6 +23,7 @@
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
 #include "Memory/Box.hpp"
+#include "Memory/SafePtr.hpp"
 #include "PlayerCharacter/Inventory.h"
 #include "Serialization/YamlConvert.hpp"
 #include "Serialization/YamlHelper.hpp"
@@ -186,7 +187,7 @@ void PlayerCharacter::interact()
 {
     if (ms_canInteract && ms_oDetectedInteractable)
     {
-        std::optional<std::reference_wrapper<SpatialObject>> oDetectedInteractable = ms_oDetectedInteractable->findObject();
+        SafePtr<SpatialObject> oDetectedInteractable = ms_oDetectedInteractable->findObject();
         // always interact with the interactable previously detected
         // (this is just to avoid doing an extra detection and match UI)
         if (oDetectedInteractable)
@@ -197,7 +198,7 @@ void PlayerCharacter::interact()
             std::optional<SpatialObjectHandle> a = ms_oDetectedInteractable;
             ms_oActiveInteractable = ms_oDetectedInteractable;
             ms_oDetectedInteractable.reset();
-            if (IInteractable* interactable = dynamic_cast<IInteractable*>(&oDetectedInteractable->get()))
+            if (IInteractable* interactable = dynamic_cast<IInteractable*>(oDetectedInteractable.get()))
             {
                 interactable->onInteract(*this);
             }

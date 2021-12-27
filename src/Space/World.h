@@ -15,6 +15,7 @@
 #include "Common.h"
 #include "Application/ApplicationObject.h"
 #include "Memory/Box.hpp"
+#include "Memory/SafePtr.hpp"
 #include "Space/SpatialObjectHandle.h"
 
 namespace sf
@@ -60,14 +61,14 @@ public:
         return ms_oGateRightTargetSceneName;
     }
 
-    std::optional<std::reference_wrapper<PlayerCharacter>> getPlayerCharacter() const;
+    SafePtr<PlayerCharacter> getPlayerCharacter() const;
 
     const std::map<Handle, Box<SpatialObject>>& getSpatialObjects() const
     {
         return ms_spatialObjects;
     }
 
-    std::optional<std::reference_wrapper<SpatialObject>> findSpatialObject(Handle handle) const;
+    SafePtr<SpatialObject> findSpatialObject(Handle handle) const;
 
     /// Flag spatial object for destruction at the end of the frame.
     /// If already flagged, does nothing. Does not check if handle is valid.

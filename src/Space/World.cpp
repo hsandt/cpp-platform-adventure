@@ -224,23 +224,23 @@ void World::render(sf::RenderTarget& window)
     }
 }
 
-std::optional<std::reference_wrapper<PlayerCharacter>> World::getPlayerCharacter() const
+SafePtr<PlayerCharacter> World::getPlayerCharacter() const
 {
     if (auto oPlayerCharacter = ms_playerCharacterHandle.findObject())
     {
-        if (PlayerCharacter* pc = dynamic_cast<PlayerCharacter*>(&oPlayerCharacter->get()))
+        if (PlayerCharacter* pc = dynamic_cast<PlayerCharacter*>(oPlayerCharacter.get()))
         {
-            return *pc;
+            return pc;
         }
     }
 
-    return std::nullopt;
+    return nullptr;
 }
 
-std::optional<std::reference_wrapper<SpatialObject>> World::findSpatialObject(Handle handle) const
+SafePtr<SpatialObject> World::findSpatialObject(Handle handle) const
 {
     auto it = ms_spatialObjects.find(handle);
-    return it != ms_spatialObjects.end() ? std::optional{std::ref(*it->second)} : std::nullopt;
+    return it != ms_spatialObjects.end() ? it->second.get() : nullptr;
 }
 
 void World::flagForDestruction(Handle handle)

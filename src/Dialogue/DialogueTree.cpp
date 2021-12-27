@@ -25,7 +25,7 @@ const std::string& DialogueTree::getTextFromContext() const
     if (oPlayerCharacter)
     {
         // For now, we only check for a single item, the flag
-        if (mp_verifiedItemDataID && oPlayerCharacter->get().mc_inventory->hasItem(*mp_verifiedItemDataID))
+        if (mp_verifiedItemDataID && oPlayerCharacter->mc_inventory->hasItem(*mp_verifiedItemDataID))
         {
             return mp_dialogueTextWithItem;
         }

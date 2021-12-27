@@ -81,7 +81,7 @@ void DialogueManager::closeDialogue()
     auto oPlayerCharacter = mo_gameApp.mc_world->getPlayerCharacter();
     if (oPlayerCharacter)
     {
-        oPlayerCharacter->get().setCanInteract(true);
+        oPlayerCharacter->setCanInteract(true);
     }
 }
 

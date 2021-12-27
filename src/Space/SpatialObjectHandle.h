@@ -6,6 +6,7 @@
 
 // Game
 #include "Common.h"
+#include "Memory/SafePtr.hpp"
 
 // Game
 class SpatialObject;
@@ -44,7 +45,7 @@ public:
     /// This way, users who don't care about the reason why nullopt is returned only need one call.
     /// Unlike std::weak_ptr, there is no locking mechanic.
     /// Instead, we must guarantee that objects are never destroyed on parallel threads.
-    std::optional<std::reference_wrapper<SpatialObject>> findObject() const;
+    SafePtr<SpatialObject> findObject() const;
 
 private:
 

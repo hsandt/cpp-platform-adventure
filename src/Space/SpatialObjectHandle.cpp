@@ -26,7 +26,7 @@ void SpatialObjectHandle::set(Handle handle)
     ms_handle = handle;
 }
 
-std::optional<std::reference_wrapper<SpatialObject>> SpatialObjectHandle::findObject() const
+SafePtr<SpatialObject> SpatialObjectHandle::findObject() const
 {
-    return ms_isSet ? mo_world.get().findSpatialObject(ms_handle) : std::nullopt;
+    return ms_isSet ? mo_world.get().findSpatialObject(ms_handle) : nullptr;
 }

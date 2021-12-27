@@ -15,13 +15,13 @@ void GameStateManager::update()
     if (ms_oNextState)
     {
         enterGameState(*ms_oNextState);
-        ms_oNextState = std::nullopt;
+        ms_oNextState = nullptr;
     }
 
     // Update current state, which may have changed in the block above
     if (ms_oCurrentState)
     {
-        ms_oCurrentState->get().update();
+        ms_oCurrentState->update();
     }
 }
 
@@ -44,7 +44,7 @@ void GameStateManager::queryEnterGameState(u8 gameStateID)
     auto it = mp_gameStateMap.find(gameStateID);
     if (it != mp_gameStateMap.end())
     {
-        ms_oNextState = std::ref(*it->second);
+        ms_oNextState = it->second.get();
     }
     else
     {
@@ -58,11 +58,11 @@ void GameStateManager::enterGameState(GameState& gameState)
     // if a game state was already running, call exit callback
     if (ms_oCurrentState)
     {
-        ms_oCurrentState->get().onExit();
+        ms_oCurrentState->onExit();
     }
 
     // set new game state
-    ms_oCurrentState = std::ref(gameState);
+    ms_oCurrentState = &gameState;
 
     // call enter callback
     gameState.onEnter();

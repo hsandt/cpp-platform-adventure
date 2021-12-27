@@ -10,6 +10,7 @@
 #include "Application/ApplicationObject.h"
 #include "Application/GameState.h"
 #include "Memory/Box.hpp"
+#include "Memory/SafePtr.hpp"
 
 class GameStateManager : public ApplicationObject
 {
@@ -48,8 +49,8 @@ private:
     /* State */
 
     /// Current game state, if any
-    std::optional<std::reference_wrapper<GameState>> ms_oCurrentState;
+    SafePtr<GameState> ms_oCurrentState;
 
     /// Next game state to enter, if any
-    std::optional<std::reference_wrapper<GameState>> ms_oNextState;
+    SafePtr<GameState> ms_oNextState;
 };
