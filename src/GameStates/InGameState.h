@@ -18,7 +18,7 @@ public:
     /// Callback on entering game state
     virtual void onEnter() override;
 
-    /// Update in-game state
+    /// Update game state
     virtual void update() override;
 
 public:

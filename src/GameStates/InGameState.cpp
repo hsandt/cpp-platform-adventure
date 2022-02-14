@@ -21,6 +21,9 @@ void InGameState::onEnter()
 
     // set initial input context to Platforming
     mo_gameApp.mc_inputManager->pushInputContext(InputContext::Platforming);
+
+    // set background color to sky color
+    mo_gameApp.mc_world->mp_backgroundColor = sf::Color::Cyan;
 }
 
 void InGameState::update()

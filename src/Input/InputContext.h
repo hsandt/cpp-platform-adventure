@@ -5,6 +5,9 @@
 
 enum InputContext : u8
 {
+    /// Player character is navigating in a menu
+    Menu,
+
     /// Player character is moving around the scene
     Platforming,
 

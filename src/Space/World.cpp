@@ -31,7 +31,8 @@
 
 World::World(GameApplication& gameApp) :
     ApplicationObject(gameApp),
-    terrain(std::make_unique<Terrain>()),
+    ma_terrain(),
+    mp_backgroundColor(sf::Color::Black),
     ms_oCurrentSceneName(),
     ms_oNextSceneName(),
     ms_oGateLeftTargetSceneName(),
@@ -88,6 +89,11 @@ void World::loadSceneFromYAML(const std::string& sceneName)
     // update current scene file path
     ms_oCurrentSceneName = sceneName;
     std::string sceneFileRelativePathString = fmt::format("{}.yml", sceneName);
+
+    // set default terrain
+    // (this will reconstruct the same Terrain object on each scene, but it's okay,
+    // as ultimately we'll want to rebuild a different Terrain for each scene)
+    setDefaultTerrain();
 
     try
     {
@@ -160,6 +166,16 @@ void World::loadSceneFromYAML(const std::string& sceneName)
     }
 }
 
+void World::setDefaultTerrain()
+{
+    ma_terrain = std::make_unique<Terrain>();
+}
+
+void World::clearTerrain()
+{
+    ma_terrain.reset();
+}
+
 SpatialObject& World::addSpatialObject(std::unique_ptr<SpatialObject> spatialObject)
 {
     PPK_ASSERT_ERROR(spatialObject, "Cannot add empty spatial object");
@@ -214,8 +230,14 @@ void World::clearScene()
 
 void World::render(sf::RenderTarget& window)
 {
-    // show terrain
-    terrain->render(window);
+    // clear window with background color
+    window.clear(mp_backgroundColor);
+
+    // show terrain if any
+    if (ma_terrain)
+    {
+        ma_terrain->render(window);
+    }
 
     // show spatial objects
     for (const auto &[handle, spatialObject] : ms_spatialObjects)

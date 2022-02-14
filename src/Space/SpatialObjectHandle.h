@@ -17,6 +17,7 @@ class World;
 class SpatialObjectHandle
 {
 public:
+
     /// Constructor for unset handle (leaves handle uninitialized)
     explicit SpatialObjectHandle(World& world);
 

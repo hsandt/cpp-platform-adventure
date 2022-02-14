@@ -9,6 +9,7 @@
 #include <string>
 
 // SFML
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Time.hpp>
 
 // Game
@@ -80,6 +81,12 @@ private:
     /// assets/scenes
     void loadSceneFromYAML(const std::string& sceneName);
 
+    /// Set terrain to default
+    void setDefaultTerrain();
+
+    /// Clear terrain
+    void clearTerrain();
+
     /// Add spatial object to the world
     /// This moves ownership from the unique pointer to a Box in ms_spatialObjects.
     /// UB unless spatialObject is not empty, and there is not already an object with the same ID.
@@ -91,10 +98,21 @@ private:
     /// Destroy all spatial objects
     void clearScene();
 
+private:
+
     /* Components */
 
-    const std::unique_ptr<Terrain> terrain;
+    /// Terrain, if any
+    std::unique_ptr<Terrain> ma_terrain;
 
+public:
+
+    /* Parameters */
+
+    /// Background color
+    sf::Color mp_backgroundColor;
+
+private:
 
     /* State */
 

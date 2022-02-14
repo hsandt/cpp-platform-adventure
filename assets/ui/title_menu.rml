@@ -1,0 +1,12 @@
+<rml>
+	<head>
+		<title>Title Menu</title>
+		<link type="text/rcss" href="rml.rcss"/>
+		<link type="text/rcss" href="title_menu.rcss"/>
+	</head>
+	<body>
+		<div id="box">
+			<button data-event-click="start_game">Start game</button>
+		</div>
+	</body>
+</rml>

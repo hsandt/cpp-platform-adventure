@@ -16,6 +16,7 @@
 #include "Audio/MusicManager.h"
 #include "Dialogue/DialogueManager.h"
 #include "GameStates/InGameState.h"
+#include "GameStates/TitleMenuState.h"
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
 #include "UI/RmlUIInterfaces/RenderInterfaceSFML.h"
@@ -165,13 +166,17 @@ void GameApplication::initRmlUi()
 
 void GameApplication::initGameStateManager(const std::string& initialSceneName)
 {
-    // add InGame state with initial scene to load
+    // add Title Menu state
+    auto titleMenuState = std::make_unique<TitleMenuState>(*this);
+    mc_gameStateManager->addGameState(std::move(titleMenuState));
+
+    // add In-Game state with initial scene to load
     auto inGameState = std::make_unique<InGameState>(*this);
     inGameState->mp_initialSceneName = initialSceneName;
     mc_gameStateManager->addGameState(std::move(inGameState));
 
     // start by entering InGame state
-    mc_gameStateManager->queryEnterGameState((u8) GameStateID::InGame);
+    mc_gameStateManager->queryEnterGameState((u8) GameStateID::TitleMenu);
 }
 
 void GameApplication::run()
@@ -304,9 +309,6 @@ void GameApplication::update(sf::Time deltaTime)
 
 void GameApplication::render()
 {
-    // clear sky
-    mc_renderTexture->clear(sf::Color::Cyan);
-
     // set view from moving camera
     mc_renderTexture->setView(*mc_view);
 
