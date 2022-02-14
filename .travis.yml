@@ -3,8 +3,8 @@ if: commit_message !~ /(\(WIP\)|#no_travis)/
 
 language: cpp
 
-# For Linux, use Ubuntu 18.04 to have g++-10 in Ubuntu Toolchain PPA
-dist: bionic
+# For Linux, use Ubuntu 20.04 (Focal) to have g++-11 in Ubuntu Toolchain PPA
+dist: focal
 
 env:
   global:
@@ -46,9 +46,11 @@ jobs:
     #     - DEPLOY=true
     #     - DEPLOY_FILE=build/macosx_xcode4_Release/bin/Game.app.zip
     #   compiler: clang++
+
+    # Linux g++
     - os: linux
       env:
-        - COMPILER=g++-10
+        - COMPILER=g++-11
         - PREMAKE_GENERATOR=gmake
         # make with g++ build will represent Linux to deploy release
         - DEPLOY=true
@@ -57,9 +59,11 @@ jobs:
         apt:
           packages:
             - *linux_packages
-            - g++-10
+            - g++-11
           sources:
             - ubuntu-toolchain-r-test
+
+    # Linux clang
     - os: linux
       env:
         - COMPILER=clang++-11
@@ -69,20 +73,21 @@ jobs:
         apt:
           packages:
             - *linux_packages
-            # g++-10 is only to install C++20 headers/libraries to be used by clang
-            - g++-10
-            - clang-11
+            # g++-11 is only to install C++20 headers/libraries to be used by clang
+            - g++-11
+            - clang-14
           sources:
-            # ubuntu-toolchain-r-test is only to install g++-10
+            # ubuntu-toolchain-r-test is only to install g++-11 (see above)
             - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+            # llvm source is only to install llvm toolchain 14, including clang-14
+            - sourceline: 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-14 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       compiler: clang++
 
 install:
   # Set the ${CXX} variable properly (don't do it in env, it is too early and would be overriden
   # by travis compiler settings just afterward)
-  # and do it after the initial package install to have g++-10 available if used
+  # and do it after the initial package install to have g++-11 available if used
   - export CXX=${COMPILER}
   - ${CXX} --version
 

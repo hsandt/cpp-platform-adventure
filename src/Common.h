@@ -1,6 +1,7 @@
 #pragma once
 
 // std
+#include <limits>
 #include <stdint.h>
 
 // PPK_ASSERT

@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "python3 engine/build_deps.py",
             "options": {
-                "env": {"CXX": "g++-10"}
+                "env": {"CXX": "g++-11", "CC": "gcc-11"}
             },
             "problemMatcher": [],
             "group": "build"
@@ -18,7 +18,7 @@
             "type": "shell",
             "command": "python3 engine/build_deps.py",
             "options": {
-                "env": {"CXX": "clang++-10", "CC": "clang-10"}
+                "env": {"CXX": "clang++-14", "CC": "clang-14"}
             },
             "osx": {
                 "options": {
@@ -90,7 +90,9 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "gcc_debug"}
+                // gcc_debug and others are custom configurations
+                // defined in premake5.lua
+                "env": {"CXX": "g++-11", "CC": "gcc-11", "config": "gcc_debug"}
             },
             "problemMatcher": [],
             "group": {
@@ -108,7 +110,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "gcc_debug"}
+                "env": {"CXX": "g++-11", "CC": "gcc-11", "config": "gcc_debug"}
             },
             "problemMatcher": [],
             "group": {
@@ -123,7 +125,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "gcc_release"}
+                "env": {"CXX": "g++-11", "CC": "gcc-11", "config": "gcc_release"}
             },
             "problemMatcher": [],
             "group": {
@@ -141,7 +143,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "g++-10", "config": "gcc_release"}
+                "env": {"CXX": "g++-11", "CC": "gcc-11", "config": "gcc_release"}
             },
             "problemMatcher": [],
             "group": {
@@ -156,7 +158,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_debug"}
+                "env": {"CXX": "clang++-14", "CC": "clang-14", "config": "clang_debug"}
             },
             "osx": {
                 "options": {
@@ -184,7 +186,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_debug"}
+                "env": {"CXX": "clang++-14", "CC": "clang-14", "config": "clang_debug"}
             },
             "osx": {
                 "options": {
@@ -209,7 +211,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_release"}
+                "env": {"CXX": "clang++-14", "CC": "clang-14", "config": "clang_release"}
             },
             "osx": {
                 "options": {
@@ -237,7 +239,7 @@
             "args": ["-j", "$nproc"],
             "options": {
                 "cwd": "build",
-                "env": {"CXX": "clang++-10", "CC": "clang-10", "config": "clang_release"}
+                "env": {"CXX": "clang++-14", "CC": "clang-14", "config": "clang_release"}
             },
             "osx": {
                 "options": {

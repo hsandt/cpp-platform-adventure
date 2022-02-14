@@ -26,39 +26,39 @@ However, premake will make it easier to support Windows and OSX in a later versi
 
 ### Required compiler toolchain
 
-This project will use C++20 (in particular concepts), so to build it you will need either GCC 10 (`g++-10`), LLVM 10/11 (`clang++-10` or just `clang++` on OSX) or Visual Studio 2019 (16.3+) depending on your platform.
+This project will use C++20 (in particular concepts and soon modules), so to build it you will need either GCC 11 (`g++-11`) or LLVM 11 to 14 (`clang++-14`).
 
 In addition, you need `premake` to build the game project itself, and `cmake` to build the SFML submodule.
 
-Premake binaries are available on the [official download page](https://premake.github.io/download.html).
+Premake binaries are available on the [official download page](https://premake.github.io/download/).
 
 You can either install `cmake` via a package manager (including chocolatey and scoop for Windows) or from the [official download page](https://cmake.org/download/).
 
 Currently, only the current configurations are tested in CI:
 
-- Linux Ubuntu with `g++-10`
-- Linux Ubuntu with `clang++-10`
-- OSX with `clang++` 11 (not passing yet)
+- Linux Ubuntu with `g++-11`
+- Linux Ubuntu with `clang++-14`
+- ~OSX with `clang++` 11~ (not passing yet)
 
 You are free to install the toolchains as you wish as long as they are accessible in the `PATH`. Below I give a few instructions for supported platforms.
 
-#### Linux Ubuntu with g++-10
+#### Linux Ubuntu with g++-11
 
 ```shell
 $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 $ sudo apt-get update
-$ sudo apt install g++-10
+$ sudo apt install g++-11
 ```
 
-#### Linux Ubuntu with latest stable LLVM (currently 10)
+#### Linux Ubuntu with latest stable LLVM (currently 14)
 
 Follow the instructions on https://apt.llvm.org/.
 
 There is an install script for Debian and Ubuntu, and instructions to install the packages for Debian-based distributions.
 
-#### OSX with latest LLVM (currently 11)
+#### OSX with latest LLVM (currently 13) (unsupported)
 
-On OSX, I recommend to install the latest Xcode (currently 11) and the lastest clang (currently 11) will be provided.
+On OSX, I recommend to install the latest Xcode (currently 13) and the lastest clang (currently 13) will be provided.
 
 ### Dependencies
 

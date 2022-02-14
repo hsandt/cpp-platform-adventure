@@ -14,8 +14,7 @@ project "Game"
     language "C++"
     -- premake doesn't support cppdialect "C++20" yet,
     -- so use std option directly
-    -- g++-10 and clang-10 support "c++20" on Linux, but clang 11 on OSX only uses "c++2a"
-    buildoptions "-std=c++2a"
+    buildoptions "-std=c++20"
     includedirs { "src" }
     flags { "FatalWarnings" }
     enablewarnings { "all" }
