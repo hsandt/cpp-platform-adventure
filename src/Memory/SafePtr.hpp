@@ -5,20 +5,26 @@
 /// - provided by a third-party API
 /// - external (not owned) and optional (may or may not exist;
 ///   pointer may be nullptr), as a substitute for an optional reference wrapper
+///
 /// Notes:
 /// - if the object is optional, but owned and embedded, use std::optional<T> instead.
 /// - if the object is optional, but owned and on the heap, use std::unique_ptr<T> instead.
 /// It provides non-const access to the referenced value even when const itself,
 /// allowing user to store it as a public const member
 /// (the pointer itself cannot be changed, but the referenced value can be).
+///
 /// #if PPK_ASSERT_ENABLED: throws on invalid dereference
 /// Consider disabling PPK_ASSERT_ENABLED in Release if this impacts performance too much
 /// (just wrap the asserts with #if DEBUG).
-/// It should satisfy the named requirement of NullablePointer.
+///
+/// It is just an elevated pointer, so you can copy it around.
+///
 /// Note that the "safety" is only about checking for nullptr and throwing if so.
 /// It still contains a raw pointer and therefore cannot verify for a destroyed object
 /// leading to an invalid pointer. The class containing a SafePtr member has the
 /// responsibility of clearing that pointer when the object is destroyed.
+///
+/// It should satisfy the named requirement of NullablePointer.
 template<typename T>
 class SafePtr
 {

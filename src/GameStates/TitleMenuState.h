@@ -1,5 +1,8 @@
 #pragma once
 
+// RmlUi
+#include <RmlUi/Core/Types.h>
+
 // Game
 #include "Common.h"
 #include "Application/GameState.h"
@@ -8,9 +11,11 @@
 // RmlUi
 namespace Rml
 {
-    class Element;
+    // RmlUi/Core/Types.h forwards common types, so just forward the less common ones
     class ElementDocument;
 }
+
+#include <RmlUi/Core/DataModelHandle.h>
 
 class TitleMenuState : public GameState
 {
@@ -30,6 +35,9 @@ public:
 
     /// Callback on exiting game state
     virtual void onExit() override;
+
+	/// Start a new game
+    void startGame(Rml::DataModelHandle model, Rml::Event& ev, const Rml::VariantList& arguments);
 
 private:
 

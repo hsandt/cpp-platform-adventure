@@ -21,3 +21,38 @@ body
 	background: #000;
 	padding: 20dp;
 }
+
+button,
+input.submit
+{
+	display: inline-block;
+
+	width: 159dp;
+	height: 33dp;
+
+	padding-top: 12dp;
+	vertical-align: -18dp;
+
+	font-size: 16dp;
+	text-align: center;
+	tab-index: auto;
+
+	color: red
+}
+
+button:focus
+{
+	font-effect: blur(3dp #fff);
+
+	color: orange
+}
+
+button:hover
+{
+	color: blue
+}
+
+button:active
+{
+	color: yellow
+}

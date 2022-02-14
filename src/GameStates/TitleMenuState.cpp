@@ -5,11 +5,23 @@
 
 // Game
 #include "Application/GameApplication.h"
+#include "Application/GameStateManager.h"
 #include "Input/InputManager.h"
 
 TitleMenuState::TitleMenuState(GameApplication& gameApp) :
     GameState(gameApp)
 {
+    SafePtr<Rml::Context> rmlContext = mo_gameApp.mr_rmlContext;
+    PPK_ASSERT_DEBUG(rmlContext, "TitleMenuState::constructor: No Rml Context");
+
+    Rml::DataModelConstructor dataModelConstructor = rmlContext->CreateDataModel("titlemenu");
+    PPK_ASSERT_DEBUG(dataModelConstructor, "TitleMenuState::constructor: Could not create data model 'titlemenu'");
+
+    if (dataModelConstructor)
+    {
+        // This function will be called when the user clicks on the start game button.
+        dataModelConstructor.BindEventCallback("start_game", &TitleMenuState::startGame, this);
+    }
 }
 
 TitleMenuState::~TitleMenuState()
@@ -32,6 +44,9 @@ void TitleMenuState::onEnter()
             mr_titleMenuDocument->Show();
         //     mr_dialogText = mr_titleMenuDocument->GetElementById("text");
         //     PPK_ASSERT_DEBUG(mr_dialogText, "DialogueManager::init: No #text found on dialog box document");
+
+
+
         }
     }
 
@@ -54,3 +69,10 @@ void TitleMenuState::onExit()
     }
 }
 
+void TitleMenuState::startGame(Rml::DataModelHandle model, Rml::Event& ev, const Rml::VariantList& arguments)
+{
+    // TODO: although queryEnterGameState is idempotent, it would be cleaner
+    // to prevent multiple clicks on Start Game as there is some lag in UI so it's possible to
+    // call this multiple times before changing scene
+    mo_gameApp.mc_gameStateManager->queryEnterGameState((u8) GameStateID::InGame);
+}

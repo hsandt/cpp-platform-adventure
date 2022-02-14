@@ -5,7 +5,7 @@
 		<link type="text/rcss" href="title_menu.rcss"/>
 	</head>
 	<body>
-		<div id="box">
+		<div id="box" data-model="titlemenu">
 			<button data-event-click="start_game">Start game</button>
 		</div>
 	</body>
