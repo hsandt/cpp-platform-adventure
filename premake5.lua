@@ -12,9 +12,7 @@ workspace "C++_Platform_Adventure"
 project "Game"
     kind "WindowedApp"
     language "C++"
-    -- premake doesn't support cppdialect "C++20" yet,
-    -- so use std option directly
-    buildoptions "-std=c++20"
+    cppdialect "C++20"
     includedirs { "src" }
     flags { "FatalWarnings" }
     enablewarnings { "all" }
