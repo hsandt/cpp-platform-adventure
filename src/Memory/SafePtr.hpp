@@ -4,12 +4,16 @@
 /// - raw pointers to non-owned objects provided by third-party API
 /// - objects that may or may not exist, as a substitute for optional reference wrapper
 /// It provides non-const access to the referenced value even when const itself,
-/// allowing user to store it as a public const member, for easy but safe access
+/// allowing user to store it as a public const member
 /// (the pointer itself cannot be changed, but the referenced value can be).
 /// #if PPK_ASSERT_ENABLED: throws on invalid dereference
 /// Consider disabling PPK_ASSERT_ENABLED in Release if this impacts performance too much
 /// (just wrap the asserts with #if DEBUG).
-/// It should satisfy the named requirement of NullablePointer
+/// It should satisfy the named requirement of NullablePointer.
+/// Note that the "safety" is only about checking for nullptr and throwing if so.
+/// It still contains a raw pointer and therefore cannot verify for a destroyed object
+/// leading to an invalid pointer. The class containing a SafePtr member has the
+/// responsibility of clearing that pointer when the object is destroyed.
 template<typename T>
 class SafePtr
 {

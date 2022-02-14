@@ -145,8 +145,9 @@ We do not use Hungarian notation. Members have their own prefixes depending on t
 
 - mo\_ for owning objects (directly or via a chain of owners). They are guaranteed to live,
 so they are stored as references.
-- mc\_ for components
-- mp\_ for parameters (not pointers)
+- mc\_ for components (owned object)
+- mr\_ for reference to external (non-owning, nor owned) objects, generally stored as SafePtr. Lifetime is not guaranteed a priori, and every class must carefully clear the SafePtr as soon as it is destroyed.
+- mp\_ for parameters (they must be embedded, but it can be a GUID leading to another object)
 - ms\_ for state variables (static members are just s\_)
 
 ## Credits
