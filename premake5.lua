@@ -157,9 +157,9 @@ project "Game"
     -- Delete any existing folder to cleanup old files now removed from assets and config
     -- Note that paths are relative to location "build", so we access project root with ".." (else we'd need to use project_root = os.realpath("."))
     --   (%{wks.location} and %{prj.location} are both relative to location themselves, so ".")
-    -- We prefer prebuild to postbuild, simply because in case of failure, the whole process fails and next time we try to build,
-    --   it will also try to copy again (in postbuild, the executable has already been generated and `make` does nothing on next build,
-    --   even if there are files to copy)
+    -- We prefer prebuildcommands to postbuildcommands because prebuild commands are always executed,
+    --  whereas postbuild commands are only executed on actual executable build, and running the build
+    --  after changing assets/config files but not source code would skip this step entirely.
     -- OSX note: this is not the standard way to do it, we should Copy Bundle Resources into the .app.
     prebuildcommands {
         "{MKDIR} %{cfg.targetdir}",
@@ -170,7 +170,10 @@ project "Game"
         "{COPY} ../assets ../config %{cfg.targetdir}",
     }
 
+    -- Copy any required third-party library to target directory
     filter { "system:linux" }
+        -- Again, we prefer prebuild to postbuild to guarantee copy, although it's less critical
+        --  here as we do not update third-party often.
         prebuildcommands {
             -- copy dynamic libraries required for playing
             "{COPY} ../engine/third-party/install/RmlUi/lib/libRmlCore.so* %{cfg.targetdir}",
