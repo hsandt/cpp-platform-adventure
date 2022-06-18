@@ -1,6 +1,7 @@
 {
     "python.pythonPath": "/usr/bin/python3",
     "files.associations": {
+        "*.rcss": "css",
         "array": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -76,7 +77,8 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "*.rml": "html",
-        "*.rcss": "css"
+        "numbers": "cpp",
+        "semaphore": "cpp"
     },
     "cmake.configureOnOpen": false
 }
