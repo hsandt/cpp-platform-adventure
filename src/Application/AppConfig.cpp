@@ -24,8 +24,10 @@
         // https://github.com/jbeder/yaml-cpp/commit/4dbfeb0bbccac8164ab8f8686307867c0729d8c1
         // but v0.6.3 is behind so for now, just parse as int.
         YamlHelper::tryGet<int>(appConfigFile, "fps", appConfig.fps);
-        YamlHelper::tryGet<int>(appConfigFile, "maxUpdatesPerRender", appConfig.maxUpdatesPerRender);
-        YamlHelper::tryGet<std::string>(appConfigFile, "initialSceneName", appConfig.initialSceneName);
+        YamlHelper::tryGet<int>(appConfigFile, "maxUpdatesPerRender",
+            appConfig.maxUpdatesPerRender);
+        YamlHelper::tryGet<std::string>(appConfigFile, "initialSceneName",
+            appConfig.initialSceneName);
     }
     catch (const YAML::BadFile& e)
     {

@@ -19,7 +19,7 @@ namespace YamlHelper
     /// Var and YAMLKey types can be deduced from the arguments, so just pass <YAMLValue> on call
     /// (int, std::string, etc.)
     template<typename YAMLValue, typename Var, typename YAMLKey>
-    requires std::convertible_to<YAMLValue, Var>
+        requires std::convertible_to<YAMLValue, Var>
     inline bool tryGet(const YAML::Node& node, const YAMLKey& key, Var& outVar)
     {
         YAML::Node childNode = node[key];

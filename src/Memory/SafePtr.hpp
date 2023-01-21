@@ -77,4 +77,3 @@ T* SafePtr<T>::operator->() const
     PPK_ASSERT_ERROR(mc_data, "SafePtr dereference ->: no data");
     return mc_data;
 }
-

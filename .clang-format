@@ -1,0 +1,13 @@
+Language:        Cpp
+BasedOnStyle:  WebKit
+AllowShortFunctionsOnASingleLine: Inline
+BreakBeforeBraces: Allman
+BreakConstructorInitializers: AfterColon
+EmptyLineAfterAccessModifier: Always
+IndentCaseLabels: true
+IndentRequires:  true
+NamespaceIndentation: All
+PackConstructorInitializers: Never
+SpaceAfterCStyleCast: true
+SpaceAfterTemplateKeyword: false
+SpaceInEmptyBlock: false

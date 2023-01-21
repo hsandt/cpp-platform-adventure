@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"files.associations": {
+			"*.rcss": "css",
 			"array": "cpp",
 			"atomic": "cpp",
 			"bit": "cpp",
@@ -70,7 +71,18 @@
 			"cassert": "cpp",
 			"complex": "cpp",
 			"codecvt": "cpp",
-			"filesystem": "cpp"
+			"filesystem": "cpp",
+			"bitset": "cpp",
+			"condition_variable": "cpp",
+			"csignal": "cpp",
+			"unordered_set": "cpp",
+			"regex": "cpp",
+			"mutex": "cpp",
+			"numbers": "cpp",
+			"semaphore": "cpp",
+			"shared_mutex": "cpp",
+			"stop_token": "cpp",
+			"thread": "cpp"
 		}
 	}
 }

@@ -161,7 +161,7 @@ void PlayerCharacter::detectInteractable(World& world)
     ms_oDetectedInteractable.reset();
 
     const std::map<Handle, Box<SpatialObject>>& spatialObjects = world.getSpatialObjects();
-    for (const auto &[handle, spatialObject] : spatialObjects)
+    for (const auto& [handle, spatialObject] : spatialObjects)
     {
         if (!spatialObject->getDestructionFlag())
         {

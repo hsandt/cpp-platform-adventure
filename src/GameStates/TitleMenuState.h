@@ -36,7 +36,7 @@ public:
     /// Callback on exiting game state
     virtual void onExit() override;
 
-	/// Start a new game
+    /// Start a new game
     void startGame(Rml::DataModelHandle model, Rml::Event& ev, const Rml::VariantList& arguments);
 
 private:

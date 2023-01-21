@@ -80,5 +80,9 @@
         "numbers": "cpp",
         "semaphore": "cpp"
     },
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "C_Cpp.formatting": "vcFormat",
+    "C_Cpp.vcFormat.indent.caseLabels": true,
+    "C_Cpp.vcFormat.indent.preprocessor": "none",
+    "C_Cpp.vcFormat.space.afterCastCloseParenthesis": true
 }

@@ -19,9 +19,9 @@
 #include "GameStates/TitleMenuState.h"
 #include "Graphics/TextureManager.h"
 #include "Input/InputManager.h"
+#include "Space/World.h"
 #include "UI/RmlUIInterfaces/RenderInterfaceSFML.h"
 #include "UI/RmlUIInterfaces/SystemInterfaceSFML.h"
-#include "Space/World.h"
 
 GameApplication::GameApplication() :
     mr_rmlContext(),
@@ -110,8 +110,8 @@ void GameApplication::initWindow()
 
     #if PPK_ASSERT_ENABLED
     bool success =
-    #endif
-    mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
+        #endif
+        mc_renderTexture->create(windowConfig.nativeWidth, windowConfig.nativeHeight);
     PPK_ASSERT_FATAL(success, "Could not create render texture");
 
     // create camera view (centered)
@@ -131,11 +131,12 @@ void GameApplication::initRmlUi()
     // initialize
     #if PPK_ASSERT_ENABLED
     bool success =
-    #endif
-    Rml::Initialise();
+        #endif
+        Rml::Initialise();
     PPK_ASSERT_FATAL(success, "Could not initialize RmlUi");
 
-    struct FontFace {
+    struct FontFace
+    {
         Rml::String filename;
         bool fallback_face;
     };
@@ -200,38 +201,53 @@ void GameApplication::run()
             switch (event.type)
             {
                 case sf::Event::MouseMoved:
+                {
                     mr_rmlContext->ProcessMouseMove(event.mouseMove.x, event.mouseMove.y,
                         mc_rmlUiSystemInterface->GetKeyModifiers());
                     break;
+                }
                 case sf::Event::MouseButtonPressed:
+                {
                     mr_rmlContext->ProcessMouseButtonDown(event.mouseButton.button,
                         mc_rmlUiSystemInterface->GetKeyModifiers());
                     break;
+                }
                 case sf::Event::MouseButtonReleased:
+                {
                     mr_rmlContext->ProcessMouseButtonUp(event.mouseButton.button,
                         mc_rmlUiSystemInterface->GetKeyModifiers());
                     break;
+                }
                 case sf::Event::MouseWheelMoved:
+                {
                     mr_rmlContext->ProcessMouseWheel(float(-event.mouseWheel.delta),
                         mc_rmlUiSystemInterface->GetKeyModifiers());
                     break;
+                }
                 case sf::Event::TextEntered:
+                {
                     if (event.text.unicode > 32)
                     {
                         mr_rmlContext->ProcessTextInput(Rml::Character(event.text.unicode));
                     }
                     break;
+                }
                 case sf::Event::KeyPressed:
+                {
                     switch (event.key.code)
                     {
                         #if DEBUG
                         case sf::Keyboard::F8:
+                        {
                             Rml::Debugger::SetVisible(!Rml::Debugger::IsVisible());
                             break;
+                        }
                         #endif
                         case sf::Keyboard::Escape:
+                        {
                             shouldRun = false;
                             break;
+                        }
                         default:
                             break;
                     }
@@ -239,13 +255,19 @@ void GameApplication::run()
                     mr_rmlContext->ProcessKeyDown(mc_rmlUiSystemInterface->TranslateKey(event.key.code),
                         mc_rmlUiSystemInterface->GetKeyModifiers());
                     break;
+                }
                 case sf::Event::KeyReleased:
+                {
+
                     mr_rmlContext->ProcessKeyUp(mc_rmlUiSystemInterface->TranslateKey(event.key.code),
                         mc_rmlUiSystemInterface->GetKeyModifiers());
                     break;
+                }
                 case sf::Event::Closed:
+                {
                     shouldRun = false;
                     break;
+                }
                 default:
                     break;
             }

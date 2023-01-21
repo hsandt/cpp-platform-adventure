@@ -73,31 +73,31 @@ void InputManager::popInputContext(InputContext inputContext)
 
 bool InputManager::isKeyJustPressed(sf::Keyboard::Key key) const
 {
-	KeyDynamicState dynamicState = getKeyDynamicState(key);
+    KeyDynamicState dynamicState = getKeyDynamicState(key);
 
     // if KeyPressed has been detected this frame and updateInputStates properly called,
     // framesSinceLastStateChange should now be 1, but we also check 0 just in case
-	return dynamicState.isPressed && dynamicState.framesSinceLastStateChange <= 1;
+    return dynamicState.isPressed && dynamicState.framesSinceLastStateChange <= 1;
 }
 
 bool InputManager::isKeyJustReleased(sf::Keyboard::Key key) const
 {
-	KeyDynamicState dynamicState = getKeyDynamicState(key);
+    KeyDynamicState dynamicState = getKeyDynamicState(key);
 
     // see comment in isKeyJustPressed
-	return !dynamicState.isPressed && dynamicState.framesSinceLastStateChange <= 1;
+    return !dynamicState.isPressed && dynamicState.framesSinceLastStateChange <= 1;
 }
 
 bool InputManager::isKeyPressed(sf::Keyboard::Key key) const
 {
-	KeyDynamicState dynamicState = getKeyDynamicState(key);
-	return dynamicState.isPressed;
+    KeyDynamicState dynamicState = getKeyDynamicState(key);
+    return dynamicState.isPressed;
 }
 
 bool InputManager::isKeyReleased(sf::Keyboard::Key key) const
 {
-	KeyDynamicState dynamicState = getKeyDynamicState(key);
-	return !dynamicState.isPressed;
+    KeyDynamicState dynamicState = getKeyDynamicState(key);
+    return !dynamicState.isPressed;
 }
 
 KeyDynamicState InputManager::getKeyDynamicState(sf::Keyboard::Key key) const

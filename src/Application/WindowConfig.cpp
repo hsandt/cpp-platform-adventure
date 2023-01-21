@@ -30,7 +30,7 @@
         YamlHelper::tryGet<int>(windowConfigFile, "antialiasingLevel", windowConfig.antialiasingLevel);
         YamlHelper::tryGet<std::string>(windowConfigFile, "title", windowConfig.title);
     }
-    catch(const YAML::BadFile& e)
+    catch (const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer assert with custom message
         PPK_ASSERT_DEBUG(false, "YAML::BadFile: '%s'", filename.c_str());

@@ -65,7 +65,7 @@ void World::update(sf::Time deltaTime)
     }
 
     // update spatial objects
-    for (const auto &[handle, spatialObject] : ms_spatialObjects)
+    for (const auto& [handle, spatialObject] : ms_spatialObjects)
     {
         spatialObject->update(*this, deltaTime);
     }
@@ -159,7 +159,7 @@ void World::loadSceneFromYAML(const std::string& sceneName)
             }
         }
     }
-    catch(const YAML::BadFile& e)
+    catch (const YAML::BadFile& e)
     {
         // what() just contains "bad file", so prefer custom error message
         PPK_ASSERT_ERROR(false, "YAML::BadFile: '%s'", sceneFileRelativePathString.c_str());
@@ -212,7 +212,7 @@ void World::clearScene()
     // (except with extract)
     for (auto it = ms_spatialObjects.begin(); it != ms_spatialObjects.end();)
     {
-        const auto &[handle, spatialObject] = *it;
+        const auto& [handle, spatialObject] = *it;
         if (spatialObject->mp_persistentFlag)
         {
             persistentSpatialObjects.insert(ms_spatialObjects.extract(it++));
@@ -240,7 +240,7 @@ void World::render(sf::RenderTarget& window)
     }
 
     // show spatial objects
-    for (const auto &[handle, spatialObject] : ms_spatialObjects)
+    for (const auto& [handle, spatialObject] : ms_spatialObjects)
     {
         spatialObject->render(window);
     }
