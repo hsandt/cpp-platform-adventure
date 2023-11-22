@@ -99,6 +99,7 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "dependsOrder": "sequence",
             "dependsOn": ["premake5 gmake", "build dependencies (g++)"]
         },
         {
@@ -132,6 +133,7 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "dependsOrder": "sequence",
             "dependsOn": ["premake5 gmake", "build dependencies (g++)"]
         },
         {
@@ -175,6 +177,7 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "dependsOrder": "sequence",
             "dependsOn": ["premake5 gmake", "build dependencies (clang++)"]
         },
         {
@@ -228,6 +231,7 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "dependsOrder": "sequence",
             "dependsOn": ["premake5 gmake", "build dependencies (clang++)"]
         },
         {
@@ -280,6 +284,7 @@
             "type": "shell",
             "problemMatcher": [],
             "group": "build",
+            "dependsOrder": "sequence",
             "dependsOn": ["clean", "clean engine", "clean dependencies"]
         }
     ]
